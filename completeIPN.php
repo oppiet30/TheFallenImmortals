@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 
 // PHP 4.1
 // read the post from PayPal system and add 'cmd'

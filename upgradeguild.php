@@ -4,8 +4,8 @@ session_start();
 include('db.php');
 include('varset.php');
 
-$getguild = mysql_query("SELECT * FROM guilds WHERE name='".$charguild."'");
-$guild = mysql_fetch_assoc($getguild);
+$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
+$guild = mysqli_fetch_assoc($getguild);
 
 if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain'])
 {
@@ -17,7 +17,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname
             $newexp = $guild['exp'] + "1";
             $newcost = floor($guild['expcost'] * "1.25");
             $newbank = $guild['bank'] - $guild['expcost'];
-            $setguild = mysql_query("UPDATE guilds SET exp='".$newexp."', expcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
+            $setguild = mysqli_query("UPDATE guilds SET exp='".$newexp."', expcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
         }
     }
     elseif($upgrade == "Gold")

@@ -173,15 +173,16 @@ a {
 </style>
 <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-35665413-1']);
-  _gaq.push(['_trackPageview']);
+var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-35665413-1']);
+	_gaq.push(['_trackPageview']);
 
-  (function() {
+(function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+})
+();
 
 </script>
 </head>
@@ -194,21 +195,18 @@ a {
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	      $dbhost = "localhost";
-		 $database = "homestead";
-		 $dbuser = "homestead";
-		 $dbpass = "secret";
+	    include db_include.php;
 
-		$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
-		mysql_select_db($database) or die("Where?");
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database) or trigger_error(mysqli_error(),E_USER_ERROR);
+		mysqli_select_db($conn, $database) or die("Where?");
 		$time = time() - "600";
-		$findonline = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numonline = mysql_num_rows($findonline);
+		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numonline = mysqli_num_rows($findonline);
 		$time = time() - "604800";
-		$findweek = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numweek = mysql_num_rows($findweek);
-		$findregistered = mysql_query("SELECT * FROM characters");
-    	$numregistered = mysql_num_rows($findregistered);
+		$findweek = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numweek = mysqli_num_rows($findweek);
+		$findregistered = mysqli_query($conn, "SELECT * FROM characters");
+    	$numregistered = mysqli_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />
     Week: <?=$numweek?><br />
