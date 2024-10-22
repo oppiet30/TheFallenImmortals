@@ -2,3 +2,9 @@
 .idea
 vendor/*
 db_include.php
+db.php
+composer.lock
+composer.phar
+composer.phar.pubkey
+composer.phar.sig
+composer.phar.sig.pubkey
