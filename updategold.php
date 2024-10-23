@@ -8,7 +8,7 @@ include('db.php');
 
 
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 
 $char = mysql_fetch_assoc($getchar);
 
@@ -44,7 +44,7 @@ if($gold >= $_POST['depositAmount'] && $_POST['depositAmount'] >= "0" && ctype_d
 
     
 
-    $update = mysql_query("UPDATE characters SET bank='".$bank."', gold='".$gold."' WHERE id='".$_SESSION['userid']."' ") or die(mysql_error());
+    $update = mysqli_query($conn, "UPDATE characters SET bank='".$bank."', gold='".$gold."' WHERE id='".$_SESSION['userid']."' ") or die(mysql_error());
 
 
 

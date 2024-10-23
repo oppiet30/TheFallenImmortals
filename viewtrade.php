@@ -252,7 +252,7 @@ elseif(isset($_POST['removeid']))
 
     }
 
-    $findItemInTrade = mysql_query("SELECT * FROM trade WHERE id='".$removeID."' AND fromplayer='".$char['username']."'")or die("alert('Cannot locate item.');");
+    $findItemInTrade = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$removeID."' AND fromplayer='".$char['username']."'")or die("alert('Cannot locate item.');");
 
     if(mysqli_num_rows($findItemInTrade) < "0"){
 

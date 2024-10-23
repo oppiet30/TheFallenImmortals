@@ -5,7 +5,7 @@ include('db.php');
 
 if($_POST['tradeid'] != "Nothing"){
 	$data = "";
-	$allMarket = mysql_query("SELECT * FROM trade WHERE id='".$_POST['tradeid']."'");
+	$allMarket = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$_POST['tradeid']."'");
 	$item = mysql_fetch_assoc($allMarket);
 	if($item['fromplayer'] == $char['username']){
         $data .= "<center><a href=\'javascript: removeFromTrade(\"".$item['id']."\");\'><b>Remove</b></a><table>";

@@ -90,21 +90,21 @@
 			if($consecutivevotemax >= time() || $char['consecutivevotes'] == 0){
 				$newconsecutive = $char['consecutivevotes'] + 1;
 				if($newconsecutive == 14){
-					$givecc = mysql_query("UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+					$givecc = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
 					$newconsecutive = 0;
 					$messagechat = "<strong><font color=\'#CCFF00\'>!!!As a reward for voting 14 consecutive days, ".$char['username']." recieved 1 Cash!!!</font></strong><br />";
-                	$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysql_error());
+                	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysql_error());
 				}
 			}else{
 				$newconsecutive = 1;
 			}
-			$updateVotes = mysql_query("UPDATE characters SET consecutivevotes='".$newconsecutive."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+			$updateVotes = mysqli_query($conn, "UPDATE characters SET consecutivevotes='".$newconsecutive."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
 
 			
 
 			$newtime = time() + 86400;
 
-			$updateTime = mysql_query("UPDATE characters SET votecompleted='".$newtime."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+			$updateTime = mysqli_query($conn, "UPDATE characters SET votecompleted='".$newtime."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
 
 		}else{
 

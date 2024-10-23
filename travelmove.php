@@ -3,21 +3,21 @@ session_name("icsession");
 session_start();
 include('db.php');
 $time = time();
-$setactive = mysql_query("UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+$setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 $char = mysql_fetch_assoc($getchar);
 $relLoc = explode(", ", $char['relativeLoc']);
 $updateMap = "False";
-$findMap = mysql_query("SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+$findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 $map = mysql_fetch_assoc($findMap);
-$findOre = mysql_query("SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 $ore = mysql_fetch_assoc($findOre);
 $oreRel = explode(', ', $ore['relativeLoc']);
 $oreXtop = $oreRel[0]+16;
 $oreXbottom = $oreRel[0]-16;
 $oreYtop = $oreRel[1]+16;
 $oreYbottom = $oreRel[1]-16;
-$findDemons = mysql_query("SELECT * FROM demons WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."' and health>'0'");
+$findDemons = mysqli_query($conn, "SELECT * FROM demons WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."' and health>'0'");
 $demon = mysql_fetch_assoc($findDemons);
 $demonRel = explode(', ', $demon['relativeLoc']);
 $demonXtop = $demonRel[0]+16;
@@ -60,10 +60,10 @@ if(!isset($_POST['direction'])){
 		if($relLoc[1]<0){
 			//550 pixels from the top subtracting character height of 48 pixels
 			$relLoc[1] = 502;
-			mysql_query("UPDATE characters SET posy=posy+'1' WHERE username='".$char['username']."'");
+			mysqli_query($conn, "UPDATE characters SET posy=posy+'1' WHERE username='".$char['username']."'");
 			$updateMap = "True";
 		}
-		mysql_query("UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'") or die(mysql_error());
+		mysqli_query($conn, "UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'") or die(mysql_error());
 		
 	}elseif($_POST['direction'] == "left"){
 		/* top, right, bottom, left*/
@@ -91,10 +91,10 @@ if(!isset($_POST['direction'])){
 		}
 		if($relLoc[0]<0){
 			$relLoc[0] = 1018;
-			mysql_query("UPDATE characters SET posx=posx-'1' WHERE username='".$char['username']."'");
+			mysqli_query($conn, "UPDATE characters SET posx=posx-'1' WHERE username='".$char['username']."'");
 			$updateMap = "True";
 		}
-		mysql_query("UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
+		mysqli_query($conn, "UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
 		
 	}elseif($_POST['direction'] == "right"){
 		/* top, right, bottom, left*/
@@ -122,10 +122,10 @@ if(!isset($_POST['direction'])){
 		}
 		if($relLoc[0]>1018){
 			$relLoc[0] = 0;
-			mysql_query("UPDATE characters SET posx=posx+'1' WHERE username='".$char['username']."'");
+			mysqli_query($conn, "UPDATE characters SET posx=posx+'1' WHERE username='".$char['username']."'");
 			$updateMap = "True";
 		}
-		mysql_query("UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
+		mysqli_query($conn, "UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
 		
 	}elseif($_POST['direction'] == "down"){
 	
@@ -154,18 +154,18 @@ if(!isset($_POST['direction'])){
 		}
 		if($relLoc[1] > 502){
 			$relLoc[1] = 0;
-			mysql_query("UPDATE characters SET posy=posy-'1' WHERE username='".$char['username']."'");
+			mysqli_query($conn, "UPDATE characters SET posy=posy-'1' WHERE username='".$char['username']."'");
 			$updateMap = "True";
 		}
-		mysql_query("UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
+		mysqli_query($conn, "UPDATE characters SET relativeLoc='".$relLoc[0].", ".$relLoc[1]."', animationSequence='".$animationSequence."' WHERE username='".$char['username']."'");
 		
 	}else{
 		die('alert("Invalid movement.");');
 	}
 	if($updateMap == "True"){
-		$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+		$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 		$char = mysql_fetch_assoc($getchar);
-		$findMap = mysql_query("SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+		$findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 		$map = mysql_fetch_assoc($findMap);
 		print("
 			var MainCanvas = document.getElementById('MainCanvas');
@@ -175,7 +175,7 @@ if(!isset($_POST['direction'])){
 		
 		print("fillDiv('dispLocation','Location: (".$char['posx'].", ".$char['posy'].")');");
 		
-		$findBagDrops = mysql_query("SELECT * FROM bagdrop WHERE posx='".$char['posx']."' and posy='".$char['posy']."'");
+		$findBagDrops = mysqli_query($conn, "SELECT * FROM bagdrop WHERE posx='".$char['posx']."' and posy='".$char['posy']."'");
 		$bagLoc = "";
 		while($bag = mysql_fetch_assoc($findBagDrops)){
 			$bagRel = explode(', ', $bag['relativeLoc']);
@@ -184,7 +184,7 @@ if(!isset($_POST['direction'])){
 		print("fillDiv('bagLocations','".$bagLoc."');");
 		
 		
-		$findOre = mysql_query("SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+		$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 		$oreLoc = "";
 		while($ore = mysql_fetch_assoc($findOre)){
 			$oreRel = explode(', ', $ore['relativeLoc']);
@@ -194,7 +194,7 @@ if(!isset($_POST['direction'])){
 	}
 	$playerFill = "";
 	$time = time() - "600";
-	$findPlayers = mysql_query("SELECT * FROM characters WHERE posx='".$char['posx']."' and posy='".$char['posy']."' and username<>'".$char['username']."' and lastactive>'".$time."'");
+	$findPlayers = mysqli_query($conn, "SELECT * FROM characters WHERE posx='".$char['posx']."' and posy='".$char['posy']."' and username<>'".$char['username']."' and lastactive>'".$time."'");
 	while($player = mysql_fetch_assoc($findPlayers)){
 		$playerRel = explode(', ', $player['relativeLoc']);
 		print("

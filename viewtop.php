@@ -99,7 +99,7 @@ if($_POST['name'] != Null){
     $data .= "<table width=\'100%\'>";
     $data .= "<tr>";
     $data .= "<td>";
-    $findSecondClass = mysql_query("SELECT * FROM secondclass WHERE username='".$char['username']."'");
+    $findSecondClass = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
     $sclass = mysql_fetch_assoc($findSecondClass);
     $data .= "<br><table border=\'1\'>";
 	$data .= "<tr><td colspan=\'3\'><center><u>Second Class</u></center></td></tr>";

@@ -6,7 +6,7 @@ $information = "";
 
 if(isset($_POST['email'])){
 $email = $_POST['email'];
-	$findEmailAssoc = mysql_query("SELECT * FROM characters WHERE email='".$email."'");
+	$findEmailAssoc = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$email."'");
 	if(mysql_num_rows($findEmailAssoc) == 1){
 		function murder($data){ 
 			$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
@@ -19,7 +19,7 @@ $email = $_POST['email'];
 		$randomInt = rand(1,5000);
 		$tempPassword = "password".$randomInt;
 		$hashedTemp = murder($tempPassword);
-		$createTempPass = mysql_query("UPDATE characters SET temppass='".$hashedTemp."' WHERE email='".$email."'")or die();
+		$createTempPass = mysqli_query($conn, "UPDATE characters SET temppass='".$hashedTemp."' WHERE email='".$email."'")or die();
 		$char = mysql_fetch_assoc($findEmailAssoc);
 		$to      = $char['email'];
 		$subject = 'Password Recovery at The Fallen Immortals!';

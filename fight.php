@@ -3,11 +3,11 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 $char = mysql_fetch_assoc($getchar);
 $display .= "<center><select id=\'enemylist\'>";
 
-            $getenemies = mysql_query("SELECT * FROM enemies ORDER BY level");
+            $getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
 
             while($enemies = mysql_fetch_array($getenemies))
 

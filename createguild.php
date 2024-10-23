@@ -32,7 +32,7 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 
 
-	$getguild = mysql_query("SELECT * FROM guilds WHERE name='".$guildname."'");
+	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$guildname."'");
 
 	if(mysql_num_rows($getguild) != "1")
 
@@ -52,13 +52,13 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 
 
-				$setchar = mysql_query("UPDATE characters SET guild='".$guildname."', gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
+				$setchar = mysqli_query($conn, "UPDATE characters SET guild='".$guildname."', gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
 
-				$setguild = mysql_query("INSERT INTO guilds (`name`, `tag`, `leader`, `news`) VALUES ('".$guildname."', '".$guildtag."', '".$char['username']."', '".$news."')");
+				$setguild = mysqli_query($conn, "INSERT INTO guilds (`name`, `tag`, `leader`, `news`) VALUES ('".$guildname."', '".$guildtag."', '".$char['username']."', '".$news."')");
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has registered a new Guild by the name ".$guildname.".</font></strong><br />";
 
-	        	$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+	        	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
 
 

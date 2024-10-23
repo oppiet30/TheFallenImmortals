@@ -2,7 +2,7 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysql_fetch_assoc($getchar)or die("You need to login!");
 
 $blessing = explode(', ', $char['blessing']);
@@ -19,7 +19,7 @@ if($_POST['action'] == "use"){
 			$one = $blessing[0];
 		}else{
 			$one = $preset[0];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['0']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['0']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -35,7 +35,7 @@ if($_POST['action'] == "use"){
 			$two = $blessing[1];
 		}else{
 			$two = $preset[1];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['1']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['1']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -50,7 +50,7 @@ if($_POST['action'] == "use"){
 			$three = $blessing[2];
 		}else{
 			$three = $preset[2];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['2']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['2']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -65,7 +65,7 @@ if($_POST['action'] == "use"){
 			$four = $blessing[3];
 		}else{
 			$four = $preset[3];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['3']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['3']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -80,7 +80,7 @@ if($_POST['action'] == "use"){
 			$five = $blessing[4];
 		}else{
 			$five = $preset[4];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['4']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['4']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -95,7 +95,7 @@ if($_POST['action'] == "use"){
 			$six = $blessing[5];
 		}else{
 			$six = $preset[5];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['5']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['5']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -110,7 +110,7 @@ if($_POST['action'] == "use"){
 			$seven = $blessing[6];
 		}else{
 			$seven = $preset[6];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['6']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['6']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -125,7 +125,7 @@ if($_POST['action'] == "use"){
 			$eight = $blessing[7];
 		}else{
 			$eight = $preset[7];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['7']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['7']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -140,7 +140,7 @@ if($_POST['action'] == "use"){
 			$nine = $blessing[8];
 		}else{
 			$nine = $preset[8];
-			$findCostSQL = mysql_query("SELECT * FROM affinity WHERE name='".$preset['8']."'");
+			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['8']."'");
 			$foundcost = mysql_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
@@ -153,7 +153,7 @@ if($_POST['action'] == "use"){
 		
 		$preset = $one.", ".$two.", ".$three.", ".$four.", ".$five.", ".$six.", ".$seven.", ".$eight.", ".$nine;
 		if($char['mana'] >= $totalcost){
-			$updateblessings = mysql_query("UPDATE characters SET blessing='".$preset."', mana=mana-'".$totalcost."' WHERE username='".$char['username']."'");
+			$updateblessings = mysqli_query($conn, "UPDATE characters SET blessing='".$preset."', mana=mana-'".$totalcost."' WHERE username='".$char['username']."'");
 			print("alert('Presets have been distributed. Total cost ".$totalcost."');");
 		}else{
 			print("alert('Not enough mana! ".number_format($totalcost)." mana required!');");
@@ -237,7 +237,7 @@ if($_POST['action'] == "use"){
 	}
 	
 	$presetSet = $first . ", ".$second.", ".$third.", ".$fourth.", ".$fifth.", ".$sixth.", ".$seventh.", ".$eighth.", ".$ninth;
-	$updateCharacterPresets = mysql_query("UPDATE characters SET presets='".$presetSet."' WHERE username='".$char['username']."'");
+	$updateCharacterPresets = mysqli_query($conn, "UPDATE characters SET presets='".$presetSet."' WHERE username='".$char['username']."'");
 	print("alert('Saved new preset successfully');");
 	
 }else{
