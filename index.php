@@ -195,7 +195,7 @@ var _gaq = _gaq || [];
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	    include db_include.php;
+	    require_once db_include.php;
 
 		$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database) or trigger_error(mysqli_error(),E_USER_ERROR);
 		mysqli_select_db($conn, $database) or die("Where?");
