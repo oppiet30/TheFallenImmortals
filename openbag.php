@@ -2,12 +2,12 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 
 if($_POST['bagid'] != NULL){
 	$findbagid = mysqli_query($conn, "SELECT * FROM bagdrop WHERE id='".$_POST['bagid']."'")or die("alert('The bag is gone!');");
-	$bag = mysql_fetch_assoc($findbagid);
+	$bag = mysqli_fetch_assoc($findbagid);
 	
 	
 	$bagRel = explode(', ', $bag['relativeLoc']);
@@ -60,7 +60,7 @@ if($_POST['bagid'] != NULL){
 }
 		$findBagDrops = mysqli_query($conn, "SELECT * FROM bagdrop WHERE posx='".$char['posx']."' and posy='".$char['posy']."'");
 		$bagLoc = "";
-		while($bag = mysql_fetch_assoc($findBagDrops)){
+		while($bag = mysqli_fetch_assoc($findBagDrops)){
 			$bagRel = explode(', ', $bag['relativeLoc']);
 			$bagLoc .= "<div style=\'position:absolute;left:".$bagRel[0]."px;bottom:".$bagRel[1]."px;width:32px;height:32px;background-image:url(/images/map/locations/bag.png);\' onclick=\'grabBag(".$bag['id'].")\'></div>";
 		}

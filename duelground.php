@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 $data = "";
 
 if($char['life'] > 0){
@@ -13,7 +13,7 @@ if($char['life'] > 0){
 		$findCharacters = mysqli_query($conn, "SELECT * FROM characters where level>'100' AND lastactive>'".$time."' AND username<>'".$char['username']."' ORDER BY level");
 		$data .= "<table>";
 		$data .= "<tr><td>Username</td><td colspan=\'2\'>Level</td></tr>";
-		while($duel = mysql_fetch_array($findCharacters)){
+		while($duel = mysqli_fetch_array($findCharacters)){
 			$data .= "<tr><td>".$duel['username']."</td><td>".number_format($duel['level'])."</td><td><a href=\'javascript: requestFight(\"".$duel['username']."\");\'>Request Fight</a></td></tr>";
 		}
 		$data .= "</table>";

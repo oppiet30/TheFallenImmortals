@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 include('varset.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 
 
 if($_POST['auto'] == "Yes")
@@ -45,7 +45,7 @@ if($_POST['auto'] == "Yes")
 
 
 $getenemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'");
-$enemy = mysql_fetch_assoc($getenemy);
+$enemy = mysqli_fetch_assoc($getenemy);
 
 $enemyid = $enemy['id'];
 $enemyname = $enemy['name'];
@@ -68,7 +68,7 @@ $updatechar = mysqli_query($conn, "UPDATE characters SET enemyid='".$enemyid."',
 
 $data = $data."<center><select id=\'enemylist\'>";
 $getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
-while($enemies = mysql_fetch_array($getenemies))
+while($enemies = mysqli_fetch_array($getenemies))
 {
 	if($enemyid == $enemies['id'])
 	{

@@ -2,10 +2,10 @@
 include('db.php');
 
 $getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewpassword WHERE username='".$_GET['username']."' AND verificationcode='".$_GET['activationcode']."'");
-$getCodeNumRows = mysql_num_rows($getUserForChange);
+$getCodeNumRows = mysqli_num_rows($getUserForChange);
 if($getCodeNumRows > "0"){
 	
-	$verify = mysql_fetch_assoc($getUserForChange);
+	$verify = mysqli_fetch_assoc($getUserForChange);
 	$checkIfInUse = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$verify['username']."'");
 		print "You have changed your password!";
 		$updateEmail = mysqli_query($conn, "UPDATE characters SET password='".$verify['newpassword']."' WHERE username='".$verify['username']."'");

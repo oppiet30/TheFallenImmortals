@@ -33,8 +33,8 @@ $enemyid = $char['enemyid'];
 $enemytype = $char['enemytype'];
 $enemylife = $char['enemylife'];
 
-$getenemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$enemyid."'") or die(mysql_error());
-$enemy = mysql_fetch_assoc($getenemy);
+$getenemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$enemyid."'") or die(mysqli_error());
+$enemy = mysqli_fetch_assoc($getenemy);
 
 $enemyname = $enemy['name'];
 $enemylvl = $enemy['level'];
@@ -42,7 +42,7 @@ $enemystr = $enemy['level'] * "10";
 $enemydex = $enemy['level'] * "10";
 
 /*$getlocation = mysqli_query($conn, "SELECT * FROM areas WHERE name='".$charloc."'");
-$location = mysql_fetch_assoc($getlocation);
+$location = mysqli_fetch_assoc($getlocation);
 $locx = $location['sizex'];
 $locy = $location['sizey'];*/
 
@@ -172,7 +172,7 @@ if($enemylife > "0"){
             if($charguild != "None")
             {
 		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl * ("1" + ($guild['exp'] / "100")) / "1.8"));
                 $enemygold = floor("15" * $gettingMR *("1" + ($guild['gold'] / "100")));
 				$tax = ($guild['tax'] / "100");
@@ -185,12 +185,12 @@ if($enemylife > "0"){
             else
             {
 		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl / "1.8"));   //1.5
                 $enemygold = floor("15" * $gettingMR);  //
             }
 			$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
-			$bonusTime = mysql_fetch_assoc($getBonusTime);
+			$bonusTime = mysqli_fetch_assoc($getBonusTime);
 			$currentTime = time();
 			$gstrong = "";
 			$endgStrong = "";
@@ -242,7 +242,7 @@ if($enemylife > "0"){
             {
                 $data .= "<br />You gained a Level!<br />";
                 $getclass = mysqli_query($conn, "SELECT * FROM classes WHERE name='".$charclass."'");
-                $class = mysql_fetch_assoc($getclass);
+                $class = mysqli_fetch_assoc($getclass);
 
                 $newstr = $char['strength'] + $class['strength'];
                 $newdex = $char['dexterity'] + $class['dexterity'];
@@ -328,9 +328,9 @@ if($enemylife > "0"){
 			
 			$location = "".$char['posx'].", ".$char['posy']."";
 			$findAdventure = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."' AND location='".$location."' AND monster='".$enemyname."'");
-			$advent = mysql_fetch_assoc($findAdventure);
+			$advent = mysqli_fetch_assoc($findAdventure);
 			$collect = explode("/", $advent['collect']);
-			if(mysql_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
+			if(mysqli_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
 				$drop = mt_rand("1","100000");
 				$dropNeeded = 1000 - $char['scavenges'];
 				if($drop <= $dropNeeded)    //Adventure item drop
@@ -356,7 +356,7 @@ if($enemylife > "0"){
 			$drop = mt_rand("1","100000");
 			$base = 75 + $char['networth'];
 			$findCash = mysqli_query($conn, "SELECT * FROM cashpot WHERE cash>'0'");
-			$cash = mysql_fetch_assoc($findCash);
+			$cash = mysqli_fetch_assoc($findCash);
             if($drop <= $base && $cash['cash'] > 0 && $char['networth'] > 0)    //Cash Drop
             {
                 $data .= "<font color=\'#CCFF00\'><<<<< CASH FOUND >>>>>><b>!!!NETWORTH BONUS!!!</b></font><br />";

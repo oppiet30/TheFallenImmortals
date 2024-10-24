@@ -29,7 +29,7 @@ while($muted = mysqli_fetch_array($getmuted))
 
         $unmutemessage = "<b><font color=\'#DD00DD\'>Player ".$muted['username']." has been unmuted!</font></b><br />";
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-        VALUES ('".$date."', '3', '".$muted['mutedby']."', '".$unmutemessage."', 'Chatroom')") or die(mysql_error());
+        VALUES ('".$date."', '3', '".$muted['mutedby']."', '".$unmutemessage."', 'Chatroom')") or die(mysqli_error());
     }
 }
 ?>

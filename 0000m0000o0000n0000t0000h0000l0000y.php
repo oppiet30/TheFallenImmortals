@@ -4,15 +4,15 @@ session_start();
 include('db.php');
 
 $ticketQuery = mysqli_query($conn, "SELECT * FROM donationpot");
-$ticketRow = mysql_num_rows($ticketQuery);
+$ticketRow = mysqli_num_rows($ticketQuery);
 
 $choosenOne = rand(1,$ticketRow);
 
 $getWinner = mysqli_query($conn, "SELECT * FROM donationpot WHERE id='".$choosenOne."'");
-$winner = mysql_fetch_array($getWinner);
+$winner = mysqli_fetch_array($getWinner);
 
 $gettemple = mysqli_query($conn, "SELECT * FROM temple");
-$temple = mysql_fetch_assoc($gettemple);
+$temple = mysqli_fetch_assoc($gettemple);
 
 $updateUser = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
 

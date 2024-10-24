@@ -44,8 +44,8 @@ else
 			if(strcmp ($res, "VERIFIED") == 0)
 			{
 				if($payment_status == "Completed" && $receiver_email == "Alex.Jezior@gmail.com"){
-				$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$payer_email."'") or die(mysql_error());
-				$payer = mysql_fetch_assoc($getchar);
+				$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$payer_email."'") or die(mysqli_error());
+				$payer = mysqli_fetch_assoc($getchar);
 				if($payment_amount == "5.25" && $payment_currency == "USD")
 				{
 					$netAmount = '5';

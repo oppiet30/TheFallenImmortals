@@ -7,18 +7,18 @@ if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "
 	
 	$data = "";
 	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
-	if(mysql_num_rows($querty) != 1){
+	if(mysqli_num_rows($querty) != 1){
 		print("alert('This is not your item!');");
 		die();
 	}
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 	$squerty = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysql_num_rows($squerty) >= 4){
+	if(mysqli_num_rows($squerty) >= 4){
 		print("alert('You can only Forge four items at a time.');");
 		die();
 	}
-	if(mysql_num_rows($squerty) > 0){
-		$forge = mysql_fetch_assoc($squerty);
+	if(mysqli_num_rows($squerty) > 0){
+		$forge = mysqli_fetch_assoc($squerty);
 		if($forge['type'] != $inventory['type']){
 			print("alert('You can only add one item type at a time to forge.');");
 			die();

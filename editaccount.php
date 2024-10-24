@@ -2,8 +2,8 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 $display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewAccount();\">Back</a></strong><br /><br />";
 
 if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != Null){
@@ -12,7 +12,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	$nemail2 = $_POST['nemail2'];
 	
 	$checkNewEmail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$nemail."'");
-	$CheckRowOnEmail = mysql_num_rows($checkNewEmail);
+	$CheckRowOnEmail = mysqli_num_rows($checkNewEmail);
 	
 	if($oemail != $char['email']){
 		$display .= "<center>Your current email address is not correct!</center><br />";
@@ -104,7 +104,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	$display .= "<font color=\'".$color."\'>Chat color has been changed.</font><br /><br />";
 }
 $findReferals = mysqli_query($conn, "SELECT * FROM characters WHERE refferal='".$char['username']."'");
-$numOfRef = mysql_num_rows($findReferals);
+$numOfRef = mysqli_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
 $display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Refferals: ".$numOfRef."</center>";

@@ -3,13 +3,13 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 
 if(isset($_POST['demonid'])){
     $findDemon = mysqli_query($conn, "SELECT * FROM demons WHERE id='".$_POST['demonid']."'");
-    if(mysql_num_rows($findDemon) >= "1"){
-        $demon = mysql_fetch_assoc($findDemon);
+    if(mysqli_num_rows($findDemon) >= "1"){
+        $demon = mysqli_fetch_assoc($findDemon);
 		if($char['level'] >= "10000" && $demon['power'] == "1"){
 			die("alert('After level 10,000, you may only kill Overlord Demons.');");
 		}

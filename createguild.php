@@ -34,7 +34,7 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$guildname."'");
 
-	if(mysql_num_rows($getguild) != "1")
+	if(mysqli_num_rows($getguild) != "1")
 
 	{
 

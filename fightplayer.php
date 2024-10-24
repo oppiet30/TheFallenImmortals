@@ -6,14 +6,14 @@ include('varset.php');
 include('active.php');
 include('attackbonuses.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 $date = time();
 
 $findDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE `tousername`='".$char['username']."' OR `fromusername`='".$char['username']."'");
-if(mysql_num_rows($findDuel) == 0){
+if(mysqli_num_rows($findDuel) == 0){
 	print("alert('You are not in a duel!');");
 }else{
-	$duel = mysql_fetch_assoc($findDuel);
+	$duel = mysqli_fetch_assoc($findDuel);
 	if($duel['status'] == "Requesting" || $duel['turn'] != $char['username']){
 		print("alert('It is not your turn to duel or the duel hasnt even started!');");
 	}else{
@@ -23,10 +23,10 @@ if(mysql_num_rows($findDuel) == 0){
 		}else{
 			if($char['username'] == $duel['tousername']){
 				$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$duel['fromusername']."'");
-				$oponent = mysql_fetch_assoc($findOponent);
+				$oponent = mysqli_fetch_assoc($findOponent);
 			}else{
 				$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$duel['tousername']."'");
-				$oponent = mysql_fetch_assoc($findOponent);
+				$oponent = mysqli_fetch_assoc($findOponent);
 			}
 			require('oponentvarset.php');
 			require('oponentattackbonuses.php');

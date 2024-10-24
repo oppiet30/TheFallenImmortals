@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 $display = "";
 $display .= "";
 
@@ -22,7 +22,7 @@ if($char['life'] <= "0"){
 $display .= "<center>";
 $display .="<select id=\'enemylist\'>";
 $getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
-while($enemies = mysql_fetch_array($getenemies))
+while($enemies = mysqli_fetch_array($getenemies))
 {
     if($char['enemyid'] == $enemies['id'])
     {
@@ -53,14 +53,14 @@ if($char['security'] == "1"){
 }
 
 $getSmallDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='1'");
-if(mysql_num_rows($getSmallDemons) > "0" && $char['level'] < '10000'){
-    while($demon = mysql_fetch_array($getSmallDemons)){
+if(mysqli_num_rows($getSmallDemons) > "0" && $char['level'] < '10000'){
+    while($demon = mysqli_fetch_array($getSmallDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";
     }
 }
 $getBigDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='2'");
-if(mysql_num_rows($getBigDemons) > "0"){
-    while($demon = mysql_fetch_array($getBigDemons)){
+if(mysqli_num_rows($getBigDemons) > "0"){
+    while($demon = mysqli_fetch_array($getBigDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";
     }
 }

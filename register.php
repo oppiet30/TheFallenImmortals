@@ -301,7 +301,7 @@ if($create == "Yes")
 
     $messageChat = "<b><font color=\'#008888\'>".$username." has registered an account. (Welcome the new player once they have entered the game.)[Mod Chat]</font></b><br />";
 
-    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysql_error());
+    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysqli_error());
 
 
 

@@ -6,9 +6,9 @@
 
 	include('db.php');
 
-	$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+	$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 
-	$char = mysqli_fetch_assoc($getchar)or die(mysql_error());
+	$char = mysqli_fetch_assoc($getchar)or die(mysqli_error());
 
 	$display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewVote();\">Back</a></strong><br /><br />";	
 
@@ -32,13 +32,13 @@
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and recieved 5,000 Gold as a reward!</font></strong><br />";
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysql_error());
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error());
 
 				$display .= "<font size=\'14px\'><center>You recieve 5,000 gold for voting!</center></font>";
 
 				$newgold = $char['gold'] + "5000";
 
-				$updateGold = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+				$updateGold = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error());
 
 				
 
@@ -48,7 +48,7 @@
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and recieved 10 Statpoints as a reward!</font></strong><br />";
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysql_error());
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error());
 
 				$display .= "<font size=\'14px\'><center>You recieve 10 Statpoints for voting!</center></font>";
 
@@ -90,21 +90,21 @@
 			if($consecutivevotemax >= time() || $char['consecutivevotes'] == 0){
 				$newconsecutive = $char['consecutivevotes'] + 1;
 				if($newconsecutive == 14){
-					$givecc = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+					$givecc = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error());
 					$newconsecutive = 0;
 					$messagechat = "<strong><font color=\'#CCFF00\'>!!!As a reward for voting 14 consecutive days, ".$char['username']." recieved 1 Cash!!!</font></strong><br />";
-                	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysql_error());
+                	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error());
 				}
 			}else{
 				$newconsecutive = 1;
 			}
-			$updateVotes = mysqli_query($conn, "UPDATE characters SET consecutivevotes='".$newconsecutive."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+			$updateVotes = mysqli_query($conn, "UPDATE characters SET consecutivevotes='".$newconsecutive."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error());
 
 			
 
 			$newtime = time() + 86400;
 
-			$updateTime = mysqli_query($conn, "UPDATE characters SET votecompleted='".$newtime."' WHERE id='".$_SESSION['userid']."'")or die(mysql_error());
+			$updateTime = mysqli_query($conn, "UPDATE characters SET votecompleted='".$newtime."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error());
 
 		}else{
 

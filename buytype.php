@@ -3,13 +3,13 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
 	$query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Weapon' AND strength>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -22,7 +22,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Weapon' AND intelligence>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -35,7 +35,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Armour' AND strength>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -48,7 +48,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Armour' AND intelligence>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -61,7 +61,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Gloves' AND strength>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -74,7 +74,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Gloves' AND intelligence>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -87,7 +87,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Leggings' AND strength>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -100,7 +100,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Leggings' AND intelligence>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -113,7 +113,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Boots' AND strength>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{
@@ -126,7 +126,7 @@ if($_POST['buytype'] == "FighterWeapon"){
 	$data = "<center>Item:<select id=\'buyid\' onchange=\'buyDesc()\'>";
 	$data .= "<option>Nothing</option>";
     $query = mysqli_query($conn, "SELECT * FROM shop WHERE type='Boots' AND intelligence>'0' ORDER BY value");
-    while($weapons = mysql_fetch_array($query)){
+    while($weapons = mysqli_fetch_array($query)){
 		if($weapons['levelreq'] > $char['level']){
 			$data .= "<option style=\'color:#FF0000;\' value=\'".$weapons['id']."\'>".$weapons['itemname']." - ".number_format($weapons['value'])."</option>";
 		}else{

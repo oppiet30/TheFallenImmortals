@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar)or die("You need to login!");
+$char = mysqli_fetch_assoc($getchar)or die("You need to login!");
 
 $blessing = explode(', ', $char['blessing']);
 $spell = explode(', ', $char['spells']);
@@ -20,7 +20,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$one = $preset[0];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['0']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -36,7 +36,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$two = $preset[1];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['1']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -51,7 +51,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$three = $preset[2];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['2']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -66,7 +66,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$four = $preset[3];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['3']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -81,7 +81,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$five = $preset[4];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['4']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -96,7 +96,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$six = $preset[5];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['5']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -111,7 +111,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$seven = $preset[6];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['6']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -126,7 +126,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$eight = $preset[7];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['7']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }
@@ -141,7 +141,7 @@ if($_POST['action'] == "use"){
 		}else{
 			$nine = $preset[8];
 			$findCostSQL = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$preset['8']."'");
-			$foundcost = mysql_fetch_assoc($findCostSQL);
+			$foundcost = mysqli_fetch_assoc($findCostSQL);
 			$spellLevel = $foundcost['level'];
 			if($spellLevel == "0"){ $totalcost += '0'; }
 			if($spellLevel == "1"){ $totalcost += '1000'; }

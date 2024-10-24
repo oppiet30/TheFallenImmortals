@@ -6,7 +6,7 @@ include('db.php');
 
 $gettemple = mysqli_query($conn, "SELECT * FROM temple");
 
-$temple = mysql_fetch_assoc($gettemple);
+$temple = mysqli_fetch_assoc($gettemple);
 
 $update1 = mysqli_query($conn, "UPDATE characters SET temple='0'");
 
@@ -14,21 +14,21 @@ $update1 = mysqli_query($conn, "UPDATE characters SET temple='0'");
 
 $getUsers = mysqli_query($conn, "SELECT * FROM characters");
 
-while($userMana = mysql_fetch_array($getUsers)){
+while($userMana = mysqli_fetch_array($getUsers)){
 
     $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$userMana['id']."'");
 
-    $char = mysql_fetch_assoc($getchar);
+    $char = mysqli_fetch_assoc($getchar);
 
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='Yes'");
 
-    if(mysql_num_rows($getequip) > "0")
+    if(mysqli_num_rows($getequip) > "0")
 
     {
 
     	$eqintbon = 0;
 
-        while($equip = mysql_fetch_array($getequip))
+        while($equip = mysqli_fetch_array($getequip))
 
         {
 

@@ -13,8 +13,8 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 	$intelligence = "0";
 	$levelreq = "0";
 	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysql_num_rows($findForgeItems) == "4"){
-		while($inventory = mysql_fetch_array($findForgeItems)){
+	if(mysqli_num_rows($findForgeItems) == "4"){
+		while($inventory = mysqli_fetch_array($findForgeItems)){
 			$strength += $inventory['strength'];
 			$dexterity += $inventory['dexterity'];
 			$endurance += $inventory['endurance'];

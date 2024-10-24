@@ -3,16 +3,16 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 if($_POST['charrequesting'] != NULL){
 	$currentDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE tousername='".$char['username']."' OR fromusername='".$char['username']."'");
-	if(mysql_num_rows($currentDuel) >= 1){
+	if(mysqli_num_rows($currentDuel) >= 1){
 		print("alert('You already have a pending duel request. Check the chatroom.');");
 	}else{
-		$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$_POST['charrequesting']."'")or die(mysql_error());
-		if(mysql_num_rows($findOponent) == 1){
-			$oponent = mysql_fetch_assoc($findOponent);
+		$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$_POST['charrequesting']."'")or die(mysqli_error());
+		if(mysqli_num_rows($findOponent) == 1){
+			$oponent = mysqli_fetch_assoc($findOponent);
 			if($oponent['life'] > 0){
 				$date = time();
 				$addDuelPending = mysqli_query($conn, "INSERT INTO duelground(`fromusername`, `tousername`, `status`, `turn`, `time`) VALUES ('".$char['username']."', '".$oponent['username']."', 'Requesting', '".$char['username']."', '".$date."')");

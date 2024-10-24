@@ -6,7 +6,7 @@ $data = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=
 $data .= "<center><strong>Top guilds!</strong><br />";
 $data .= "<table border=\"1\">";
 $findGuilds = mysqli_query($conn, "SELECT * FROM guilds ORDER BY exp+gold+itemboost+itemdrop DESC");
-while($guilds = mysql_fetch_array($findGuilds))
+while($guilds = mysqli_fetch_array($findGuilds))
 {
 	$information = "Leader: ".$guilds['leader']." &#013; |Co-Leader: ".$guilds['coleader']." &#013; |Captain: ".$guilds['captain']." &#013; |EXP: ".$guilds['exp']." &#013; |Gold: ".$guilds['gold']." &#013; |Item Drop: ".$guilds['itemdrop']." &#013; |Item Boost: ".$guilds['itemboost']."";
     $data .= "<tr><td>(<a title=\"".$information."\">?</a>)".$guilds['name']."</td></tr>";

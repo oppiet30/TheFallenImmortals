@@ -46,7 +46,7 @@ elseif(isset($_POST['page']) && $_POST['page'] == "sellInTrade")
 
     $findInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
 
-    if(mysql_num_rows($findInventory) > 0)
+    if(mysqli_num_rows($findInventory) > 0)
 
     {
 

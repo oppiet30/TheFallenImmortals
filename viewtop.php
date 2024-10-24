@@ -6,7 +6,7 @@ include('db.php');
 if($_POST['name'] != Null){
     $name = $_POST['name'];
     
-    $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$name."'") or die(mysql_error());
+    $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$name."'") or die(mysqli_error());
     $char = mysqli_fetch_assoc($getchar);
     
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$name."' AND equipped='Yes'");
@@ -100,7 +100,7 @@ if($_POST['name'] != Null){
     $data .= "<tr>";
     $data .= "<td>";
     $findSecondClass = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
-    $sclass = mysql_fetch_assoc($findSecondClass);
+    $sclass = mysqli_fetch_assoc($findSecondClass);
     $data .= "<br><table border=\'1\'>";
 	$data .= "<tr><td colspan=\'3\'><center><u>Second Class</u></center></td></tr>";
 	$data .= "<tr><td>Class: ".$sclass['class']."</td><td>Level: ".number_format($sclass['level'])."</td><td>Blood: ".$sclass['blood']."</td></tr>";
@@ -165,7 +165,7 @@ if($_POST['showAll'] == "Yes"){
 	$extention = " ORDER BY Level DESC LIMIT 20";
 }
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE status='Normal' AND level>'10'".$extention."");
-while($char = mysql_fetch_array($getchar))
+while($char = mysqli_fetch_array($getchar))
 {
 	$getcharRank = mysqli_query($conn, "SELECT * FROM characters WHERE level>'".$char['level']."'");
 	$charRank = mysqli_num_rows($getcharRank);

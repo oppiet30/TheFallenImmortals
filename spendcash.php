@@ -8,9 +8,9 @@ include('db.php');
 
 
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 
@@ -30,7 +30,7 @@ if($_POST['cashoption'] == "FiveMill" && $char['cash'] >= "1")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "1";
 
@@ -58,7 +58,7 @@ elseif($_POST['cashoption'] == "ThirtyMill" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 
@@ -86,7 +86,7 @@ elseif($_POST['cashoption'] == "FiveHundredStat" && $char['cash'] >= "1")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "1";
 
@@ -114,7 +114,7 @@ elseif($_POST['cashoption'] == "TwentysevenFiftyStat" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 
@@ -142,7 +142,7 @@ elseif($_POST['cashoption'] == "EightKBlood" && $char['cash'] >= "1")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "1";
 
@@ -170,7 +170,7 @@ elseif($_POST['cashoption'] == "FiftyKBlood" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 
@@ -198,7 +198,7 @@ elseif($_POST['cashoption'] == "HalfStatMulti" && $char['cash'] >= "8")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "8";
 
@@ -226,7 +226,7 @@ elseif($_POST['cashoption'] == "WholeStatMulti" && $char['cash'] >= "15")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "15";
 
@@ -254,7 +254,7 @@ elseif($_POST['cashoption'] == "FiveStatMulti" && $char['cash'] >= "70")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "70";
 
@@ -282,7 +282,7 @@ elseif($_POST['cashoption'] == "OneForesight" && $char['cash'] >= "10")
 		$foresight = $char['foresight'] + 1;
 		$cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 10 Cash to raise their Foresight level to ".$foresight."!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "10";
 
@@ -333,7 +333,7 @@ elseif($_POST['cashoption'] == "AddAffinity" && $char['cash'] >= "20")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 20 cash for an additional Affinity!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "20";
 
@@ -361,7 +361,7 @@ elseif($_POST['cashoption'] == "OneAuto" && $char['cash'] >= "1")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "1";
 
@@ -389,7 +389,7 @@ elseif($_POST['cashoption'] == "FiveAuto" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 
@@ -417,7 +417,7 @@ elseif($_POST['cashoption'] == "TenAuto" && $char['cash'] >= "10")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "10";
 
@@ -447,7 +447,7 @@ elseif($_POST['cashoption'] == "OneTradeSkill" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 
@@ -477,7 +477,7 @@ elseif($_POST['cashoption'] == "TwoTwentythTradeSkill" && $char['cash'] >= "10")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "10";
 
@@ -505,7 +505,7 @@ elseif($_POST['cashoption'] == "ChangeUsername" && $char['cash'] >= "15")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "15";
 
@@ -553,7 +553,7 @@ elseif($_POST['cashoption'] == "OneDemon" && $char['cash'] >= "2")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "2";
 
@@ -639,7 +639,7 @@ elseif($_POST['cashoption'] == "FifteenBags" && $char['cash'] >= "2")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "2";
 
@@ -664,7 +664,7 @@ elseif($_POST['cashoption'] == "FifteenMinutes" && $char['cash'] >= "1")
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for <strong>15 Minutes</strong> of Bonus Time!</font></b><br />";
 		
 		$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
-		$bonusTime = mysql_fetch_assoc($getBonusTime);
+		$bonusTime = mysqli_fetch_assoc($getBonusTime);
 		$date = time();
 		$addTime = 15 * 60;
 		if($bonusTime['experationTime'] >= $date && $bonusTime['experationTime'] != 0){
@@ -681,7 +681,7 @@ elseif($_POST['cashoption'] == "FifteenMinutes" && $char['cash'] >= "1")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "1";
 
@@ -706,7 +706,7 @@ elseif($_POST['cashoption'] == "HourBonus" && $char['cash'] >= "2")
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 2 cash for <strong>60 Minutes</strong> of Bonus Time!</font></b><br />";
 		
 		$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
-		$bonusTime = mysql_fetch_assoc($getBonusTime);
+		$bonusTime = mysqli_fetch_assoc($getBonusTime);
 		$date = time();
 		$addTime = 60 * 60;
 		if($bonusTime['experationTime'] >= $date && $bonusTime['experationTime'] != 0){
@@ -723,7 +723,7 @@ elseif($_POST['cashoption'] == "HourBonus" && $char['cash'] >= "2")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "2";
 
@@ -749,7 +749,7 @@ elseif($_POST['cashoption'] == "Teleporter" && $char['cash'] >= "25")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "25";
 
@@ -775,7 +775,7 @@ elseif($_POST['cashoption'] == "BankFee" && $char['cash'] >= "5")
 
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysql_error());
+                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error());
 
         $cash = $cash - "5";
 

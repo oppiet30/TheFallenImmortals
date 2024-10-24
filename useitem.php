@@ -71,7 +71,7 @@ if($_POST['itemid'] != "Nothing"){
 			if($stron == 2 && $dexon == 2 && $endon == 2 && $conon == 2 && $inton == 2){
 				$data .= "Mammon decided to keep the greeds to himself!";
 			}else{
-				$addtoInventory = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `type`, `equipped`, `strength`, `dexterity`, `endurance`, `concentration`, `intelligence`)VALUES ('".$char['username']."', '".$itemname."', '".$itemtype."', 'No', '".$newstr."', '".$newdex."', '".$newend."', '".$newcon."', '".$newint."')")or die(mysql_error());
+				$addtoInventory = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `type`, `equipped`, `strength`, `dexterity`, `endurance`, `concentration`, `intelligence`)VALUES ('".$char['username']."', '".$itemname."', '".$itemtype."', 'No', '".$newstr."', '".$newdex."', '".$newend."', '".$newcon."', '".$newint."')")or die(mysqli_error());
 				$deletesachel = mysqli_query($conn, "DELETE FROM inventory WHERE id='".$_POST['itemid']."'");
 				$data .= "(".$char['username'].", ".$itemname.", ".$itemtype.", No, ".$newstr.", ".$newdex.", ".$newend.", ".$newcon.", ".$newint.")";
 			}

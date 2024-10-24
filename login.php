@@ -19,7 +19,7 @@ $password = murder($_POST['userPass']);
 $getcharold = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$passwordold."' ");
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$password."' OR temppass='".$password."'");
 
-if(mysql_num_rows($getcharold) === 1)
+if(mysqli_num_rows($getcharold) === 1)
 {
 	$char = mysqli_fetch_assoc($getcharold);
 	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";

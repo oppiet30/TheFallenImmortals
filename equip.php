@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 
 $itemid = $_POST['itemid'];
 if(!ctype_digit($itemid)){
@@ -13,9 +13,9 @@ if(!ctype_digit($itemid)){
 	die();
 }
 $getitem = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$itemid."' AND username='".$char['username']."'");
-if(mysql_num_rows($getitem) == "1")    //Item exists
+if(mysqli_num_rows($getitem) == "1")    //Item exists
 {
-    $item = mysql_fetch_assoc($getitem);
+    $item = mysqli_fetch_assoc($getitem);
     if($charname == $item['username'])    //Item belongs to manipulating player
     {
         if($charlevel >= $item['levelreq'])    //High enough level to equip
@@ -42,7 +42,7 @@ if(mysql_num_rows($getitem) == "1")    //Item exists
                 $itemName[4] = $item['itemname'];
             }
             $accommodations = "".$itemName[0].",".$itemName[1].",".$itemName[2].",".$itemName[3].",".$itemName[4].",";
-            $accommodationUpdate = mysqli_query($conn, "UPDATE characters SET equipped='".$accommodations."' WHERE id='".$_SESSION['userid']."'") or die(mysql_error("Error updating User accommodation. Please tell the admin."));
+            $accommodationUpdate = mysqli_query($conn, "UPDATE characters SET equipped='".$accommodations."' WHERE id='".$_SESSION['userid']."'") or die(mysqli_error("Error updating User accommodation. Please tell the admin."));
             $unequip = mysqli_query($conn, "UPDATE inventory SET equipped='No' WHERE type='".$item['type']."' AND username='".$charname."'");
             $equip = mysqli_query($conn, "UPDATE inventory SET equipped='Yes' WHERE id='".$itemid."'");
             print("viewInventory();");
