@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_name("icsession");
 session_start();
 include('db.php');
@@ -6,7 +6,7 @@ include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysqli_fetch_assoc($getchar)or die("You need to login!");
 //$ResetGame = mysqli_query($conn, "UPDATE characters SET level='1', class='Fighter', classlevel='1', gold='0', bank='0', equipped='None, None, None, None, None', scavenges='0', vodoomax='10', blessing='None, None, None, None, None, None, None, None, None', spells='First Aid, None, None, None, None, None, None, None, None, None, None, None', presets='Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set', charge='None', nobility='Officer Cadet(1)', guild='None', totaldonations='0', expacq='0', expreq='6', strength='50', dexterity='50', endurance='50', intelligence='50', concentration='50', duelratio='0/0', mininglevel='1', lastmine='0', copperore='10', ironore='10', steelore='10', tradeskill='900', life='50',mana='50', blood='50', stats='0', location='Castle', posx='1', posy='1', relativeLoc='250, 250', teleporter='No', teleportlast='0', foresight='0', cash=networth, bankint='5', goldsteal='15', lastfight='0', enemyid='1', killstreak='0', security='0', captcha='Inactive', captcha_time_limit='0', lastactive='0', automax='10'")or Die("alert('Ack!');");
-?> 
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

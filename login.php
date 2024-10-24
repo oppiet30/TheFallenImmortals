@@ -54,11 +54,11 @@ elseif(mysqli_num_rows($getchar) === 1)
             session_name("icsession");
             session_start();
             $_SESSION['userid'] = $char['id'];
-            include('varset.php');
+            include'varset.php';
         
 			if($char['temppass'] != "None" && $char['temppass'] == $password){
 				$resetup = mysqli_query($conn, "UPDATE characters SET password='".$password."', temppass='None' WHERE id='".$char['id']."'");
-				print("alert('Please change your password in the Edit Account link at the top of the page! Your current password is the temporary password.');");
+				print"alert('Please change your password in the Edit Account link at the top of the page! Your current password is the temporary password.');";
 			}
             
             
@@ -114,7 +114,7 @@ elseif(mysqli_num_rows($getchar) === 1)
             	
             }
 
-            print("window.location = 'http://fallen.jez-your.com/game.php';");
+            print"window.location = '/TheFallenImmortals/game.php';";
         }
         else
         {

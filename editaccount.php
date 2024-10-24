@@ -106,7 +106,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 $findReferals = mysqli_query($conn, "SELECT * FROM characters WHERE refferal='".$char['username']."'");
 $numOfRef = mysqli_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
-$display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
+$display .= "<center>Refer friends: http://linuxassistant.com/TheFallenImmortals/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Refferals: ".$numOfRef."</center>";
 $display .= "<table border=\'0px\'><tr><td>";
 

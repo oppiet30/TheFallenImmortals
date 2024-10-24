@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_name("icsession");
 session_start();
-include('db.php');
+include'db.php';
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysqli_fetch_assoc($getchar)or die("You need to login!");

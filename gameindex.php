@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_name("icsession");
 session_start();
 include('db.php');
