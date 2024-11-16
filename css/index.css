@@ -1,0 +1,172 @@
+body {
+	background-attachment: scroll;
+	background-color: #000;
+	background-position: right;
+	text-align: center;
+}
+
+a {
+	color: #999;
+}
+
+#container {
+	position: relative;
+	left: -40px;
+	margin: 0 auto;
+	width: 1080px;
+}
+
+#top {
+	background-image: url(images/Untitled-1_01.gif);
+	height: 209px;
+	width: 1024px;
+	background-repeat: no-repeat;
+	background-color: #000;
+	visibility: visible;
+	position: absolute;
+	left: 40px;
+	top: 0px;
+}
+
+#leftSide {
+	background-image: url(images/Untitled-1_02.gif);
+	height: 422px;
+	width: 67px;
+	position: absolute;
+	top: 209px;
+	background-color: #000;
+	background-repeat: no-repeat;
+	left: 40px;
+}
+
+#content {
+	background-color: #000;
+	background-image: url(images/Untitled-1_03.png);
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 367px;
+	width: 879px;
+	left: 107px;
+	top: 209px;
+}
+
+#rightSide {
+	background-color: #000;
+	background-image: url(images/Untitled-1_04.gif);
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 422px;
+	width: 78px;
+	left: 986px;
+	top: 209px;
+}
+
+#bottom {
+	background-color: #000;
+	background-image: url(images/Untitled-1_05.gif);
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 55px;
+	width: 879px;
+	left: 107px;
+	top: 576px;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-style: normal;
+	color: #666;
+	text-align: center;
+}
+
+#homeLink {
+	background-image: url(images/homeLink.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 78px;
+	position: absolute;
+	left: 35px;
+	top: -10px;
+}
+
+#aboutLink {
+	background-image: url(images/aboutLink.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 90px;
+	position: absolute;
+	left: 130px;
+	top: -10px;
+}
+
+#updatesLink {
+	background-image: url(images/updatesLink.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 110px;
+	position: absolute;
+	left: 235px;
+	top: -10px;
+}
+
+#voteLink {
+	background-image: url(images/voteLink.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 75px;
+	position: absolute;
+	left: 360px;
+	top: -10px;
+}
+
+#contactLink {
+	background-image: url(images/contactLink.png);
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 120px;
+	position: absolute;
+	left: 450px;
+	top: -10px;
+}
+
+#displayArea {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #CFB164;
+	left: 30px;
+	position: absolute;
+	top: 30px;
+	overflow: auto;
+	right: 20px;
+	bottom: 20px;
+	text-align: left;
+	font-weight: bold;
+	clip: rect(auto,auto,auto,auto);
+}
+
+#loginForm {
+	border-right-style: none;
+	padding-bottom: 30px;
+}
+
+#registerForm {
+	position: absolute;
+	left: 400px;
+	top: 0px;
+	border-left-style: dotted;
+	padding-left: 10px;
+}
+
+#activity {
+	position: absolute;
+	left: 855px;
+	top: 35px;
+	text-align: left;
+	background-image: url(images/activityBox.png);
+	background-repeat: no-repeat;
+	height: 75px;
+	width: 150px;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #CFB164;
+	padding-top: 13px;
+	padding-left: 10px;
+}

@@ -3,3 +3,4 @@
 vendor/*
 images/68564.php
 tfiTutorial/images/68564.php
+includes/db.inc.php
