@@ -1,7 +1,13 @@
-<html><head><title>401 Authorization Required</title></head>
-<body bgcolor=white>
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <title>401 Authorization Required</title>
+        <link rel="stylesheet" href="css/400.css">
+    </head>
+<body>
 <h1>401 Authorization Required</h1>
 
 Invalid login credentials!
 
-</body></html>
+</body>
+</html>

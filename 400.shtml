@@ -1,7 +1,13 @@
-<html><head><title>400 Bad Request</title></head>
-<body bgcolor=white>
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <title>400 Bad Request</title>
+        <link rel=""stylesheet" href="css/400.css">
+    </head>
+<body>
 <h1>400 Bad Request</h1>
 
 Invalid request.
 
-</body></html>
+</body>
+</html>

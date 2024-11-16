@@ -1,7 +1,13 @@
-<html><head><title>403 Permission Denied</title></head>
-<body bgcolor=white>
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <title>403 Permission Denied</title>
+        <link rel="stylesheet" href="css/400.css">
+    </head>
+<body>
 <h1>403 Permission Denied</h1>
 
 You do not have permission for this request <!--#echo var="REQUEST_URI" -->
 
-</body></html>
+</body>
+</html>
