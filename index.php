@@ -199,16 +199,16 @@ a {
 		 $dbuser = "homestead";
 		 $dbpass = "secret";
 
-		$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
-		mysql_select_db($database) or die("Where?");
+		$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
+		mysqli_select_db($database) or die("Where?");
 		$time = time() - "600";
-		$findonline = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numonline = mysql_num_rows($findonline);
+		$findonline = mysqli_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numonline = mysqli_num_rows($findonline);
 		$time = time() - "604800";
-		$findweek = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numweek = mysql_num_rows($findweek);
-		$findregistered = mysql_query("SELECT * FROM characters");
-    	$numregistered = mysql_num_rows($findregistered);
+		$findweek = mysqli_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numweek = mysqli_num_rows($findweek);
+		$findregistered = mysqli_query("SELECT * FROM characters");
+    	$numregistered = mysqli_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />
     Week: <?=$numweek?><br />

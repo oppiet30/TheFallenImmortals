@@ -6,8 +6,8 @@ $database = "homestead";
 $dbuser = "homestead";
 $dbpass = "secret";
 
-$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
-mysql_select_db($database) or die("Where?");
+$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
+mysqli_select_db($database) or die("Where?");
 
 
 

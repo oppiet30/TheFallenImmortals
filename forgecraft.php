@@ -12,9 +12,9 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 	$concentration = "0";
 	$intelligence = "0";
 	$levelreq = "0";
-	$findForgeItems = mysql_query("SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysql_num_rows($findForgeItems) == "4"){
-		while($inventory = mysql_fetch_array($findForgeItems)){
+	$findForgeItems = mysqli_query("SELECT * FROM forge WHERE username='".$char['username']."'");
+	if(mysqli_num_rows($findForgeItems) == "4"){
+		while($inventory = mysqli_fetch_array($findForgeItems)){
 			$strength += $inventory['strength'];
 			$dexterity += $inventory['dexterity'];
 			$endurance += $inventory['endurance'];
@@ -45,18 +45,18 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 			$itemname = "(F)".$char['username']." ".$itemtype;
 			
 			if($_POST['ore'] == "copper" && $char['copperore'] >= 50){
-				$updateResources = mysql_query("UPDATE characters SET copperore=copperore-'50' WHERE username='".$char['username']."'");
+				$updateResources = mysqli_query("UPDATE characters SET copperore=copperore-'50' WHERE username='".$char['username']."'");
 			}elseif($_POST['ore'] == "iron" && $char['copperore'] >= 100 && $char['ironore'] >= 50){
-				$updateResources = mysql_query("UPDATE characters SET copperore=copperore-'100', ironore=ironore-'50' WHERE username='".$char['username']."'");
+				$updateResources = mysqli_query("UPDATE characters SET copperore=copperore-'100', ironore=ironore-'50' WHERE username='".$char['username']."'");
 			}elseif($_POST['ore'] == "steel" && $char['copperore'] >= 150 && $char['ironore'] >= 100 && $char['steelore'] >= 50){
-				$updateResources = mysql_query("UPDATE characters SET copperore=copperore-'150', ironore=ironore-'100', steelore=steelore-'50' WHERE username='".$char['username']."'");
+				$updateResources = mysqli_query("UPDATE characters SET copperore=copperore-'150', ironore=ironore-'100', steelore=steelore-'50' WHERE username='".$char['username']."'");
 			}else{
 				print"alert('Not enough resources.');";
 				die();
 			}
 				
-				$addToInventory = mysql_query("INSERT INTO `inventory` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$itemname."', 'No', '".$levelreq."', '".$itemtype."', '".$power."', '".$strength."', '".$dexterity."', '".$endurance."', '".$intelligence."', '".$concentration."', '".$value."')");
-	$removeFromInventory = mysql_query("DELETE FROM forge WHERE username='".$char['username']."'");
+				$addToInventory = mysqli_query("INSERT INTO `inventory` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$itemname."', 'No', '".$levelreq."', '".$itemtype."', '".$power."', '".$strength."', '".$dexterity."', '".$endurance."', '".$intelligence."', '".$concentration."', '".$value."')");
+	$removeFromInventory = mysqli_query("DELETE FROM forge WHERE username='".$char['username']."'");
 				
 				$data .= "<strong>".$itemname."</strong> was created giving you the following advantages; Str: ".floor($strength)." Dex: ".floor($dexterity)." End: ".floor($endurance)." Con: ".floor($concentration)." Int: ".floor($intelligence).", valuing at ".number_format($value)." gold, requiring a level of ".number_format($levelreq)." from the user.<br />";
 			
