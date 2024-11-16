@@ -273,7 +273,7 @@ if($itemname == ""){
 	}else{
 		$makeitem = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `levelreq`, `power`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$charname."', '".$itemname."', '".$bonmin."', '".$itempower."', '".$itemtype."', '".$strbon."', '".$dexbon."', '".$endbon."', '".$intbon."', '".$conbon."', '".$value."')");
 		
-		$itemSet = mysqli_insert_id();
+		$itemSet = mysqli_insert_id($query);
 		
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />Str: ".$strbon." Dex: ".$dexbon." End: ".$endbon." Int: ".$intbon." Con: ".$conbon." Val: ".$value."(<a href=\'javascript: sell(\"".$itemSet."\");\'>Sell</a>)<br />";
 		$activeTime = time();
