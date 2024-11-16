@@ -10,7 +10,7 @@ include('db.php');
 
 
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 
 $char = mysqli_fetch_assoc($getchar);
 
@@ -48,9 +48,9 @@ if($char['endsuspend'] < $activeTime && $char['endsuspend'] > "0"){
 
     $date = date('ymdHi');
 	$whatTime = time();
-    $setstatus = mysqli_query("UPDATE characters SET status='Normal', lastactive='".$whatTime."', endsuspend='0', reason='None' WHERE username='".$char['username']."'");
+    $setstatus = mysqli_query($conn, "UPDATE characters SET status='Normal', lastactive='".$whatTime."', endsuspend='0', reason='None' WHERE username='".$char['username']."'");
 	
-	$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysqli_error());
+	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysqli_error());
 }
 
 else
@@ -61,7 +61,7 @@ else
 
 $finder = "SELECT * FROM `chatroommessage` WHERE `to`='".$char['username']."'";
 
-$findOfflineMessages = mysqli_query($finder);
+$findOfflineMessages = mysqli_query($conn, $finder);
 
 if(mysqli_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
@@ -75,9 +75,9 @@ if(mysqli_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
 	$activeTime = time();
 
-	$query = mysqli_query("INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($message)."')");
+	$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($message)."')");
 
-	$deleteTehFreakingMessage = mysqli_query("DELETE FROM `chatroommessage` WHERE `to`='".$char['username']."'");
+	$deleteTehFreakingMessage = mysqli_query($conn, "DELETE FROM `chatroommessage` WHERE `to`='".$char['username']."'");
 
 }
 
@@ -87,7 +87,7 @@ if(mysqli_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
 
 
-$findYourDuel = mysqli_query("SELECT * FROM duelground WHERE `fromusername`='".$char['username']."'");
+$findYourDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE `fromusername`='".$char['username']."'");
 
 $duel = mysqli_fetch_assoc($findYourDuel);
 
@@ -101,7 +101,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
 	$messagechat = addslashes($messagechat);
 
-    $query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$duel['fromusername']."')");
+    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$duel['fromusername']."')");
 
     
 
@@ -109,11 +109,11 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $messagechat = addslashes($messagechat);
 
-    $query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$duel['tousername']."')");
+    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$duel['tousername']."')");
 
     
 
-    $deleteDuelRequest = mysqli_query("DELETE FROM duelground WHERE `id`='".$duel['id']."'");
+    $deleteDuelRequest = mysqli_query($conn, "DELETE FROM duelground WHERE `id`='".$duel['id']."'");
 
 }
 
@@ -127,7 +127,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = mysqli_query("SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Admin' OR `to`='Mod' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 40");
+        $getmessages = mysqli_query($conn, "SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Admin' OR `to`='Mod' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 40");
 
     }
 
@@ -135,7 +135,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = mysqli_query("SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Mod' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 40");
+        $getmessages = mysqli_query($conn, "SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Mod' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 40");
 
     }
 
@@ -143,7 +143,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = mysqli_query("SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 20");
+        $getmessages = mysqli_query($conn, "SELECT * FROM chatroom WHERE `to`='".$char['username']."' OR `to`='Chatroom' OR `username`='".$char['username']."' AND id>'".$char['chatlog']."' ORDER BY id DESC LIMIT 20");
 
     }
 
@@ -183,7 +183,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $time = time() - "600";
 
-    $findonline = mysqli_query("SELECT * FROM characters WHERE lastactive>'".$time."' ORDER BY userlevel, id");
+    $findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."' ORDER BY userlevel, id");
 
     $numonline = mysqli_num_rows($findonline);
 
@@ -195,7 +195,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
         $onlineplayer = $active['username'];
 		
-		$findGuildTag = mysqli_query("SELECT * FROM guilds WHERE name='".$active['guild']."'");
+		$findGuildTag = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$active['guild']."'");
 		
 		$guildTag = mysqli_fetch_assoc($findGuildTag);
 

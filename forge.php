@@ -5,7 +5,7 @@ include('db.php');
 include('varset.php');
 include('active.php');
 
-	$findForgeItems = mysqli_query("SELECT * FROM forge WHERE username='".$char['username']."'");
+	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
 	$data = "<center><b>Forge</b><br />";
 	if(mysqli_num_rows($findForgeItems) == "4"){
 		$data .= "<strong>Ore:</strong> <select id=\'ore\' onchange=\'getResults()\'>";
@@ -19,9 +19,9 @@ include('active.php');
 		$data .= "<option>Nothing</option>";
 		if(mysqli_num_rows($findForgeItems) > "0"){
 			$forgeType = mysqli_fetch_assoc($findForgeItems);
-			$findItems = mysqli_query("SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No' AND type='".$forgeType['type']."'");
+			$findItems = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No' AND type='".$forgeType['type']."'");
 		}else{
-			$findItems = mysqli_query("SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
+			$findItems = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
 		}
 		while($inventory = mysqli_fetch_array($findItems)){
 			$itempower = number_format($inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence']);
@@ -36,7 +36,7 @@ include('active.php');
 	$data .= "<tr>";
 	$data .= "<td width=\'130px\' height=\'150px\'><div id=\'itemDescription\'></div></td>";
 	$data .= "<td width=\'400px\'><div id=\'inForge\'>";
-	$findForgeItems = mysqli_query("SELECT * FROM forge WHERE username='".$char['username']."'");
+	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
 	if(mysqli_num_rows($findForgeItems) == "0"){
 		$data .= "No items in the forge.";
 	}else{

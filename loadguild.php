@@ -8,10 +8,10 @@ include('functions.php');
 if(isset($_POST['guildname']) && $_POST['guildname'] != "Select Guild")
 {
 	$guildname = $_POST['guildname'];
-	$getguild = mysqli_query("SELECT * FROM guilds WHERE id='".$guildname."'");
+	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE id='".$guildname."'");
 	$guild = mysqli_fetch_assoc($getguild);
 
-	$getmembers = mysqli_query("SELECT * FROM characters WHERE guild='".$guild['name']."'");
+	$getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$guild['name']."'");
 	$members = mysqli_num_rows($getmembers);
 
 	while($member = mysqli_fetch_array($getmembers))

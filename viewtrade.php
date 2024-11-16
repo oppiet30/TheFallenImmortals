@@ -8,7 +8,7 @@ include('db.php');
 
 
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 
 $char = mysqli_fetch_assoc($getchar);
 
@@ -44,7 +44,7 @@ elseif(isset($_POST['page']) && $_POST['page'] == "sellInTrade")
 
     $data .= "<center>Sell in Market<br /></center>";
 
-    $findInventory = mysqli_query("SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
+    $findInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
 
     if(mysqli_num_rows($findInventory) > 0)
 
@@ -88,7 +88,7 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         }
 
-        $findItemInInventory = mysqli_query("SELECT * FROM inventory WHERE id='".$sellingID."' AND username='".$char['username']."'")or die("alert('Cannot locate item.');");
+        $findItemInInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$sellingID."' AND username='".$char['username']."'")or die("alert('Cannot locate item.');");
 
         if(mysqli_num_rows($findItemInInventory) < "0"){
 
@@ -100,7 +100,7 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         $item = mysqli_fetch_assoc($findItemInInventory);
 
-        $addToMarket = mysqli_query("INSERT INTO trade (`fromplayer`, `itemname`, `levelreq`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`, `price`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."', '".$sellPrice."')")or die("alret('Failed to add item.')");
+        $addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `levelreq`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`, `price`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."', '".$sellPrice."')")or die("alret('Failed to add item.')");
 
         $data .= "You put ".$item['itemname']." on to market for ".$sellPrice." gold!<br />";
 
@@ -108,9 +108,9 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         $message = "<font color=\'#F5F5DC\'><b>(".$datestamp.")".$char['username']." put ".$item['itemname']." on market for ".number_format($sellPrice)." gold.</b></font><br />";
 
-        $messageSeller = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', 'Chatroom', '".$message."')");
+        $messageSeller = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', 'Chatroom', '".$message."')");
 
-        $removeFromInventory = mysqli_query("DELETE FROM inventory WHERE id='".$item['id']."'");
+        $removeFromInventory = mysqli_query($conn, "DELETE FROM inventory WHERE id='".$item['id']."'");
 
     }else{
 
@@ -128,9 +128,9 @@ elseif(isset($_POST['price']) && $_POST['type'] == "Cash")
 
 		
 
-		$takeCash = mysqli_query("UPDATE characters SET cash=cash-'1' WHERE username='".$char['username']."'");
+		$takeCash = mysqli_query($conn, "UPDATE characters SET cash=cash-'1' WHERE username='".$char['username']."'");
 
-		$addToMarket = mysqli_query("INSERT INTO trade (`fromplayer`, `itemname`, `price`) VALUES ('".$char['username']."', 'Cash', '".$_POST['price']."')")or die("alret('Failed to add item.')");
+		$addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `price`) VALUES ('".$char['username']."', 'Cash', '".$_POST['price']."')")or die("alret('Failed to add item.')");
 
 		$data .= "You put Cash on to market for ".number_format($_POST['price'])." gold!<br />";
 
@@ -138,7 +138,7 @@ elseif(isset($_POST['price']) && $_POST['type'] == "Cash")
 
         $message = "<font color=\'#F5F5DC\'><b>(".$datestamp.")".$char['username']." put Cash on market for ".number_format($_POST['price'])." gold.</b></font><br />";
 
-        $messageSeller = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', 'Chatroom', '".$message."')");
+        $messageSeller = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', 'Chatroom', '".$message."')");
 
 		
 
@@ -168,7 +168,7 @@ elseif(isset($_POST['buyingid']))
 
     }
 
-    $findItemInTrade = mysqli_query("SELECT * FROM trade WHERE id='".$buyingID."'")or die("alert('Cannot locate item.');");
+    $findItemInTrade = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$buyingID."'")or die("alert('Cannot locate item.');");
 
     if(mysqli_num_rows($findItemInTrade) < "0"){
 
@@ -190,19 +190,19 @@ elseif(isset($_POST['buyingid']))
 
     		$data .= "".$item['itemname']." was bought for ".number_format($item['price'])." gold.<br />";
 
-    		$updateCash = mysqli_query("UPDATE characters SET cash=cash+'1' WHERE username='".$char['username']."'");
+    		$updateCash = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE username='".$char['username']."'");
 
-    		$getGold = mysqli_query("UPDATE characters SET gold=gold-'".$item['price']."' WHERE id='".$char['id']."'");
+    		$getGold = mysqli_query($conn, "UPDATE characters SET gold=gold-'".$item['price']."' WHERE id='".$char['id']."'");
 
-	        $giveSellerGold = mysqli_query("UPDATE characters SET gold=gold+'".$item['price']."' WHERE username='".$item['fromplayer']."'");
+	        $giveSellerGold = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$item['price']."' WHERE username='".$item['fromplayer']."'");
 
 	        $datestamp = date("H:i:s");
 
 	        $message = "<font color=\'#F5F5DC\'><b>(".$datestamp.")".$char['username']." bought your ".$item['itemname']." for ".number_format($item['price'])." gold.</b></font><br />";
 
-	        $messageSeller = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$item['fromplayer']."', '".$message."')");
+	        $messageSeller = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$item['fromplayer']."', '".$message."')");
 
-    		$removeFromTrade = mysqli_query("DELETE FROM trade WHERE id='".$buyingID."'");
+    		$removeFromTrade = mysqli_query($conn, "DELETE FROM trade WHERE id='".$buyingID."'");
 
     		
 
@@ -212,19 +212,19 @@ elseif(isset($_POST['buyingid']))
 
 	        $data .= "".$item['itemname']." was bought for ".number_format($item['price'])." gold.<br />";
 
-	        $addToUser = mysqli_query("INSERT INTO inventory (`username`, `itemname`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['power']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."')");
+	        $addToUser = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['power']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."')");
 
-	        $getGold = mysqli_query("UPDATE characters SET gold=gold-'".$item['price']."' WHERE id='".$char['id']."'");
+	        $getGold = mysqli_query($conn, "UPDATE characters SET gold=gold-'".$item['price']."' WHERE id='".$char['id']."'");
 
-	        $giveSellerGold = mysqli_query("UPDATE characters SET gold=gold+'".$item['price']."' WHERE username='".$item['fromplayer']."'");
+	        $giveSellerGold = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$item['price']."' WHERE username='".$item['fromplayer']."'");
 
 	        $datestamp = date("H:i:s");
 
 	        $message = "<font color=\'#F5F5DC\'><b>(".$datestamp.")".$char['username']." bought your ".$item['itemname']." for ".number_format($item['price'])." gold.</b></font><br />";
 
-	        $messageSeller = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$item['fromplayer']."', '".$message."')");
+	        $messageSeller = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$item['fromplayer']."', '".$message."')");
 
-	        $removeFromTrade = mysqli_query("DELETE FROM trade WHERE id='".$buyingID."'");
+	        $removeFromTrade = mysqli_query($conn, "DELETE FROM trade WHERE id='".$buyingID."'");
 
     	
 
@@ -254,7 +254,7 @@ elseif(isset($_POST['removeid']))
 
     }
 
-    $findItemInTrade = mysqli_query("SELECT * FROM trade WHERE id='".$removeID."' AND fromplayer='".$char['username']."'")or die("alert('Cannot locate item.');");
+    $findItemInTrade = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$removeID."' AND fromplayer='".$char['username']."'")or die("alert('Cannot locate item.');");
 
     if(mysqli_num_rows($findItemInTrade) < "0"){
 
@@ -270,15 +270,15 @@ elseif(isset($_POST['removeid']))
 
     if($item['itemname'] == "Cash"){
 
-    	$givecashback = mysqli_query("UPDATE characters SET cash=cash+'1' WHERE username='".$char['username']."'");
+    	$givecashback = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE username='".$char['username']."'");
 
     }else{
 
-	    $addToUser = mysqli_query("INSERT INTO inventory (`username`, `itemname`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['power']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."')");
+	    $addToUser = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['power']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."')");
 
     }
 
-    $removeFromTrade = mysqli_query("DELETE FROM trade WHERE id='".$removeID."'");
+    $removeFromTrade = mysqli_query($conn, "DELETE FROM trade WHERE id='".$removeID."'");
 
 }
 
@@ -295,7 +295,7 @@ $data .= "<a href=\'javascript: trade(\"\");\'>Your items in trade</a>";
 	$data .= "<center><b>Item Trade</b><br />";
 	$data .= "<select id=\'item\' onchange=\'tradeDesc()\'>";
 	$data .= "<option value=\'Nothing\'>None</option>";
-	$allMarket = mysqli_query("SELECT * FROM trade WHERE towho='None' ORDER BY value");
+	$allMarket = mysqli_query($conn, "SELECT * FROM trade WHERE towho='None' ORDER BY value");
 	while($forSale = mysqli_fetch_array($allMarket)){
 		if($forSale['fromplayer'] == $char['username']){
 			$ownage = "***Your Item***";

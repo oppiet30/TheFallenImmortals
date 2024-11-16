@@ -3,19 +3,19 @@ session_name("icsession");
 session_start();
 include('db.php');
 $whom = ucwords(strtolower($_POST['whom']));
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysqli_fetch_assoc($getchar);
 $data = "";
 
 if($_POST['enemyid'] != NULL){
 	
-	$lookforScavenger = mysqli_query("SELECT * FROM scavenger WHERE username='".$char['username']."'");
+	$lookforScavenger = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
 	if(mysqli_num_rows($lookforScavenger) >= 1){
 		print("alert('You can only accept one adventures at a time!');");
 		die();
 	}
 	
-	$findEnemy = mysqli_query("SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'")or die("alert('Tell the admin that you monster doesn\'t exist.');");
+	$findEnemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'")or die("alert('Tell the admin that you monster doesn\'t exist.');");
 	$enemy = mysqli_fetch_assoc($findEnemy);
 	$level = $char['scavenges'] + 1;
 	$locx = rand(1,100);
@@ -38,17 +38,17 @@ if($_POST['enemyid'] != NULL){
 	
 	$amountNeeded = floor($level * (mt_rand(10,20)/10));
 	$data .= "Adventure Details:<br /><br />Monster: ".$enemy['name']."<br />Location: ".$locx.",".$locy."<br />Level: ".number_format($level)."<br />".$itemname." needed is  0/".$amountNeeded."";
-	$addAdventure = mysqli_query("INSERT INTO scavenger(`username`, `level`, `location`, `monster`, `itemname`, `collect`) VALUES('".$char['username']."', '".$level."', '".$locx.", ".$locy."', '".$enemy['name']."', '".$itemname."', '0/".$amountNeeded."')");
+	$addAdventure = mysqli_query($conn, "INSERT INTO scavenger(`username`, `level`, `location`, `monster`, `itemname`, `collect`) VALUES('".$char['username']."', '".$level."', '".$locx.", ".$locy."', '".$enemy['name']."', '".$itemname."', '0/".$amountNeeded."')");
 	
 	
 }else{
 	$data .= "<center>Good evening friend,<br />I am the Scavenger, you shall not call me anything other. I am always needing supplies for my colony, but you will never find me there. My locations are secret to keep my people alive. All you need to do is collect supplies for me and in exchange I will pay you for your time.</center>";
 	
-	$openScavenger = mysqli_query("SELECT * FROM scavenger WHERE username='".$char['username']."'");
+	$openScavenger = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
 	$watchaGot = mysqli_num_rows($openScavenger);
 	if($watchaGot < 5){
 		$data .= "<center><select id=\'enemylist\'>";
-		$getenemies = mysqli_query("SELECT * FROM enemies ORDER BY level");
+		$getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
 		while($enemies = mysqli_fetch_array($getenemies))
 		{
 		    if($char['enemyid'] == $enemies['id'])
@@ -66,7 +66,7 @@ if($_POST['enemyid'] != NULL){
 }
 
 $data .= "<br /><table border=\'1\'>";
-$findScavenges = mysqli_query("SELECT * FROM characters ORDER BY scavenges DESC LIMIT 50");
+$findScavenges = mysqli_query($conn, "SELECT * FROM characters ORDER BY scavenges DESC LIMIT 50");
 $data .= "<tr><td><u>User</u></td><td><u>Scavenges</u></td></tr>";
 while($tscavenger = mysqli_fetch_assoc($findScavenges)){
 	$data .= "<tr><td>".$tscavenger['username']."</td><td>".$tscavenger['scavenges']."</td></tr>";

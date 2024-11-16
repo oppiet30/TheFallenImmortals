@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 include('varset.php');
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 
 
@@ -12,7 +12,7 @@ if($_POST['auto'] == "Yes")
 	$randomCAPTCHA = rand(1,45);
 	if($randomCAPTCHA == 1 && $char['auto'] == 0 && $char['username']=="Ajezior"){
 		$amount_of_time = 600+ time();
-		$setupCaptcha = mysqli_query("UPDATE characters SET auto='0', captcha='Active', captcha_time_limit='".$amount_of_time."' WHERE username='".$char['username']."'");
+		$setupCaptcha = mysqli_query($conn, "UPDATE characters SET auto='0', captcha='Active', captcha_time_limit='".$amount_of_time."' WHERE username='".$char['username']."'");
 		$data = "<strong>You have <u>10 minutes</u> to complete CAPTCHA security, from the time it was given, before your account gets suspended.</strong><br /><div id=\"recaptcha_div\"></div><br />";
 		$data .= "<input type=\"button\" value=\"Check answer\" onClick=\"verifyCaptcha();\">";
 		print("fillDiv('displayArea','".$data."');");
@@ -24,14 +24,14 @@ if($_POST['auto'] == "Yes")
 			die();
 		}else{
 			$charauto = "".$char['automax']."";
-			$query = mysqli_query("UPDATE characters SET auto='".$char['automax']."', lastfight='0' WHERE id='".$_SESSION['userid']."'");
+			$query = mysqli_query($conn, "UPDATE characters SET auto='".$char['automax']."', lastfight='0' WHERE id='".$_SESSION['userid']."'");
 		}
 	}
 }elseif($char['auto'] == "0"){
 	$randomCAPTCHA = rand(1,1500);
 	if($randomCAPTCHA == 1 && $char['username']=="Ajezior"){
 		$amount_of_time = 600 + time();
-		$setupCaptcha = mysqli_query("UPDATE characters SET auto='0', captcha='Active', captcha_time_limit='".$amount_of_time."' WHERE username='".$char['username']."'");
+		$setupCaptcha = mysqli_query($conn, "UPDATE characters SET auto='0', captcha='Active', captcha_time_limit='".$amount_of_time."' WHERE username='".$char['username']."'");
 		$data = "<strong>You have <u>10 minutes</u> to complete CAPTCHA security, from the time it was given, before your account gets suspended.</strong><br /><div id=\"recaptcha_div\"></div><br />";
 		$data .= "<input type=\"button\" value=\"Check answer\" onClick=\"verifyCaptcha();\">";
 		print("fillDiv('displayArea','".$data."');");
@@ -44,7 +44,7 @@ if($_POST['auto'] == "Yes")
 
 
 
-$getenemy = mysqli_query("SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'");
+$getenemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'");
 $enemy = mysqli_fetch_assoc($getenemy);
 
 $enemyid = $enemy['id'];
@@ -62,12 +62,12 @@ if($enemylife < "1"){
 $date = time();
 
 
-$updatechar = mysqli_query("UPDATE characters SET enemyid='".$enemyid."', enemylife='".$enemylife."', lastactive='".$date."' WHERE id='".$_SESSION['userid']."'");
+$updatechar = mysqli_query($conn, "UPDATE characters SET enemyid='".$enemyid."', enemylife='".$enemylife."', lastactive='".$date."' WHERE id='".$_SESSION['userid']."'");
 
 
 
 $data = $data."<center><select id=\'enemylist\'>";
-$getenemies = mysqli_query("SELECT * FROM enemies ORDER BY level");
+$getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
 while($enemies = mysqli_fetch_array($getenemies))
 {
 	if($enemyid == $enemies['id'])
