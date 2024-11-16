@@ -4,13 +4,13 @@ session_name("icsession");
 
 session_start();
 
-include('db.php');
+include 'db.php';
 
 
 
 
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($getchar));
 
 $char = mysqli_fetch_assoc($getchar);
 
@@ -22,7 +22,7 @@ $charLastActive = $char['lastactive'] + 900;
 
 
 
-if($char['id'] == NULL || $activeTime > $charLastActive)
+if($char['id'] == null || $activeTime > $charLastActive)
 
 {
 
@@ -50,7 +50,7 @@ if($char['endsuspend'] < $activeTime && $char['endsuspend'] > "0"){
 	$whatTime = time();
     $setstatus = mysqli_query($conn, "UPDATE characters SET status='Normal', lastactive='".$whatTime."', endsuspend='0', reason='None' WHERE username='".$char['username']."'");
 	
-	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysqli_error());
+	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysqli_error($query));
 }
 
 else
@@ -95,7 +95,7 @@ $date = time();
 
 $timeofDuel = $duel['time'] + "30";
 
-if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != NULL){
+if($timeofDuel < $date && $char['username'] != null && $duel['fromusername'] != null){
 
 	$messagechat = "<strong><font color=\'#FF3300\'>".$duel['tousername']." has taken too much time to accept the duel. Try again later.</font></strong><br />";
 
@@ -123,7 +123,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $data = "";
 
-    if($char['userlevel'] == "1" && $char['userlevel'] != NULL && $char['userlevel'] != "")    //Admin
+    if($char['userlevel'] == "1" && $char['userlevel'] != null && $char['userlevel'] != "")    //Admin
 
     {
 
@@ -131,7 +131,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     }
 
-    elseif($char['userlevel'] == "2" && $char['userlevel'] != NULL && $char['userlevel'] != "")    //Mod
+    elseif($char['userlevel'] == "2" && $char['userlevel'] != null && $char['userlevel'] != "")    //Mod
 
     {
 
