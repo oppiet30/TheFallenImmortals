@@ -37,13 +37,10 @@
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	      $dbhost = "localhost";
-		 $database = "homestead";
-		 $dbuser = "homestead";
-		 $dbpass = "secret";
+	    include "includes/db.inc.php";
 
-		$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
-		mysqli_select_db($database) or die("Where?");
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database) or trigger_error(mysqli_error(),E_USER_ERROR);
+		// mysqli_select_db($database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numonline = mysqli_num_rows($findonline);

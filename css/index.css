@@ -17,7 +17,7 @@ a {
 }
 
 #top {
-	background-image: url(images/Untitled-1_01.gif);
+	background-image: url(../images/Untitled-1_01.gif);
 	height: 209px;
 	width: 1024px;
 	background-repeat: no-repeat;
@@ -29,7 +29,7 @@ a {
 }
 
 #leftSide {
-	background-image: url(images/Untitled-1_02.gif);
+	background-image: url(../images/Untitled-1_02.gif);
 	height: 422px;
 	width: 67px;
 	position: absolute;
@@ -41,7 +41,7 @@ a {
 
 #content {
 	background-color: #000;
-	background-image: url(images/Untitled-1_03.png);
+	background-image: url(../images/Untitled-1_03.png);
 	background-repeat: no-repeat;
 	position: absolute;
 	height: 367px;
@@ -52,7 +52,7 @@ a {
 
 #rightSide {
 	background-color: #000;
-	background-image: url(images/Untitled-1_04.gif);
+	background-image: url(../images/Untitled-1_04.gif);
 	background-repeat: no-repeat;
 	position: absolute;
 	height: 422px;
@@ -63,7 +63,7 @@ a {
 
 #bottom {
 	background-color: #000;
-	background-image: url(images/Untitled-1_05.gif);
+	background-image: url(../images/Untitled-1_05.gif);
 	background-repeat: no-repeat;
 	position: absolute;
 	height: 55px;
@@ -78,7 +78,7 @@ a {
 }
 
 #homeLink {
-	background-image: url(images/homeLink.png);
+	background-image: url(../images/homeLink.png);
 	background-repeat: no-repeat;
 	height: 25px;
 	width: 78px;
@@ -88,7 +88,7 @@ a {
 }
 
 #aboutLink {
-	background-image: url(images/aboutLink.png);
+	background-image: url(../images/aboutLink.png);
 	background-repeat: no-repeat;
 	height: 25px;
 	width: 90px;
@@ -98,7 +98,7 @@ a {
 }
 
 #updatesLink {
-	background-image: url(images/updatesLink.png);
+	background-image: url(../images/updatesLink.png);
 	background-repeat: no-repeat;
 	height: 25px;
 	width: 110px;
@@ -108,7 +108,7 @@ a {
 }
 
 #voteLink {
-	background-image: url(images/voteLink.png);
+	background-image: url(../images/voteLink.png);
 	background-repeat: no-repeat;
 	height: 25px;
 	width: 75px;
@@ -118,7 +118,7 @@ a {
 }
 
 #contactLink {
-	background-image: url(images/contactLink.png);
+	background-image: url(../images/contactLink.png);
 	background-repeat: no-repeat;
 	height: 25px;
 	width: 120px;
@@ -160,7 +160,7 @@ a {
 	left: 855px;
 	top: 35px;
 	text-align: left;
-	background-image: url(images/activityBox.png);
+	background-image: url(../images/activityBox.png);
 	background-repeat: no-repeat;
 	height: 75px;
 	width: 150px;

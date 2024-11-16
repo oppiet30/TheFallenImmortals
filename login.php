@@ -2,13 +2,13 @@
 include('indexdb.php');
 session_name("icsession");
 session_start();
-function murder($data){ 
-	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
-	$salt = md5($salt); 
-	$data = md5($salt.$data); 
-	$data = base64_encode($data); 
-	$data = sha1($data); 
-	return $data; 
+function murder($data){
+	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?";
+	$salt = md5($salt);
+	$data = md5($salt.$data);
+	$data = base64_encode($data);
+	$data = sha1($data);
+	return $data;
 }
 $date = time();
 $username = $_POST['userAlias'];
@@ -33,11 +33,11 @@ elseif(mysqli_num_rows($getchar) === 1)
     $findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."' AND username='".$char['username']."'");
 	$active = mysqli_fetch_assoc($findonline);
 	
-	if($active != NULL){
+	if($active != null){
 		print("alert('You are already logged in. Try coming back in ten minutes. If this problem persist contact the administrator at Alex.jezior(at)gmail.com');");
 		die();
 	}
-    if($_SESSION['userid'] != Null){
+    if($_SESSION['userid'] != null){
         $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
         $char = mysqli_fetch_assoc($getchar);
     }

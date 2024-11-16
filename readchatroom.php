@@ -71,11 +71,11 @@ if(mysqli_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
 		
 
-	$message .= "".mysqli_real_escape_string($findMsg['message'])."";
+	$message .= "".mysqli_real_escape_string($conn, $findMsg['message'])."";
 
 	$activeTime = time();
 
-	$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($message)."')");
+	$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $message)."')");
 
 	$deleteTehFreakingMessage = mysqli_query($conn, "DELETE FROM `chatroommessage` WHERE `to`='".$char['username']."'");
 

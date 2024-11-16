@@ -269,7 +269,7 @@ if($itemname == ""){
 	if($inventoryFull >= $char['backpacksize']){
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />But your backpack is already holding it\'s max limit of ".$char['backpacksize']." items. So the item was lost.<br />";
 		$activeTime = time();
-		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($data2)."')");
+		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $data2)."')");
 	}else{
 		$makeitem = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `levelreq`, `power`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$charname."', '".$itemname."', '".$bonmin."', '".$itempower."', '".$itemtype."', '".$strbon."', '".$dexbon."', '".$endbon."', '".$intbon."', '".$conbon."', '".$value."')");
 		
@@ -277,8 +277,8 @@ if($itemname == ""){
 		
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />Str: ".$strbon." Dex: ".$dexbon." End: ".$endbon." Int: ".$intbon." Con: ".$conbon." Val: ".$value."(<a href=\'javascript: sell(\"".$itemSet."\");\'>Sell</a>)<br />";
 		$activeTime = time();
-		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($data2)."')");
+		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $data2)."')");
 	}
-}	
+}
 ?>
 
