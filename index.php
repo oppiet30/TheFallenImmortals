@@ -124,7 +124,7 @@
 			<br />
 			&nbsp;&nbsp;&nbsp;Again for the last time you wake up. "Did I just dream?", you say. Feeling your throat you find a scar. "I don't understand. I should be dead... Am I... immortal? It can't be... This isn't real!!! Either way I am still alive. I need to find Abaddon and send him back to the deepest depths of hell. I must start training immediately.", you say. You begin gathering your things in a backpack, only taking necessary items. Your adventure begins... Good luck!</i>
 		</div>
-    </div>    
+    </div>
 </div>
 <div id="rightSide"></div>
 
