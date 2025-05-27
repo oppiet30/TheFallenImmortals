@@ -24,7 +24,7 @@ if(mysqli_num_rows($getcharold) === 1)
 	$char = mysqli_fetch_assoc($getcharold);
 	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
 	$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$password."' WHERE username='".$char['username']."'");
-	print"fillDiv('displayArea','".$updatePass."');";	
+	print"fillDiv('displayArea','".$updatePass."');";
 }
 elseif(mysqli_num_rows($getchar) === 1)
 {
