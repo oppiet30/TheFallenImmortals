@@ -1,12 +1,12 @@
 <?php
 session_name("icsession");
 session_start();
-include('db.php');
-include('varset.php');
+include'db.php';
+include'varset.php';
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 
-  require_once('recaptchalib.php');
+  require_once'recaptchalib.php';
   $privatekey = "6Ld9zssSAAAAACUwfuV6pDnpOt60SIP57hu1xD-i";
   $resp = recaptcha_check_answer ($privatekey,
                                 $_SERVER["REMOTE_ADDR"],
@@ -15,7 +15,7 @@ $char = mysqli_fetch_assoc($getchar);
   $time = time();
   if($char['captcha_time_limit'] != "0" && $char['captcha_time_limit'] < $time){
 	  
-	print("alert('You have taken too long. You are Suspended for 12 hours!');");
+	print"alert('You have taken too long. You are Suspended for 12 hours!');";
 	$reasonSuspend = "Failed reCaptcha";
 	$timeSuspended = 43200 + time();
 	$updateTheDumbass = mysqli_query($conn, "UPDATE characters SET lastactive='0', status='Suspended', endsuspend='".$timeSuspended."', reason='".$reasonSuspend."', captcha='Inactive', captcha_time_limit='0' WHERE username='".$char['username']."'");
