@@ -1,5 +1,5 @@
 <?php
-include('indexdb.php');
+include'indexdb.php';
 session_name("icsession");
 session_start();
 function murder($data){
@@ -24,7 +24,7 @@ if(mysqli_num_rows($getcharold) === 1)
 	$char = mysqli_fetch_assoc($getcharold);
 	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
 	$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$password."' WHERE username='".$char['username']."'");
-	print("fillDiv('displayArea','".$updatePass."');");	
+	print"fillDiv('displayArea','".$updatePass."');";	
 }
 elseif(mysqli_num_rows($getchar) === 1)
 {
@@ -34,7 +34,7 @@ elseif(mysqli_num_rows($getchar) === 1)
 	$active = mysqli_fetch_assoc($findonline);
 	
 	if($active != null){
-		print("alert('You are already logged in. Try coming back in ten minutes. If this problem persist contact the administrator at Alex.jezior(at)gmail.com');");
+		print"alert('You are already logged in. Try coming back in ten minutes. If this problem persist contact the administrator at Alex.jezior(at)gmail.com');";
 		die();
 	}
     if($_SESSION['userid'] != null){
@@ -44,8 +44,8 @@ elseif(mysqli_num_rows($getchar) === 1)
     $getbanned = mysqli_query($conn, "SELECT * FROM banned WHERE ip='".$char['ip']."'");
     if(mysqli_num_rows($getbanned) == "1")
     {
-        print("alert('You are banned.');");
-        print("window.location = 'http://www.thefallenimmortals.com/';");
+        print"alert('You are banned.');";
+        print"window.location = 'http://www.thefallenimmortals.com/';";
     }
     else
     {
@@ -54,11 +54,11 @@ elseif(mysqli_num_rows($getchar) === 1)
             session_name("icsession");
             session_start();
             $_SESSION['userid'] = $char['id'];
-            include('varset.php');
+            include'varset.php';
         
 			if($char['temppass'] != "None" && $char['temppass'] == $password){
 				$resetup = mysqli_query($conn, "UPDATE characters SET password='".$password."', temppass='None' WHERE id='".$char['id']."'");
-				print("alert('Please change your password in the Edit Account link at the top of the page! Your current password is the temporary password.');");
+				print"alert('Please change your password in the Edit Account link at the top of the page! Your current password is the temporary password.');";
 			}
             
             
@@ -114,16 +114,16 @@ elseif(mysqli_num_rows($getchar) === 1)
             	
             }
 
-            print("window.location = 'http://fallen.jez-your.com/game.php';");
+            print"window.location = 'http://fallen.jez-your.com/game.php';";
         }
         else
         {
-            print("fillDiv('displayArea','After level 100 your character must be activated. Follow the link in your email.');");
+            print"fillDiv('displayArea','After level 100 your character must be activated. Follow the link in your email.');";
         }
     }
 }
 else
 {
-    print("fillDiv('displayArea','Incorrect Login Information.');");
+    print"fillDiv('displayArea','Incorrect Login Information.');";
 }
 ?>

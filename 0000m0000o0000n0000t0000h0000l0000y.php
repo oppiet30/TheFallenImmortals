@@ -1,7 +1,7 @@
 <?php
 session_name("icsession");
 session_start();
-include('db.php');
+include'db.php';
 
 $ticketQuery = mysqli_query($conn, "SELECT * FROM donationpot");
 $ticketRow = mysqli_num_rows($ticketQuery);

@@ -1,5 +1,5 @@
 <?php
-include('db.php');
+include'db.php';
 
 $getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewemail WHERE newemail='".$_GET['nemail']."' AND verificationcode='".$_GET['activationcode']."'");
 $getCodeNumRows = mysqli_num_rows($getUserForChange);
