@@ -5,13 +5,13 @@ include('db.php');
 
 if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "){
 	$data = "";
-	$querty = mysql_query("SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
-	if(mysql_num_rows($querty) != 1){
+	$querty = mysqli_query("SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
+	if(mysqli_num_rows($querty) != 1){
 		print("alert('This is not your item!');");
 		die();
 	}
 	
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 	if($inventory['equipped'] == "Yes"){
 		print("alert('Equipped items do not go into forge!');");
 		die();

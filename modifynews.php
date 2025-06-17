@@ -4,8 +4,8 @@ session_start();
 include('db.php');
 include('varset.php');
 
-$getguild = mysql_query("SELECT * FROM guilds WHERE name='".$charguild."'");
-$guild = mysql_fetch_assoc($getguild);
+$getguild = mysqli_query("SELECT * FROM guilds WHERE name='".$charguild."'");
+$guild = mysqli_fetch_assoc($getguild);
 if($charname == $guild['leader'] || $charname == $guild['coleader'])
 {
 	$news = str_replace("[br]", "\\r", addslashes($guild['news']));

@@ -1,38 +1,21 @@
-<?php 
+<?php
+session_start();
+?>
 
-session_start(); 
-
-?> 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
-<meta http-equiv="Expires" content="The Fallen Immortals! A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
-
-<title>The Fallen Immortals Help Site!</title>
-
-<script src="ajax.js" type="text/javascript"></script>
-
-<script src="dom.js" type="text/javascript"></script>
-
-<script src="gamefunctions.js" type="text/javascript"></script>
-
-
-
-<link href="main.css" rel="stylesheet" type="text/css" />
-
-
-
-</head>
-
-
-
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta http-equiv="Expires" content="The Fallen Immortals! A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
+        <title>The Fallen Immortals Help Site!</title>
+        <script src="ajax.js" type="text/javascript"></script>
+        <script src="dom.js" type="text/javascript"></script>
+        <script src="gamefunctions.js" type="text/javascript"></script>
+        <link href="main.css" rel="stylesheet" type="text/css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+    </head>
 <body>
-
-<table border="0" cellspacing="0" cellpadding="3" align="center" style="table-layout:fixed; background-color:#000000">
+<table border="0" cellspacing="0" cellpadding="3" align="center" style="table-layout:fixed; background-color: #000000">
 
     <col width="250px">
 
@@ -59,12 +42,12 @@ session_start();
                   <a href="">Blood/ Training</a><br />
                   <a href="">Chat</a><br /><br />
                 
-                Link6<br /> 
-                Link7<br /> 
-                Link8<br /> 
-                Link9<br /> 
+                Link6<br />
+                Link7<br />
+                Link8<br />
+                Link9<br />
                 Link10</p>
-<br /> 
+<br />
 
       </div>
     </td><td valign="top">

@@ -1,7 +1,23 @@
-<html><head><title>403 Permission Denied</title></head>
-<body bgcolor=white>
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>403 Permission Denied</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Language" content="en-US">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="author" content="Robert Hinson">
+        <meta name="description" content="403 Permission Denied - You do not have permission for this request.">
+        <meta name="keywords" content="403, permission denied, access denied, error">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+<body>
 <h1>403 Permission Denied</h1>
 
 You do not have permission for this request <!--#echo var="REQUEST_URI" -->
 
-</body></html>
+</body>
+</html>

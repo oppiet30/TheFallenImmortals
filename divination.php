@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$char = mysqli_fetch_assoc($getchar);
 $characterSpells = explode(', ', $char['spells']);
 
 $display = "<br /><br /><br />Welcome to Divination! You can learn all sorts of spells to either cast upon yourself or others. Everything comes at a price and wether you have the knowledge or resources will be up to you.";
@@ -26,10 +26,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 300 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid II!!!";
 			}
 			
@@ -45,10 +45,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid III!!!";
 			}
 			
@@ -64,10 +64,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 3000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid IV!!!";
 			}
 			
@@ -83,13 +83,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 10000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered First Aid!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}
@@ -107,10 +107,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 5000 && $char['gold'] < 1000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[1] = "Might";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Might!!!";
 			}
 			
@@ -126,10 +126,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 2500 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[1] = "Might II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Might II!!!";
 			}
 			
@@ -145,10 +145,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 7500 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[1] = "Might III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Might III!!!";
 			}
 			
@@ -164,10 +164,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 20000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[1] = "Might IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Might IV!!!";
 			}
 			
@@ -183,13 +183,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 50000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[1] = "Might V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Might V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered MIGHT!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}
@@ -204,10 +204,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 5000 && $char['gold'] < 1000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[2] = "Speed";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Speed!!!";
 			}
 			
@@ -223,10 +223,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 2500 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[2] = "Speed II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Speed II!!!";
 			}
 			
@@ -242,10 +242,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 7500 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[2] = "Speed III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Speed III!!!";
 			}
 			
@@ -261,10 +261,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 20000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[2] = "Speed IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Speed IV!!!";
 			}
 			
@@ -280,13 +280,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 50000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[2] = "Speed V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Speed V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered SPEED!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}
@@ -301,10 +301,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 5000 && $char['gold'] < 1000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[3] = "Constitution";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Constitution!!!";
 			}
 			
@@ -320,10 +320,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 2500 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[3] = "Constitution II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Constitution II!!!";
 			}
 			
@@ -339,10 +339,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 7500 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[3] = "Constitution III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Constitution III!!!";
 			}
 			
@@ -358,10 +358,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 20000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[3] = "Constitution IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Constitution IV!!!";
 			}
 			
@@ -377,13 +377,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 50000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[3] = "Constitution V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Constitution V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered CONSTITUTION!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}
@@ -398,10 +398,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 5000 && $char['gold'] < 1000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[4] = "Concentration";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Concentration!!!";
 			}
 			
@@ -417,10 +417,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 2500 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[4] = "Concentration II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Concentration II!!!";
 			}
 			
@@ -436,10 +436,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 7500 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[4] = "Concentration III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Concentration III!!!";
 			}
 			
@@ -455,10 +455,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 20000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[4] = "Concentration IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Concentration IV!!!";
 			}
 			
@@ -474,13 +474,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 50000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[4] = "Concentration V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Concentration V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered CONCENTRATION!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}
@@ -495,10 +495,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 5000 && $char['gold'] < 1000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'5000', gold=gold-'1000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[5] = "Intelligence";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Intelligence!!!";
 			}
 			
@@ -514,10 +514,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 2500 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[5] = "Intelligence II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Intelligence II!!!";
 			}
 			
@@ -533,10 +533,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 7500 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[5] = "Intelligence III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Intelligence III!!!";
 			}
 			
@@ -552,10 +552,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 20000 && $char['blood'] < 100000 && $char['gold'] < 75000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'100000', gold=gold-'75000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[5] = "Intelligence IV";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Intelligence IV!!!";
 			}
 			
@@ -571,13 +571,13 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 50000 && $char['blood'] < 250000 && $char['gold'] < 250000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query("UPDATE characters SET blood=blood-'250000', gold=gold-'250000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[5] = "Intelligence V";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned Intelligence V!!!";
 				$messagechat = "<strong><font color=\'#9932CC\'>".$char['username']." has mastered INTELLIGENCE!</font></strong><br />";
-				$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+				$query = mysqli_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			
 		}

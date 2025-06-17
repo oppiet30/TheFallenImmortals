@@ -1,176 +1,19 @@
 <?php error_reporting(E_ALL ^ E_DEPRECATED); ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
-<meta name="KEYWORDS" content="MMORPG; RPG; game; multiplayer; online; fun; free; games; role; playing; Neflaria; Shimlar; Race War Kingdoms; Dragon; Kingdoms; War; Immoral; Attack; Immoral Attack; Immortal; Domain; Heroes; Old; School; Lost; Runes; Fallen; Immortals; Fallen Immortals; Eternal; Wars; Eternal Wars;" >
-<meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta http-equiv="Content-Type" content="A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
+		<meta name="KEYWORDS" content="MMORPG; RPG; game; multiplayer; online; fun; free; games; role; playing; Neflaria; Shimlar; Race War Kingdoms; Dragon; Kingdoms; War; Immoral; Attack; Immoral Attack; Immortal; Domain; Heroes; Old; School; Lost; Runes; Fallen; Immortals; Fallen Immortals; Eternal; Wars; Eternal Wars;" >
+		<meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
 
-<title>The Fallen Immortals! Online Text-Based MMORPG</title>
-<script src="ajax.js" type="text/javascript"></script>
-<script src="dom.js" type="text/javascript"></script>
-<script src="functions.js" type="text/javascript"></script>
-<script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
-<script src="chatroomfunctions.js" type="text/javascript"></script>
-<style type="text/css">
-body {
-	background-attachment: scroll;
-	background-color: #000;
-	background-position: right;
-	text-align: center;
-}
-a {
-	color: #999;
-}
-#container {
-	position: relative;
-	left:-40px;
-	margin: 0 auto;
-	width: 1080px;
-}
-#top {
-	background-image: url(images/Untitled-1_01.gif);
-	height: 209px;
-	width: 1024px;
-	background-repeat: no-repeat;
-	background-color: #000;
-	visibility: visible;
-	position: absolute;
-	left: 40px;
-	top: 0px;
-}
-#leftSide {
-	background-image: url(images/Untitled-1_02.gif);
-	height: 422px;
-	width: 67px;
-	position: absolute;
-	top: 209px;
-	background-color: #000;
-	background-repeat: no-repeat;
-	left: 40px;
-}
-#content {
-	background-color: #000;
-	background-image: url(images/Untitled-1_03.png);
-	background-repeat: no-repeat;
-	position: absolute;
-	height: 367px;
-	width: 879px;
-	left: 107px;
-	top: 209px;
-}
-#rightSide {
-	background-color: #000;
-	background-image: url(images/Untitled-1_04.gif);
-	background-repeat: no-repeat;
-	position: absolute;
-	height: 422px;
-	width: 78px;
-	left: 986px;
-	top: 209px;
-}
-#bottom {
-	background-color: #000;
-	background-image: url(images/Untitled-1_05.gif);
-	background-repeat: no-repeat;
-	position: absolute;
-	height: 55px;
-	width: 879px;
-	left: 107px;
-	top: 576px;
-	font-family: "Times New Roman", Times, serif;
-	font-size: 14px;
-	font-style: normal;
-	color: #666;
-	text-align: center;
-}
-#homeLink {
-	background-image: url(images/homeLink.png);
-	background-repeat: no-repeat;
-	height: 25px;
-	width: 78px;
-	position: absolute;
-	left: 35px;
-	top: -10px;
-}
-#aboutLink {
-	background-image: url(images/aboutLink.png);
-	background-repeat: no-repeat;
-	height: 25px;
-	width: 90px;
-	position: absolute;
-	left: 130px;
-	top: -10px;
-}
-#updatesLink {
-	background-image: url(images/updatesLink.png);
-	background-repeat: no-repeat;
-	height: 25px;
-	width: 110px;
-	position: absolute;
-	left: 235px;
-	top: -10px;
-}
-#voteLink {
-	background-image: url(images/voteLink.png);
-	background-repeat: no-repeat;
-	height: 25px;
-	width: 75px;
-	position: absolute;
-	left: 360px;
-	top: -10px;
-}
-#contactLink {
-	background-image: url(images/contactLink.png);
-	background-repeat: no-repeat;
-	height: 25px;
-	width: 120px;
-	position: absolute;
-	left: 450px;
-	top: -10px;
-}
-#displayArea {
-	font-family: "Times New Roman", Times, serif;
-	font-size: 16px;
-	color: #CFB164;
-	left: 30px;
-	position: absolute;
-	top: 30px;
-	overflow: auto;
-	right: 20px;
-	bottom: 20px;
-	text-align: left;
-	font-weight: bold;
-	clip: rect(auto,auto,auto,auto);
-}
-#loginForm {
-	border-right-style: none;
-	padding-bottom: 30px;
-}
-#registerForm {
-	position: absolute;
-	left: 400px;
-	top: 0px;
-	border-left-style: dotted;
-	padding-left: 10px;
-}
-#activity {
-	position: absolute;
-	left: 855px;
-	top: 35px;
-	text-align: left;
-	background-image: url(images/activityBox.png);
-	background-repeat: no-repeat;
-	height: 75px;
-	width: 150px;
-	font-family: "Times New Roman", Times, serif;
-	font-size: 16px;
-	color: #CFB164;
-	padding-top: 13px;
-	padding-left: 10px;
-}
-</style>
+		<title>The Fallen Immortals! Online Text-Based MMORPG</title>
+		<link rel="stylesheet" type="text/css" href="css/index-style.css" />
+		<script src="js/ajax.js" type="text/javascript"></script>
+		<script src="js/dom.js" type="text/javascript"></script>
+		<script src="js/functions.js" type="text/javascript"></script>
+		<script src="js/homefunctions.js" type="text/javascript"></script>
+		<script src="js/gamefunctions.js" type="text/javascript"></script>
+		<script src="js/chatroomfunctions.js" type="text/javascript"></script>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -178,9 +21,12 @@ a {
   _gaq.push(['_trackPageview']);
 
   (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    var ga = document.createElement('script');
+	ga.type = 'text/javascript';
+	ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(ga, s);
   })();
 
 </script>
@@ -194,21 +40,21 @@ a {
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	      $dbhost = "localhost";
-		 $database = "homestead";
-		 $dbuser = "homestead";
-		 $dbpass = "secret";
+	    $dbhost = "localhost";
+		$database = "fallen";
+		$dbuser = "fallen";
+		$dbpass = "19KiNg73";
 
-		$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
-		mysql_select_db($database) or die("Where?");
+		$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
+		mysqli_select_db($login, $database) or die("Where?");
 		$time = time() - "600";
-		$findonline = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numonline = mysql_num_rows($findonline);
+		$findonline = mysqli_query($login, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numonline = mysqli_num_rows($findonline);
 		$time = time() - "604800";
-		$findweek = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numweek = mysql_num_rows($findweek);
-		$findregistered = mysql_query("SELECT * FROM characters");
-    	$numregistered = mysql_num_rows($findregistered);
+		$findweek = mysqli_query($login, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+    	$numweek = mysqli_num_rows($findweek);
+		$findregistered = mysqli_query($login, "SELECT * FROM characters");
+    	$numregistered = mysqli_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />
     Week: <?=$numweek?><br />

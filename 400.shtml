@@ -1,7 +1,15 @@
-<html><head><title>400 Bad Request</title></head>
-<body bgcolor=white>
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>400 Bad Request</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+<body>
 <h1>400 Bad Request</h1>
 
 Invalid request.
 
-</body></html>
+</body>
+</html>
