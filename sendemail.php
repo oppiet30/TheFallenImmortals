@@ -2,9 +2,9 @@
 
 include('db.php');
 
-$findCharacters = mysql_query("SELECT * FROM characters WHERE subscribed='Yes'");
+$findCharacters = mysqli_query("SELECT * FROM characters WHERE subscribed='Yes'");
 
-while($whom = mysql_fetch_assoc($findCharacters)){
+while($whom = mysqli_fetch_assoc($findCharacters)){
 
 	$to = $whom['email'];
 	$subject = "TFI Holiday Bonus time!";
@@ -13,8 +13,8 @@ while($whom = mysql_fetch_assoc($findCharacters)){
 	$headers .= 'MIME-Version: 1.0' . "\r\n";
 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	if($whom['activated'] != "Yes"){
-		$findActivationCode = mysql_query("SELECT * FROM activation WHERE username='".$whom['username']."'");
-		$open = mysql_fetch_assoc($findActivationCode);
+		$findActivationCode = mysqli_query("SELECT * FROM activation WHERE username='".$whom['username']."'");
+		$open = mysqli_fetch_assoc($findActivationCode);
 		$hmph = "<span class=\"remember\">It looks as though you have not activated your account yet. <a href=\"http://www.thefallenimmortals.com\activate.php?key=".$open['key']."\">Click here</a> (Or copy: http://www.thefallenimmortals.com\activate.php?key=".$open['key'].") to finish activation. If you have forgotten your password follow the forgotten password link on the home page after you have activated.</span>";
 	}else{
 		$hmph = "";
