@@ -199,7 +199,7 @@ a {
 		 $dbuser = "homestead";
 		 $dbpass = "secret";
 
-		$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
 		mysqli_select_db($database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
