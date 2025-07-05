@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 $display = "";
 $display .= "";
@@ -15,13 +15,13 @@ if($char['changeusername'] == "1"){
 
 if($char['life'] <= "0"){
 	$display .= "<input type=\'button\' id=\'ressurect\' value=\'Ressurect\' onClick=\'ressurectChar();\' />";
-	$updatemonster = mysqli_query("UPDATE characters SET enemylife='0' WHERE id='".$_SESSION['userid']."'");
+	$updatemonster = mysqli_query($conn, "UPDATE characters SET enemylife='0' WHERE id='".$_SESSION['userid']."'");
 	print("fillDiv('displayArea','".$display."');");
 	die();
 }
 $display .= "<center>";
 $display .="<select id=\'enemylist\'>";
-$getenemies = mysqli_query("SELECT * FROM enemies ORDER BY level");
+$getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
 while($enemies = mysqli_fetch_array($getenemies))
 {
     if($char['enemyid'] == $enemies['id'])
@@ -52,13 +52,13 @@ if($char['security'] == "1"){
     $display .= "</center><br /><br />";
 }
 
-$getSmallDemons = mysqli_query("SELECT * FROM demons WHERE health>'0' AND power='1'");
+$getSmallDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='1'");
 if(mysqli_num_rows($getSmallDemons) > "0" && $char['level'] < '10000'){
     while($demon = mysqli_fetch_array($getSmallDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";
     }
 }
-$getBigDemons = mysqli_query("SELECT * FROM demons WHERE health>'0' AND power='2'");
+$getBigDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='2'");
 if(mysqli_num_rows($getBigDemons) > "0"){
     while($demon = mysqli_fetch_array($getBigDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";

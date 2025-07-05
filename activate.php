@@ -13,14 +13,14 @@ include('db.php');
 <?php
 if($_GET['key'] != "")
 {
-	$findkey = mysqli_query("SELECT * FROM activation WHERE `key`='".$_GET['key']."'") or die(mysqli_error());
+	$findkey = mysqli_query($conn, "SELECT * FROM activation WHERE `key`='".$_GET['key']."'") or die(mysqli_error());
 	if(mysqli_num_rows($findkey) == "1")
 	{
 		$key = mysqli_fetch_assoc($findkey);
 		echo("<center>The account, ".$key['username']." has now been activated. You may now start playing immediately.<br /><a href='index.php'>Login Here</a></center>");
 
-		$deletekey = mysqli_query("DELETE FROM activation WHERE `key`='".$_GET['key']."'") or die(mysqli_error());
-		$activatechar = mysqli_query("UPDATE characters SET activated='Yes' WHERE username='".$key['username']."'");
+		$deletekey = mysqli_query($conn, "DELETE FROM activation WHERE `key`='".$_GET['key']."'") or die(mysqli_error());
+		$activatechar = mysqli_query($conn, "UPDATE characters SET activated='Yes' WHERE username='".$key['username']."'");
 	}
 	else
 	{

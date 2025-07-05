@@ -5,7 +5,7 @@ include('db.php');
 
 if($_POST['sellid'] != "Nothing"){
 	$data = "";
-	$querty = mysqli_query("SELECT * FROM inventory WHERE username='".$charname."' AND equipped='No' AND id='".$_POST['sellid']."'");
+	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='No' AND id='".$_POST['sellid']."'");
 	$inventory = mysqli_fetch_assoc($querty);
 	$data .= "<center><table>";
     $data .= "<tr><td>Type:</td><td>".$inventory['type']."</td></tr>";

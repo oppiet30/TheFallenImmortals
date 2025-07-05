@@ -2,22 +2,22 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 $charrel = explode(", ", $char['relativeLoc']);
 
-$findMap = mysqli_query("SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+$findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 $map = mysqli_fetch_assoc($findMap);
 
 	//////Map Filler
-		$findBagDrops = mysqli_query("SELECT * FROM bagdrop WHERE posx='".$char['posx']."' and posy='".$char['posy']."'");
+		$findBagDrops = mysqli_query($conn, "SELECT * FROM bagdrop WHERE posx='".$char['posx']."' and posy='".$char['posy']."'");
 		$bagLoc = "";
 		while($bag = mysqli_fetch_assoc($findBagDrops)){
 			$bagRel = explode(', ', $bag['relativeLoc']);
 			$bagLoc .= "<div alt=\"Bag Drop\" style=\'position:absolute;left:".$bagRel[0]."px;top:".$bagRel[1]."px;width:32px;height:32px;background-image:url(images/map/locations/bag.png);\' onclick=\'grabBag(".$bag['id'].")\'></div>";
 		}
 		print("fillDiv('bagLocations','".$bagLoc."');");
-		$findOre = mysqli_query("SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
+		$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 		$oreLoc = "";
 		while($ore = mysqli_fetch_assoc($findOre)){
 			$oreRel = explode(', ', $ore['relativeLoc']);
@@ -26,7 +26,7 @@ $map = mysqli_fetch_assoc($findMap);
 		print("fillDiv('mineLocations','".$oreLoc."');");
 		$playerFill = "";
 		$time = time() - "600";
-		$findPlayers = mysqli_query("SELECT * FROM characters WHERE posx='".$char['posx']."' and posy='".$char['posy']."' and username<>'".$char['username']."' and lastactive>'".$time."'");
+		$findPlayers = mysqli_query($conn, "SELECT * FROM characters WHERE posx='".$char['posx']."' and posy='".$char['posy']."' and username<>'".$char['username']."' and lastactive>'".$time."'");
 		while($player = mysqli_fetch_assoc($findPlayers)){
 			$playerRel = explode(', ', $player['relativeLoc']);
 			print("
@@ -37,7 +37,7 @@ $map = mysqli_fetch_assoc($findMap);
 		}
 		
 		$demonFill = "";
-		$findDemons = mysqli_query("SELECT * FROM demons WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."' and health>'0'");
+		$findDemons = mysqli_query($conn, "SELECT * FROM demons WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."' and health>'0'");
 		while($demon = mysqli_fetch_assoc($findDemons)){
 			$demonRel = explode(', ', $demon['relativeLoc']);
 			$demonFill .= "<div alt=\"Demon Spawn\" style=\'position:absolute;left:".$demonRel[0]."px;top:".$demonRel[1]."px;width:45px;height:45px;z-index:1;background-image:url(".$demon['image'].");\' onclick=\'fightDemon(".$demon['id'].")\'></div>";
@@ -50,13 +50,13 @@ $map = mysqli_fetch_assoc($findMap);
 		$xbottom = $char['posx'] - $char['foresight'];
 		$ytop = $char['posy'] + $char['foresight'];
 		$ybottom = $char['posy'] - $char['foresight'];
-		$grabBag = mysqli_query("SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
+		$grabBag = mysqli_query($conn, "SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
 		$bag = mysqli_fetch_assoc($grabBag);
 		$there = mysqli_num_rows($grabBag);
 		if($there > "0"){
 			$foresightBag = "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";
 		}
-		$findOre = mysqli_query("SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
+		$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
 		$there = mysqli_num_rows($findOre);
 		if($there > "0"){
 			$ore = mysqli_fetch_assoc($findOre);

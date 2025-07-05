@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 include('varset.php');
 
-$getguild = mysqli_query("SELECT * FROM guilds WHERE name='".$charguild."'");
+$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
 $guild = mysqli_fetch_assoc($getguild);
 if($charname == $guild['leader'] || $charname == $guild['coleader'])
 {

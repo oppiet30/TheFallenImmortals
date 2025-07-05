@@ -6,13 +6,13 @@ include('db.php');
 if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "){
 	
 	$data = "";
-	$querty = mysqli_query("SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
+	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
 	if(mysqli_num_rows($querty) != 1){
 		print("alert('This is not your item!');");
 		die();
 	}
 	$inventory = mysqli_fetch_assoc($querty);
-	$squerty = mysqli_query("SELECT * FROM forge WHERE username='".$char['username']."'");
+	$squerty = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
 	if(mysqli_num_rows($squerty) >= 4){
 		print("alert('You can only Forge four items at a time.');");
 		die();
@@ -32,8 +32,8 @@ if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "
 		print("alert('You cannot add items that have already been forged.');");
 		die();
 	}
-	$addToForge = mysqli_query("INSERT INTO `forge` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$inventory['username']."', '".$inventory['itemname']."', 'No', '".$inventory['levelreq']."', '".$inventory['type']."', '".$inventory['power']."', '".$inventory['strength']."', '".$inventory['dexterity']."', '".$inventory['endurance']."', '".$inventory['intelligence']."', '".$inventory['concentration']."', '".$inventory['value']."')");
-	$removeFromInventory = mysqli_query("DELETE FROM inventory WHERE id='".$inventory['id']."'");
+	$addToForge = mysqli_query($conn, "INSERT INTO `forge` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$inventory['username']."', '".$inventory['itemname']."', 'No', '".$inventory['levelreq']."', '".$inventory['type']."', '".$inventory['power']."', '".$inventory['strength']."', '".$inventory['dexterity']."', '".$inventory['endurance']."', '".$inventory['intelligence']."', '".$inventory['concentration']."', '".$inventory['value']."')");
+	$removeFromInventory = mysqli_query($conn, "DELETE FROM inventory WHERE id='".$inventory['id']."'");
 	
 	
 }else{

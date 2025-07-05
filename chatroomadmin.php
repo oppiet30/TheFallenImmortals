@@ -3,12 +3,12 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 
 if($char['username'] == "Ajezior" || $char['username'] == "Wtfheather"){
 	print "<table>";
-	$getmessages = mysqli_query("SELECT * FROM chatroom ORDER BY id DESC LIMIT 2500");
+	$getmessages = mysqli_query($conn, "SELECT * FROM chatroom ORDER BY id DESC LIMIT 2500");
 	while($messages = mysqli_fetch_array($getmessages))
     {
         $username = $messages['username'];

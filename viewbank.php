@@ -10,7 +10,7 @@ include('active.php');
 
 
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 
 $char = mysqli_fetch_assoc($getchar);
 

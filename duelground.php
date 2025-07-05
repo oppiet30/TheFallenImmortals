@@ -2,7 +2,7 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysqli_fetch_assoc($getchar);
 $data = "";
 
@@ -10,7 +10,7 @@ if($char['life'] > 0){
 	if($char['posx'] == "25" && $char['posy'] == "25"){
 		$data .= "You are in the Duel Ground! A field full of blood and guts... choose your oponent wisly.<br /><br />";
 		$time = time() - "600";
-		$findCharacters = mysqli_query("SELECT * FROM characters where level>'100' AND lastactive>'".$time."' AND username<>'".$char['username']."' ORDER BY level");
+		$findCharacters = mysqli_query($conn, "SELECT * FROM characters where level>'100' AND lastactive>'".$time."' AND username<>'".$char['username']."' ORDER BY level");
 		$data .= "<table>";
 		$data .= "<tr><td>Username</td><td colspan=\'2\'>Level</td></tr>";
 		while($duel = mysqli_fetch_array($findCharacters)){

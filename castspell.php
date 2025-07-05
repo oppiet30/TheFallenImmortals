@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error());
 $char = mysqli_fetch_assoc($getchar);
 
 $spell = explode(', ', $char['spells']);
@@ -36,15 +36,15 @@ if(isset($_POST['charge'])){
     		print"alert('Something went terribly wrong with your affinitys.');";
     	}
     	$updateBlessings = "".$blessing[0].", ".$blessing[1].", ".$blessing[2].", ".$blessing[3].", ".$blessing[4].", ".$blessing[5].", ".$blessing[6].", ".$blessing[7].", ".$blessing[8]."";
-    	$blessingsINmysql = mysqli_query("UPDATE characters SET blessing='".$updateBlessings."' WHERE id='".$_SESSION['userid']."'");
-    	$NoCharge = mysqli_query("UPDATE characters SET charge='None' WHERE id='".$_SESSION['userid']."'");
+    	$blessingsINmysql = mysqli_query($conn, "UPDATE characters SET blessing='".$updateBlessings."' WHERE id='".$_SESSION['userid']."'");
+    	$NoCharge = mysqli_query($conn, "UPDATE characters SET charge='None' WHERE id='".$_SESSION['userid']."'");
     	include('updatestats.php');
     }
 }
 elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[1] == $_POST['spellname'] || $spell[2] == $_POST['spellname'] || $spell[3] == $_POST['spellname'] || $spell[4] == $_POST['spellname'] || $spell[5] == $_POST['spellname'])
 {
     $spellName = $_POST['spellname'];
-    $getequip = mysqli_query("SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
+    $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
     if(mysqli_num_rows($getequip) > "0")
     {
         while($equip = mysqli_fetch_array($getequip))
@@ -64,7 +64,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	$blessingStats = explode(', ', $char['blessing']);
 	if (in_array('Constitution', $blessingStats)) 
 	{ 
-	    $result = mysqli_query("SELECT level FROM affinity WHERE name='Constitution'"); 
+	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution'"); 
 	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
@@ -79,7 +79,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	}
 	if (in_array('Constitution II', $blessingStats)) 
 	{ 
-	    $result = mysqli_query("SELECT level FROM affinity WHERE name='Constitution II'"); 
+	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution II'"); 
 	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
@@ -94,7 +94,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	}
 	if (in_array('Constitution III', $blessingStats)) 
 	{ 
-	    $result = mysqli_query("SELECT level FROM affinity WHERE name='Constitution III'"); 
+	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution III'"); 
 	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
@@ -109,7 +109,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	}
 	if (in_array('Constitution IV', $blessingStats)) 
 	{ 
-	    $result = mysqli_query("SELECT level FROM affinity WHERE name='Constitution IV'"); 
+	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution IV'"); 
 	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
@@ -124,7 +124,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	}
 	if (in_array('Constitution V', $blessingStats)) 
 	{ 
-	    $result = mysqli_query("SELECT level FROM affinity WHERE name='Constitution V'"); 
+	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution V'"); 
 	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
@@ -152,8 +152,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend/10);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 50;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -170,8 +170,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend/8);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 300;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -188,8 +188,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend/6);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 1000;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -206,8 +206,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend/4);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 3000;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -224,8 +224,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend/2);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 10000;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -242,8 +242,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
             $charHeal = floor($charend);
             $charHeal = $char['life'] + $charHeal;
             $charMana = $char['mana'] - 10000;
-            $healCharacter = mysqli_query("UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
-            $healCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET life='".$charHeal."' WHERE username='".$char['username']."'");
+            $healCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('You have been healed!')";
         }
         
@@ -255,8 +255,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 1000;
             $charge = "Might";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Might. Choose an open affinity box to cast Might upon yourself.');";
             include('updatestats.php');
         }
@@ -269,8 +269,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 2500;
             $charge = "Might II";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Might II. Choose an open affinity box to cast Might II upon yourself.');";
             include('updatestats.php');
         }
@@ -283,8 +283,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 7500;
             $charge = "Might III";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Might III. Choose an open affinity box to cast Might III upon yourself.');";
             include('updatestats.php');
         }
@@ -297,8 +297,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 20000;
             $charge = "Might IV";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Might IV. Choose an open affinity box to cast Might IV upon yourself.');";
             include('updatestats.php');
         }
@@ -311,8 +311,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 50000;
             $charge = "Might V";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Might V. Choose an open affinity box to cast Might V upon yourself.');";
             include('updatestats.php');
         }
@@ -325,8 +325,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 1000;
             $charge = "Speed";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Speed. Choose an open affinity box to cast Speed upon yourself.');";
             include('updatestats.php');
         }
@@ -339,8 +339,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 2500;
             $charge = "Speed II";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Speed II. Choose an open affinity box to cast Speed II upon yourself.');";
             include('updatestats.php');
         }
@@ -353,8 +353,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 7500;
             $charge = "Speed III";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Speed III. Choose an open affinity box to cast Speed III upon yourself.');";
             include('updatestats.php');
         }
@@ -367,8 +367,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 20000;
             $charge = "Speed IV";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Speed IV. Choose an open affinity box to cast Speed IV upon yourself.');";
             include('updatestats.php');
         }
@@ -381,8 +381,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 50000;
             $charge = "Speed V";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Speed V. Choose an open affinity box to cast Speed V upon yourself.');";
             include('updatestats.php');
         }
@@ -395,8 +395,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 1000;
             $charge = "Constitution";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Constitution. Choose an open affinity box to cast Constitution upon yourself.');";
             include('updatestats.php');
         }
@@ -409,8 +409,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 2500;
             $charge = "Constitution II";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Constitution II. Choose an open affinity box to cast Constitution II upon yourself.');";
             include('updatestats.php');
         }
@@ -423,8 +423,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 7500;
             $charge = "Constitution III";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Constitution III. Choose an open affinity box to cast Constitution III upon yourself.');";
             include('updatestats.php');
         }
@@ -437,8 +437,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 20000;
             $charge = "Constitution IV";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Constitution IV. Choose an open affinity box to cast Constitution IV upon yourself.');";
             include('updatestats.php');
         }
@@ -451,8 +451,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 50000;
             $charge = "Constitution V";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Constitution V. Choose an open affinity box to cast Constitution V upon yourself.');";
             include('updatestats.php');
         }
@@ -465,8 +465,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 1000;
             $charge = "Concentration";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Concentration. Choose an open affinity box to cast Concentration upon yourself.');";
             include('updatestats.php');
         }
@@ -479,8 +479,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 2500;
             $charge = "Concentration II";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Concentration II. Choose an open affinity box to cast Concentration II upon yourself.');";
             include('updatestats.php');
         }
@@ -493,8 +493,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 7500;
             $charge = "Concentration III";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Concentration III. Choose an open affinity box to cast Concentration III upon yourself.');";
             include('updatestats.php');
         }
@@ -507,8 +507,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 20000;
             $charge = "Concentration IV";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Concentration IV. Choose an open affinity box to cast Concentration IV upon yourself.');";
             include('updatestats.php');
         }
@@ -521,8 +521,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 50000;
             $charge = "Concentration V";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Concentration V. Choose an open affinity box to cast Concentration V upon yourself.');";
             include('updatestats.php');
         }
@@ -535,8 +535,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 1000;
             $charge = "Intelligence";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Intelligence. Choose an open affinity box to cast Intelligence upon yourself.');";
             include('updatestats.php');
         }
@@ -549,8 +549,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 2500;
             $charge = "Intelligence II";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Intelligence II. Choose an open affinity box to cast Intelligence II upon yourself.');";
             include('updatestats.php');
         }
@@ -563,8 +563,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 7500;
             $charge = "Intelligence III";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Intelligence III. Choose an open affinity box to cast Intelligence III upon yourself.');";
             include('updatestats.php');
         }
@@ -577,8 +577,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 20000;
             $charge = "Intelligence IV";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Intelligence IV. Choose an open affinity box to cast Intelligence IV upon yourself.');";
             include('updatestats.php');
         }
@@ -591,8 +591,8 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
         }else{
             $charMana = $char['mana'] - 50000;
             $charge = "Intelligence V";
-            $castCharacter = mysqli_query("UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
-            $castCharacter = mysqli_query("UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET charge='".$charge."' WHERE username='".$char['username']."'");
+            $castCharacter = mysqli_query($conn, "UPDATE characters SET mana='".$charMana."' WHERE username='".$char['username']."'");
             print"alert('Your have charged up Intelligence V. Choose an open affinity box to cast Intelligence V upon yourself.');";
             include('updatestats.php');
         }
