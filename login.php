@@ -19,14 +19,14 @@ $password = murder($_POST['userPass']);
 $getcharold = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$passwordold."' ");
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$password."' OR temppass='".$password."'");
 
-if(mysql_num_rows($getcharold) === 1)
+if(mysqli_num_rows($getcharold) === 1)
 {
 	$char = mysql_fetch_assoc($getcharold);
 	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
 	$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$password."' WHERE username='".$char['username']."'");
 	print("fillDiv('displayArea','".$updatePass."');");	
 }
-elseif(mysql_num_rows($getchar) === 1)
+elseif(mysqli_num_rows($getchar) === 1)
 {
 	$char = mysql_fetch_assoc($getchar);
 	$time = time() - "700";
@@ -42,7 +42,7 @@ elseif(mysql_num_rows($getchar) === 1)
         $char = mysql_fetch_assoc($getchar);
     }
     $getbanned = mysqli_query($conn, "SELECT * FROM banned WHERE ip='".$char['ip']."'");
-    if(mysql_num_rows($getbanned) == "1")
+    if(mysqli_num_rows($getbanned) == "1")
     {
         print("alert('You are banned.');");
         print("window.location = 'http://www.thefallenimmortals.com/';");

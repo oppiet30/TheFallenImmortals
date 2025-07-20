@@ -11,7 +11,7 @@ $charclass = $char['class'];
 
 
 $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
-if(mysql_num_rows($getequip) > "0")
+if(mysqli_num_rows($getequip) > "0")
 {
     while($equip = mysql_fetch_array($getequip))
     {
@@ -500,18 +500,18 @@ $ytop = $char['posy'] + $char['foresight'];
 $ybottom = $char['posy'] - $char['foresight'];
 $grabBag = mysqli_query($conn, "SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
 $bag = mysql_fetch_assoc($grabBag);
-$there = mysql_num_rows($grabBag);
+$there = mysqli_num_rows($grabBag);
 if($there > "0"){
 	$scavenge .= "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";
 }
 $findOre = mysqli_query($conn, "SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
-$there = mysql_num_rows($findOre);
+$there = mysqli_num_rows($findOre);
 if($there > "0"){
 	$ore = mysql_fetch_assoc($findOre);
 	$scavenge .= "-An Ore was spotted at ".$ore['xpos'].",".$ore['ypos']."";
 }
 $findLogs2 = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
-$findLogs1 = mysql_num_rows($findLogs2);
+$findLogs1 = mysqli_num_rows($findLogs2);
 if($findLogs1 > 0){
 	$scavenge .= "<p style=\'color: yellow;\'>";
 	while($scavenger = mysql_fetch_assoc($findLogs2)){

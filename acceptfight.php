@@ -6,7 +6,7 @@ $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['
 $char = mysql_fetch_assoc($getchar);
 
 $findDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE `tousername`='".$char['username']."'");
-if(mysql_num_rows($findDuel) == 0){
+if(mysqli_num_rows($findDuel) == 0){
 	print("alert('No duel to Accept.');");
 }else{
 	$date = time();

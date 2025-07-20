@@ -203,12 +203,12 @@ a {
 		mysql_select_db($database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numonline = mysql_num_rows($findonline);
+    	$numonline = mysqli_num_rows($findonline);
 		$time = time() - "604800";
 		$findweek = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numweek = mysql_num_rows($findweek);
+    	$numweek = mysqli_num_rows($findweek);
 		$findregistered = mysqli_query($conn, "SELECT * FROM characters");
-    	$numregistered = mysql_num_rows($findregistered);
+    	$numregistered = mysqli_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />
     Week: <?=$numweek?><br />

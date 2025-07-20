@@ -12,7 +12,7 @@ if(isset($_POST['guildname']) && $_POST['guildname'] != "Select Guild")
 	$guild = mysql_fetch_assoc($getguild);
 
 	$getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$guild['name']."'");
-	$members = mysql_num_rows($getmembers);
+	$members = mysqli_num_rows($getmembers);
 
 	while($member = mysql_fetch_array($getmembers))
 	{

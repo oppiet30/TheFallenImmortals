@@ -3,7 +3,7 @@ include('db.php');
 
 $email = $_GET['email'];
 $checkEmail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$email."'");
-$emailThere = mysql_num_rows($checkEmail);
+$emailThere = mysqli_num_rows($checkEmail);
 
 if($emailThere > 0 && $email != "Alex.Jezior@gmail.com"){
 	$whom = mysql_fetch_assoc($checkEmail);

@@ -52,7 +52,7 @@ if($username != NULL && $username != "")
 
 	    $getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
 
-	    if(mysql_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
+	    if(mysqli_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
 
 	    {
 
@@ -138,7 +138,7 @@ if($_POST['userEmail'] != NULL)
 
     {
 
-        if(mysql_num_rows($getemail) >= "1"){
+        if(mysqli_num_rows($getemail) >= "1"){
 
             $message .= "Email: <font color=\'#DD0000\'>In Use</font><br />";
 
@@ -182,7 +182,7 @@ if($comrade != NULL)
 
     $getcomrade = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$comrade."'");
 
-    if(mysql_num_rows($getcomrade) == "1")    //Username does not exist
+    if(mysqli_num_rows($getcomrade) == "1")    //Username does not exist
 
     {
 

@@ -7,7 +7,7 @@ include('active.php');
 
 	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
 	$data = "<center><b>Forge</b><br />";
-	if(mysql_num_rows($findForgeItems) == "4"){
+	if(mysqli_num_rows($findForgeItems) == "4"){
 		$data .= "<strong>Ore:</strong> <select id=\'ore\' onchange=\'getResults()\'>";
 		$data .= "<option>Nothing</option>";
 		$data .= "<option value=\'copper\'>Copper</option>";
@@ -17,7 +17,7 @@ include('active.php');
 	}else{
 		$data .= "<strong>Item:</strong> <select id=\'item\' onchange=\'openItem()\'>";
 		$data .= "<option>Nothing</option>";
-		if(mysql_num_rows($findForgeItems) > "0"){
+		if(mysqli_num_rows($findForgeItems) > "0"){
 			$forgeType = mysql_fetch_assoc($findForgeItems);
 			$findItems = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No' AND type='".$forgeType['type']."'");
 		}else{
@@ -37,7 +37,7 @@ include('active.php');
 	$data .= "<td width=\'130px\' height=\'150px\'><div id=\'itemDescription\'></div></td>";
 	$data .= "<td width=\'400px\'><div id=\'inForge\'>";
 	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysql_num_rows($findForgeItems) == "0"){
+	if(mysqli_num_rows($findForgeItems) == "0"){
 		$data .= "No items in the forge.";
 	}else{
 		$data .= "<table>";

@@ -13,7 +13,7 @@ if(!ctype_digit($itemid)){
 	die();
 }
 $getitem = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$itemid."' AND username='".$char['username']."'");
-if(mysql_num_rows($getitem) == "1")    //Item exists
+if(mysqli_num_rows($getitem) == "1")    //Item exists
 {
     $item = mysql_fetch_assoc($getitem);
     if($charname == $item['username'])    //Item belongs to manipulating player

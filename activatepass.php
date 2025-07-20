@@ -2,7 +2,7 @@
 include('db.php');
 
 $getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewpassword WHERE username='".$_GET['username']."' AND verificationcode='".$_GET['activationcode']."'");
-$getCodeNumRows = mysql_num_rows($getUserForChange);
+$getCodeNumRows = mysqli_num_rows($getUserForChange);
 if($getCodeNumRows > "0"){
 	
 	$verify = mysql_fetch_assoc($getUserForChange);

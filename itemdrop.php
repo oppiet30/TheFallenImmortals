@@ -265,7 +265,7 @@ if($itemname == ""){
 	$value = ("10" * ($strbon + $dexbon + $endbon + $intbon + $conbon));
 	$itemname = $char['username']." ".$itemname."";
 	$findInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."'");
-	$inventoryFull = mysql_num_rows($findInventory);
+	$inventoryFull = mysqli_num_rows($findInventory);
 	if($inventoryFull >= $char['backpacksize']){
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />But your backpack is already holding it\'s max limit of ".$char['backpacksize']." items. So the item was lost.<br />";
 		$activeTime = time();

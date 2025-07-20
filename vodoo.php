@@ -14,7 +14,7 @@ if($char['vodooattempt'] == $char['vodoomax']){
 elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
 {
     $getsteal = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$whom."'");
-    if(mysql_num_rows($getsteal) == "1")   //check if the character exist
+    if(mysqli_num_rows($getsteal) == "1")   //check if the character exist
     {
         $stealchar = mysql_fetch_assoc($getsteal);
         if($char['username'] != $stealchar['username'])
@@ -69,7 +69,7 @@ elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
 elseif($_POST['what'] == "StealBlood" && $_POST['whom'] != NULL)
 {
     $getsteal = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$whom."'");
-    if(mysql_num_rows($getsteal) == "1")   //check if the character exist
+    if(mysqli_num_rows($getsteal) == "1")   //check if the character exist
     {
         $stealchar = mysql_fetch_assoc($getsteal);
         if($char['username'] != $stealchar['username'])

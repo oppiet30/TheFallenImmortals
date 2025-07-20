@@ -30,7 +30,7 @@ if($char['guild'] != "None")
 
     $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$char['guild']."'");
 
-    $members = mysql_num_rows($getmembers);
+    $members = mysqli_num_rows($getmembers);
 
 
 
@@ -293,7 +293,7 @@ if($char['guild'] != "None")
 
 }
 
-elseif(mysql_num_rows($getapplication) == "1")
+elseif(mysqli_num_rows($getapplication) == "1")
 
 {
 

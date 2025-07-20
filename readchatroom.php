@@ -63,7 +63,7 @@ $finder = "SELECT * FROM `chatroommessage` WHERE `to`='".$char['username']."'";
 
 $findOfflineMessages = mysqli_query($conn, $finder);
 
-if(mysql_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
+if(mysqli_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
 	$message = "<b><u>Messages while you were offline:</u></b><br />";
 
@@ -185,7 +185,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."' ORDER BY userlevel, id");
 
-    $numonline = mysql_num_rows($findonline);
+    $numonline = mysqli_num_rows($findonline);
 
 
 

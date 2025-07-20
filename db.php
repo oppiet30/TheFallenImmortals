@@ -6,7 +6,7 @@ $database = "homestead";
 $dbuser = "homestead";
 $dbpass = "secret";
 
-$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
 mysql_select_db($database) or die("Where?");
 include('varset.php');
 
@@ -16,7 +16,7 @@ $date = time();
 //Auto Administration
 //Banned
 $getbanned = mysqli_query($conn, "SELECT * FROM banned WHERE ip='".$charip."'");
-if(mysql_num_rows($getbanned) == "1")
+if(mysqli_num_rows($getbanned) == "1")
 {
     print("alert('You are banned.');");
     print("window.location = 'http://fallenimmortals.old/';");

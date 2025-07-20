@@ -172,7 +172,7 @@ if($enemylife > "0"){
             if($charguild != "None")
             {
 		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl * ("1" + ($guild['exp'] / "100")) / "1.8"));
                 $enemygold = floor("15" * $gettingMR *("1" + ($guild['gold'] / "100")));
 				$tax = ($guild['tax'] / "100");
@@ -185,7 +185,7 @@ if($enemylife > "0"){
             else
             {
 		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl / "1.8"));   //1.5
                 $enemygold = floor("15" * $gettingMR);  //
             }
@@ -330,7 +330,7 @@ if($enemylife > "0"){
 			$findAdventure = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."' AND location='".$location."' AND monster='".$enemyname."'");
 			$advent = mysql_fetch_assoc($findAdventure);
 			$collect = explode("/", $advent['collect']);
-			if(mysql_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
+			if(mysqli_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
 				$drop = mt_rand("1","100000");
 				$dropNeeded = 1000 - $char['scavenges'];
 				if($drop <= $dropNeeded)    //Adventure item drop

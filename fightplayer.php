@@ -10,7 +10,7 @@ $char = mysql_fetch_assoc($getchar);
 $date = time();
 
 $findDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE `tousername`='".$char['username']."' OR `fromusername`='".$char['username']."'");
-if(mysql_num_rows($findDuel) == 0){
+if(mysqli_num_rows($findDuel) == 0){
 	print("alert('You are not in a duel!');");
 }else{
 	$duel = mysql_fetch_assoc($findDuel);

@@ -50,11 +50,11 @@ if(!isset($_POST['direction'])){
 		$relLoc[1] -= 16;
 		
 		//Finding Ore collision
-		if(mysql_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
 			die();
 		}
 		//Finding Demon collision
-		if(mysql_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
 			die();
 		}
 		if($relLoc[1]<0){
@@ -82,11 +82,11 @@ if(!isset($_POST['direction'])){
 		
 		$relLoc[0] -= 16;
 		
-		if(mysql_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
 			die();
 		}
 		//Finding Demon collision
-		if(mysql_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
 			die();
 		}
 		if($relLoc[0]<0){
@@ -113,11 +113,11 @@ if(!isset($_POST['direction'])){
 		
 		$relLoc[0] += 16;
 		
-		if(mysql_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
 			die();
 		}
 		//Finding Demon collision
-		if(mysql_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
 			die();
 		}
 		if($relLoc[0]>1018){
@@ -145,11 +145,11 @@ if(!isset($_POST['direction'])){
 	
 		$relLoc[1] += 16;
 		
-		if(mysql_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
 			die();
 		}
 		//Finding Demon collision
-		if(mysql_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
 			die();
 		}
 		if($relLoc[1] > 502){

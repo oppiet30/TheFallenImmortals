@@ -11,7 +11,7 @@ $current = time();
 if($char['lastmine']+1 < $current){
 	
 	$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos=".$char['posx']." AND ypos=".$char['posy']."");
-	$there = mysql_num_rows($findOre);
+	$there = mysqli_num_rows($findOre);
 	if($there > "0"){
 		$ore = mysql_fetch_assoc($findOre);
 		$oreRel = explode(', ', $ore['relativeLoc']);

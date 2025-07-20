@@ -53,13 +53,13 @@ if($char['security'] == "1"){
 }
 
 $getSmallDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='1'");
-if(mysql_num_rows($getSmallDemons) > "0" && $char['level'] < '10000'){
+if(mysqli_num_rows($getSmallDemons) > "0" && $char['level'] < '10000'){
     while($demon = mysql_fetch_array($getSmallDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";
     }
 }
 $getBigDemons = mysqli_query($conn, "SELECT * FROM demons WHERE health>'0' AND power='2'");
-if(mysql_num_rows($getBigDemons) > "0"){
+if(mysqli_num_rows($getBigDemons) > "0"){
     while($demon = mysql_fetch_array($getBigDemons)){
         $display .= "".$demon['name']."/ Health:".number_format($demon['health'])." (".$demon['xpos'].", ".$demon['ypos'].")<br />";
     }

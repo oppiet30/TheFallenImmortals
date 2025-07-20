@@ -46,7 +46,7 @@ elseif(isset($_POST['page']) && $_POST['page'] == "sellInTrade")
 
     $findInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
 
-    if(mysql_num_rows($findInventory) > 0)
+    if(mysqli_num_rows($findInventory) > 0)
 
     {
 
@@ -90,7 +90,7 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         $findItemInInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$sellingID."' AND username='".$char['username']."'")or die("alert('Cannot locate item.');");
 
-        if(mysql_num_rows($findItemInInventory) < "0"){
+        if(mysqli_num_rows($findItemInInventory) < "0"){
 
         	print("alert('Cannot locate the item in your inventory. This has been logged.');");
 
@@ -170,7 +170,7 @@ elseif(isset($_POST['buyingid']))
 
     $findItemInTrade = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$buyingID."'")or die("alert('Cannot locate item.');");
 
-    if(mysql_num_rows($findItemInTrade) < "0"){
+    if(mysqli_num_rows($findItemInTrade) < "0"){
 
         print("alert('Cannot locate the item in Trade. Maybe it was already sold. This has been logged.');");
 
@@ -256,7 +256,7 @@ elseif(isset($_POST['removeid']))
 
     $findItemInTrade = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$removeID."' AND fromplayer='".$char['username']."'")or die("alert('Cannot locate item.');");
 
-    if(mysql_num_rows($findItemInTrade) < "0"){
+    if(mysqli_num_rows($findItemInTrade) < "0"){
 
         print("alert('Cannot locate the item in Trade. It may have already been sold. This has been logged.');");
 

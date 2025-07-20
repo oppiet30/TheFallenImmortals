@@ -22,7 +22,7 @@ while($userMana = mysql_fetch_array($getUsers)){
 
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='Yes'");
 
-    if(mysql_num_rows($getequip) > "0")
+    if(mysqli_num_rows($getequip) > "0")
 
     {
 

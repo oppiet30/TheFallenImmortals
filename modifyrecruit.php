@@ -37,10 +37,10 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		{
 			$username = $_POST['username'];
 			$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='None'");
-			if(mysql_num_rows($getuser) == "1")
+			if(mysqli_num_rows($getuser) == "1")
 			{
 				$getapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$username."'");
-				if(mysql_num_rows($getapplication) == "1")
+				if(mysqli_num_rows($getapplication) == "1")
 				{
 					$updateapplicant = mysqli_query($conn, "UPDATE characters SET guild='".$guild['name']."' WHERE username='".$username."'");
 					$deleteapplication = mysqli_query($conn, "DELETE FROM applications WHERE username='".$username."'");
@@ -54,12 +54,12 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		{
 			$username = $_POST['username'];
 			$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-			if(mysql_num_rows($getuser) == "1")
+			if(mysqli_num_rows($getuser) == "1")
 			{
 				if($username != $guild['leader'])
 				{
 					$getmember = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
-					if(mysql_num_rows($getmember) == "1")
+					if(mysqli_num_rows($getmember) == "1")
 					{
 						$updateapplicant = mysqli_query($conn, "UPDATE characters SET guild='None' WHERE username='".$username."'");
 						if($username == $guild['coleader'])
@@ -79,7 +79,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 	{
 		$username = $_POST['username'];
 		$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-		if(mysql_num_rows($getuser) == "1")
+		if(mysqli_num_rows($getuser) == "1")
 		{
 			if($charname == $guild['leader'])
 			{
@@ -108,7 +108,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 	{
 		$username = $_POST['username'];
 		$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-		if(mysql_num_rows($getuser) == "1")
+		if(mysqli_num_rows($getuser) == "1")
 		{
 			if($charname == $guild['leader'])
 			{

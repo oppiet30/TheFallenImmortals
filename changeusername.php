@@ -26,7 +26,7 @@ if($_POST['newUsername'] != NULL || $_POST['newUsername'] != "" && $char['change
 
 	    $getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
 
-	    if(mysql_num_rows($getuser) != "1")    //Username does not exist
+	    if(mysqli_num_rows($getuser) != "1")    //Username does not exist
 
 	    {
 
@@ -34,7 +34,7 @@ if($_POST['newUsername'] != NULL || $_POST['newUsername'] != "" && $char['change
 
 	        $guildLeaderCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE leader='".$char['username']."'");
 
-	        if(mysql_num_rows($guildLeaderCheck) == "1"){
+	        if(mysqli_num_rows($guildLeaderCheck) == "1"){
 
 	        	$updateGuildLeader = mysqli_query($conn, "UPDATE guilds SET leader='".$username."' WHERE leader='".$char['username']."'");
 
@@ -42,7 +42,7 @@ if($_POST['newUsername'] != NULL || $_POST['newUsername'] != "" && $char['change
 
 	        $guildColeaderCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE coleader='".$char['username']."'");
 
-	        if(mysql_num_rows($guildColeaderCheck) == "1"){
+	        if(mysqli_num_rows($guildColeaderCheck) == "1"){
 
 	        	$updateGuildColeader = mysqli_query($conn, "UPDATE guilds SET coleader='".$username."' WHERE coleader='".$char['username']."'");
 
@@ -50,7 +50,7 @@ if($_POST['newUsername'] != NULL || $_POST['newUsername'] != "" && $char['change
 
 	        $guildCaptianCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE captian='".$char['username']."'");
 
-	        if(mysql_num_rows($guildCaptianCheck) == "1"){
+	        if(mysqli_num_rows($guildCaptianCheck) == "1"){
 
 	        	$updateGuildCaptian = mysqli_query($conn, "UPDATE guilds SET captian='".$username."' WHERE captian='".$char['username']."'");
 

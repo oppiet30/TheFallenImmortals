@@ -22,7 +22,7 @@ if(isset($_POST['toUsername']) && isset($_POST['giveAmount']))
 			die();
 		}else{
 			$findCharacter = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$to."'");
-			$countNumRows = mysql_num_rows($findCharacter);
+			$countNumRows = mysqli_num_rows($findCharacter);
 			if($countNumRows == 0)
 			{
 				$display .= "<center><font color=\'red\'>No such character.</font></center>";

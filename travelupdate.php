@@ -52,12 +52,12 @@ $map = mysql_fetch_assoc($findMap);
 		$ybottom = $char['posy'] - $char['foresight'];
 		$grabBag = mysqli_query($conn, "SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
 		$bag = mysql_fetch_assoc($grabBag);
-		$there = mysql_num_rows($grabBag);
+		$there = mysqli_num_rows($grabBag);
 		if($there > "0"){
 			$foresightBag = "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";
 		}
 		$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
-		$there = mysql_num_rows($findOre);
+		$there = mysqli_num_rows($findOre);
 		if($there > "0"){
 			$ore = mysql_fetch_assoc($findOre);
 			$foresightOre = "-An Ore was spotted at ".$ore['xpos'].",".$ore['ypos']."<br />";

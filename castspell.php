@@ -45,7 +45,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 {
     $spellName = $_POST['spellname'];
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
-    if(mysql_num_rows($getequip) > "0")
+    if(mysqli_num_rows($getequip) > "0")
     {
         while($equip = mysql_fetch_array($getequip))
         {

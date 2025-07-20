@@ -10,7 +10,7 @@ if($_POST['name'] != Null){
     $char = mysql_fetch_assoc($getchar);
     
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$name."' AND equipped='Yes'");
-    if(mysql_num_rows($getequip) > "0")
+    if(mysqli_num_rows($getequip) > "0")
     {
         while($equip = mysql_fetch_array($getequip))
         {
@@ -175,7 +175,7 @@ $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE status='Normal' A
 while($char = mysql_fetch_array($getchar))
 {
 	$getcharRank = mysqli_query($conn, "SELECT * FROM characters WHERE level>'".$char['level']."'");
-	$charRank = mysql_num_rows($getcharRank);
+	$charRank = mysqli_num_rows($getcharRank);
 	$charRank = $charRank + 1;
     $name = $char['username'];
     $level = $char['level'];

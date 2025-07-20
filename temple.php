@@ -97,7 +97,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
             
 
-            $numberBlessings = mysql_num_rows(mysqli_query($conn, "SELECT * FROM `affinity` WHERE name<>'None' AND name<>'Buy'"));             
+            $numberBlessings = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM `affinity` WHERE name<>'None' AND name<>'Buy'"));             
 
             if($random01 == 1 && $char['affinitys'] >= '1'){
 
@@ -442,7 +442,7 @@ else
 		}
 		
 		$findDonations = mysqli_query($conn, "SELECT * FROM donationpot WHERE username='".$char['username']."'");
-		$timesDonated = mysql_num_rows($findDonations);
+		$timesDonated = mysqli_num_rows($findDonations);
 
         print("fillDiv('displayArea','<center><strong>Donation Temple</strong><br /><br />Your prayers are much needed since this evil has fallen upon us.<br /> As you may have already noticed, the Temple is falling apart and we are trying to rebuild. The only problem though is the lack of donations to hire soneone to do some repairs around here.<br />Would you be so kind?<br />Total Donations: ".number_format($temple['pot'])."<br />Times donated this month: ".$timesDonated."<br />".$newb."<br />NOTE: <br />-Under level 250 donate for blessings for free<br />-250,000 gold for chance to get Blessings<br />-5,000,000 gold to recieve 1 Nobility Point<br />-Every time you donate, get a ticket towards winning the donation pot at the end of the month.</center>');");
 

@@ -10,7 +10,7 @@ $data = "";
 if($_POST['enemyid'] != NULL){
 	
 	$lookforScavenger = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
-	if(mysql_num_rows($lookforScavenger) >= 1){
+	if(mysqli_num_rows($lookforScavenger) >= 1){
 		print("alert('You can only accept one adventures at a time!');");
 		die();
 	}
@@ -45,7 +45,7 @@ if($_POST['enemyid'] != NULL){
 	$data .= "<center>Good evening friend,<br />I am the Scavenger, you shall not call me anything other. I am always needing supplies for my colony, but you will never find me there. My locations are secret to keep my people alive. All you need to do is collect supplies for me and in exchange I will pay you for your time.</center>";
 	
 	$openScavenger = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
-	$watchaGot = mysql_num_rows($openScavenger);
+	$watchaGot = mysqli_num_rows($openScavenger);
 	if($watchaGot < 5){
 		$data .= "<center><select id=\'enemylist\'>";
 		$getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");

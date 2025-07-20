@@ -8,7 +8,7 @@ $char = mysql_fetch_assoc($getchar);
 
 if(isset($_POST['demonid'])){
     $findDemon = mysqli_query($conn, "SELECT * FROM demons WHERE id='".$_POST['demonid']."'");
-    if(mysql_num_rows($findDemon) >= "1"){
+    if(mysqli_num_rows($findDemon) >= "1"){
         $demon = mysql_fetch_assoc($findDemon);
 		if($char['level'] >= "10000" && $demon['power'] == "1"){
 			die("alert('After level 10,000, you may only kill Overlord Demons.');");

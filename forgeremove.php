@@ -7,7 +7,7 @@ if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "
 	
 	$data = "";
 	$querty = mysqli_query($conn, "SELECT * FROM forge WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
-	if(mysql_num_rows($querty) != 1){
+	if(mysqli_num_rows($querty) != 1){
 		print("alert('This is not your item!');");
 		die();
 	}

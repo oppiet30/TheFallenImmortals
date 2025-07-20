@@ -12,7 +12,7 @@ include('db.php');
 	}
 	$data .= "<option value=\'Nothing\'><<<<<-UNEQUIPPED->>>>></option>";
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Weapon' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'>------Weapon------</option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$power = $inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence'];
@@ -20,7 +20,7 @@ include('db.php');
 		}
 	}
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Armour' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'>------Armour------</option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$power = $inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence'];
@@ -28,7 +28,7 @@ include('db.php');
 		}
 	}
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Gloves' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'>------Gloves------</option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$power = $inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence'];
@@ -36,7 +36,7 @@ include('db.php');
 		}
 	}
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Leggings' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'>------Leggings------</option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$power = $inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence'];
@@ -44,7 +44,7 @@ include('db.php');
 		}
 	}
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Boots' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'>------Boots------</option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$power = $inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence'];
@@ -52,7 +52,7 @@ include('db.php');
 		}
 	}
 	$getinventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND  equipped='No' AND type='Item' ORDER BY type");
-	if(mysql_num_rows($getinventory) >= 1){
+	if(mysqli_num_rows($getinventory) >= 1){
 		$data .= "<option value=\'Nothing\'><<<<<-ITEMS->>>>></option>";
 		while($inventory = mysql_fetch_array($getinventory)){
 			$data .= "<option value=\'".$inventory['id']."\'>".$inventory['itemname']."</option>";

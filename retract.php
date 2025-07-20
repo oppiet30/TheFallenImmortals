@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $findapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$char['username']."'");
-if(mysql_num_rows($findapplication) == 1){
+if(mysqli_num_rows($findapplication) == 1){
 
 	$removeApplication = mysqli_query($conn, "DELETE FROM applications WHERE username='".$char['username']."'")or die(mysql_error());
 	$data = "You can now apply to a different guild.";

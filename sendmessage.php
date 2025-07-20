@@ -98,7 +98,7 @@ if($char['username'] != NULL || $char['username'] != "")
             $getips = mysqli_query($conn, "SELECT * FROM characters WHERE ip='".$checkip."'");
             while($ips = mysql_fetch_array($getips))
             {
-                if($num < mysql_num_rows($getips))
+                if($num < mysqli_num_rows($getips))
                 {
                     $data .= $ips['username'].", ";
                 }
@@ -108,7 +108,7 @@ if($char['username'] != NULL || $char['username'] != "")
                 }
                 $num ++;
             }
-            $message = "<b><font color=\'#DD0000\'>".mysql_num_rows($getips)." Results for (".$checkip."): ".$data."</font></b><br />";
+            $message = "<b><font color=\'#DD0000\'>".mysqli_num_rows($getips)." Results for (".$checkip."): ".$data."</font></b><br />";
             $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
             VALUES ('".$date."', '4', 'PM', '".$message."', '".$char['username']."')") or die(mysql_error());
         }
@@ -243,7 +243,7 @@ if($char['username'] != NULL || $char['username'] != "")
         elseif(substr($message, 0, 2) == "/e")
         {
             $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysql_error());
-            if(mysql_num_rows($query)==1)
+            if(mysqli_num_rows($query)==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -266,7 +266,7 @@ if($char['username'] != NULL || $char['username'] != "")
         elseif(substr($message, 0, 7) == "/guild ")
         {
             $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysql_error());
-            if(mysql_num_rows($query)==1)
+            if(mysqli_num_rows($query)==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -290,7 +290,7 @@ if($char['username'] != NULL || $char['username'] != "")
         elseif(substr($message, 0, 3) == "/m ")
         {
             $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysql_error());
-            if(mysql_num_rows($query)==1)
+            if(mysqli_num_rows($query)==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -337,7 +337,7 @@ if($char['username'] != NULL || $char['username'] != "")
             $spell = explode(', ', $char['spells']);
             if($caststr[1] != NULL && $caststr[2] != NULL){
             	$findCharacter = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$caststr[1]."'");
-            	if(mysql_num_rows($findCharacter) > 0){
+            	if(mysqli_num_rows($findCharacter) > 0){
             		if($caststr[2] == "Might" || $caststr[2] == "Might II" || $caststr[2] == "Might III" || $caststr[2] == "Might IV" || $caststr[2] == "Might V" || $caststr[2] == "Speed" || $caststr[2] == "Speed II" || $caststr[2] == "Speed III" || $caststr[2] == "Speed IV" || $caststr[2] == "Speed V" || $caststr[2] == "Constitution" || $caststr[2] == "Constitution II" || $caststr[2] == "Constitution III" || $caststr[2] == "Constitution IV" || $caststr[2] == "Constitution V" || $caststr[2] == "Intelligence" || $caststr[2] == "Intelligence II" || $caststr[2] == "Intelligence III" || $caststr[2] == "Intelligence IV" || $caststr[2] == "Intelligence V" || $caststr[2] == "Concentration" || $caststr[2] == "Concentration II" || $caststr[2] == "Concentration III" || $caststr[2] == "Concentration IV" || $caststr[2] == "Concentration V"){
             			if(in_array($caststr[2], $spell)){
             				if($caststr[2] == "Might"){
@@ -446,7 +446,7 @@ if($char['username'] != NULL || $char['username'] != "")
         elseif($char['username'] != NULL)
         {
             $query = mysqli_query($conn, "SELECT * FROM muted WHERE username='".$char['username']."'") or die(mysql_error());
-            if(mysql_num_rows($query) > "0")
+            if(mysqli_num_rows($query) > "0")
             {
                 print("alert('You are currently muted!');");
             }

@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $ticketQuery = mysqli_query($conn, "SELECT * FROM donationpot");
-$ticketRow = mysql_num_rows($ticketQuery);
+$ticketRow = mysqli_num_rows($ticketQuery);
 
 $choosenOne = rand(1,$ticketRow);
 

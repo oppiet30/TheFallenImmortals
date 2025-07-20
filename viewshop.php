@@ -21,7 +21,7 @@ if(isset($_POST['sellid']))   //selling
     $selling = mysql_fetch_assoc($check);
     $sellid = $selling['id'];
     $findShopThingy = mysqli_query($conn, "SELECT * FROM shop WHERE itemname='".$selling['itemname']."'");
-    if(mysql_num_rows($findShopThingy) > 0){
+    if(mysqli_num_rows($findShopThingy) > 0){
     	$sellworth = floor($selling['value'] - ($selling['value'] * (($char['tradeskill'] - 900)/1000)));
     }else{
     	$sellworth = floor($selling['value'] * ($char['tradeskill'] / 1000));
