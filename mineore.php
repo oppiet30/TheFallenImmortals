@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 include('varset.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $data = "";
 $current = time();
@@ -13,7 +13,7 @@ if($char['lastmine']+1 < $current){
 	$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos=".$char['posx']." AND ypos=".$char['posy']."");
 	$there = mysqli_num_rows($findOre);
 	if($there > "0"){
-		$ore = mysql_fetch_assoc($findOre);
+		$ore = mysqli_fetch_assoc($findOre);
 		$oreRel = explode(', ', $ore['relativeLoc']);
 		$charRel = explode(', ', $char['relativeLoc']);
 		$oreXtop = $oreRel[0]+32;

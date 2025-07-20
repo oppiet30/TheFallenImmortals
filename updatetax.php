@@ -4,13 +4,13 @@ session_start();
 include('db.php');
 include('varset.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'")or die("Not logged in!");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $amount = $_POST['amount'];
 if(isset($_POST['amount']) && $amount >= "0")
 {
     $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
-    $guild = mysql_fetch_assoc($getguild);
+    $guild = mysqli_fetch_assoc($getguild);
     if($amount > 50)
     {
 		die('alert(\'Tax cannot be greater than 50%\');');
@@ -20,7 +20,7 @@ if(isset($_POST['amount']) && $amount >= "0")
 		$message = "updates guild tax to ".$amount."%!";
 		$message = "<font color=\'#DD00DD\'><strong>Guild:</strong></font> (<a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#DD00DD\' style=\'text-decoration:none\'>".$charname."</font></a>)<font color=\'#DD00DD\'> ".$message."</font><br />";
 		$getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$charguild."'");
-		while($member = mysql_fetch_array($getmembers))
+		while($member = mysqli_fetch_array($getmembers))
 		{
 			$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$timestamp."', '4', 'PM', '".$member['username']."', '".$message."')");
 		}

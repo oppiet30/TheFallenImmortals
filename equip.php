@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $itemid = $_POST['itemid'];
 if(!ctype_digit($itemid)){
@@ -15,7 +15,7 @@ if(!ctype_digit($itemid)){
 $getitem = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$itemid."' AND username='".$char['username']."'");
 if(mysqli_num_rows($getitem) == "1")    //Item exists
 {
-    $item = mysql_fetch_assoc($getitem);
+    $item = mysqli_fetch_assoc($getitem);
     if($charname == $item['username'])    //Item belongs to manipulating player
     {
         if($charlevel >= $item['levelreq'])    //High enough level to equip

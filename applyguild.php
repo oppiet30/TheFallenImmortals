@@ -17,7 +17,7 @@ if($chargold >= "1000000")    //1m
     $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE id='".$guildname."'");
     if(mysqli_num_rows($getguild) == "1")
     {
-        $guild = mysql_fetch_assoc($getguild);
+        $guild = mysqli_fetch_assoc($getguild);
         $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$guild['name']."'");
         $members = mysqli_num_rows($getmembers);
         if($guild['recruiting'] == "Yes" && $members < "10")

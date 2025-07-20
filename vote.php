@@ -8,7 +8,7 @@
 
 	$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 
-	$char = mysql_fetch_assoc($getchar)or die(mysql_error());
+	$char = mysqli_fetch_assoc($getchar)or die(mysql_error());
 
 	$display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewVote();\">Back</a></strong><br /><br />";	
 

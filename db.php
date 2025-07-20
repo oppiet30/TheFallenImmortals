@@ -24,7 +24,7 @@ if(mysqli_num_rows($getbanned) == "1")
 
 //Unmute
 $getmuted = mysqli_query($conn, "SELECT * FROM muted");
-while($muted = mysql_fetch_array($getmuted))
+while($muted = mysqli_fetch_array($getmuted))
 {
     if($muted['mutetime'] <= time())
     {

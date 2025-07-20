@@ -11,7 +11,7 @@ if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "
 		die();
 	}
 	
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 	if($inventory['equipped'] == "Yes"){
 		print("alert('Equipped items do not go into forge!');");
 		die();

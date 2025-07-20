@@ -11,7 +11,7 @@ if($_POST['itemid'] != NULL || $_POST['itemid'] != "" || $_POST['itemid'] != " "
 		print("alert('This is not your item!');");
 		die();
 	}
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 
 	$addToInventory = mysqli_query($conn, "INSERT INTO `inventory` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$inventory['username']."', '".$inventory['itemname']."', 'No', '".$inventory['levelreq']."', '".$inventory['type']."', '".$inventory['power']."', '".$inventory['strength']."', '".$inventory['dexterity']."', '".$inventory['endurance']."', '".$inventory['intelligence']."', '".$inventory['concentration']."', '".$inventory['value']."')");
 	$removeFromForge = mysqli_query($conn, "DELETE FROM forge WHERE id='".$inventory['id']."'");

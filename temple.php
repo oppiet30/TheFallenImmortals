@@ -10,13 +10,13 @@ include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 
 $gettemple = mysqli_query($conn, "SELECT * FROM temple");
 
-$temple = mysql_fetch_assoc($gettemple);
+$temple = mysqli_fetch_assoc($gettemple);
 
 
 
@@ -105,7 +105,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $firstSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$firstSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$firstSlot."'"));
 
                 $blessing[0] = $name['name'];
 
@@ -137,7 +137,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $secondSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$secondSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$secondSlot."'"));
 
                 $blessing[1] = $name['name'];
 
@@ -169,7 +169,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $thirdSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$thirdSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$thirdSlot."'"));
 
                 $blessing[2] = $name['name'];
 
@@ -199,7 +199,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fourthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fourthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fourthSlot."'"));
 
                 $blessing[3] = $name['name'];
 
@@ -231,7 +231,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[4] = $name['name'];
 
@@ -263,7 +263,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[5] = $name['name'];
 
@@ -295,7 +295,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[6] = $name['name'];
 
@@ -327,7 +327,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[7] = $name['name'];
 
@@ -359,7 +359,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[8] = $name['name'];
 

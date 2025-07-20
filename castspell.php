@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $spell = explode(', ', $char['spells']);
 
@@ -47,7 +47,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
     if(mysqli_num_rows($getequip) > "0")
     {
-        while($equip = mysql_fetch_array($getequip))
+        while($equip = mysqli_fetch_array($getequip))
         {
             $eqstrbon += $equip['strength'];
             $eqdexbon += $equip['dexterity'];
@@ -65,7 +65,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	if (in_array('Constitution', $blessingStats)) 
 	{ 
 	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution'"); 
-	    $level = mysql_fetch_assoc($result); 
+	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
 	    { 
@@ -80,7 +80,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	if (in_array('Constitution II', $blessingStats)) 
 	{ 
 	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution II'"); 
-	    $level = mysql_fetch_assoc($result); 
+	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
 	    { 
@@ -95,7 +95,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	if (in_array('Constitution III', $blessingStats)) 
 	{ 
 	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution III'"); 
-	    $level = mysql_fetch_assoc($result); 
+	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
 	    { 
@@ -110,7 +110,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	if (in_array('Constitution IV', $blessingStats)) 
 	{ 
 	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution IV'"); 
-	    $level = mysql_fetch_assoc($result); 
+	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
 	    { 
@@ -125,7 +125,7 @@ elseif(isset($_POST['spellname']) && $spell[0] == $_POST['spellname'] || $spell[
 	if (in_array('Constitution V', $blessingStats)) 
 	{ 
 	    $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution V'"); 
-	    $level = mysql_fetch_assoc($result); 
+	    $level = mysqli_fetch_assoc($result); 
 	    $foo = 0; 
 	    for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
 	    { 

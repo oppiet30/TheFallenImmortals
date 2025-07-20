@@ -5,7 +5,7 @@ include('db.php');
 
 $whom = ucwords(strtolower($_POST['whom']));
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 if($char['vodooattempt'] == $char['vodoomax']){
 	$data .= "<b>You have used all your attempts in vodoo!</b><br /><br />";
@@ -16,7 +16,7 @@ elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
     $getsteal = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$whom."'");
     if(mysqli_num_rows($getsteal) == "1")   //check if the character exist
     {
-        $stealchar = mysql_fetch_assoc($getsteal);
+        $stealchar = mysqli_fetch_assoc($getsteal);
         if($char['username'] != $stealchar['username'])
         {
             if($stealchar['gold'] >= "0")
@@ -71,7 +71,7 @@ elseif($_POST['what'] == "StealBlood" && $_POST['whom'] != NULL)
     $getsteal = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$whom."'");
     if(mysqli_num_rows($getsteal) == "1")   //check if the character exist
     {
-        $stealchar = mysql_fetch_assoc($getsteal);
+        $stealchar = mysqli_fetch_assoc($getsteal);
         if($char['username'] != $stealchar['username'])
         {
             if($stealchar['blood'] >= "0")

@@ -10,7 +10,7 @@ include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 
@@ -664,7 +664,7 @@ elseif($_POST['cashoption'] == "FifteenMinutes" && $char['cash'] >= "1")
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for <strong>15 Minutes</strong> of Bonus Time!</font></b><br />";
 		
 		$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
-		$bonusTime = mysql_fetch_assoc($getBonusTime);
+		$bonusTime = mysqli_fetch_assoc($getBonusTime);
 		$date = time();
 		$addTime = 15 * 60;
 		if($bonusTime['experationTime'] >= $date && $bonusTime['experationTime'] != 0){
@@ -706,7 +706,7 @@ elseif($_POST['cashoption'] == "HourBonus" && $char['cash'] >= "2")
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 2 cash for <strong>60 Minutes</strong> of Bonus Time!</font></b><br />";
 		
 		$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
-		$bonusTime = mysql_fetch_assoc($getBonusTime);
+		$bonusTime = mysqli_fetch_assoc($getBonusTime);
 		$date = time();
 		$addTime = 60 * 60;
 		if($bonusTime['experationTime'] >= $date && $bonusTime['experationTime'] != 0){

@@ -5,7 +5,7 @@ $getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewemail WHERE ne
 $getCodeNumRows = mysqli_num_rows($getUserForChange);
 if($getCodeNumRows > "0"){
 	
-	$verify = mysql_fetch_assoc($getUserForChange);
+	$verify = mysqli_fetch_assoc($getUserForChange);
 	$checkIfInUse = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$verify['newemail']."'");
 	if(mysqli_num_rows($checkIfInUse) > "0"){
 		print "Someone is already using this email address!";

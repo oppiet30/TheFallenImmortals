@@ -5,7 +5,7 @@ include('db.php');
 include('varset.php');
 
 $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
-$guild = mysql_fetch_assoc($getguild);
+$guild = mysqli_fetch_assoc($getguild);
 
 if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain'])
 {

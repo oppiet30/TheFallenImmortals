@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 include('varset.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
   require_once('recaptchalib.php');
   $privatekey = "6Ld9zssSAAAAACUwfuV6pDnpOt60SIP57hu1xD-i";

@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 $whom = ucwords(strtolower($_POST['whom']));
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 $data = "";
 
 if($_POST['enemyid'] != NULL){
@@ -16,7 +16,7 @@ if($_POST['enemyid'] != NULL){
 	}
 	
 	$findEnemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$_POST['enemyid']."'")or die("alert('Tell the admin that you monster doesn\'t exist.');");
-	$enemy = mysql_fetch_assoc($findEnemy);
+	$enemy = mysqli_fetch_assoc($findEnemy);
 	$level = $char['scavenges'] + 1;
 	$locx = rand(1,100);
 	$locy = rand(1,100);
@@ -49,7 +49,7 @@ if($_POST['enemyid'] != NULL){
 	if($watchaGot < 5){
 		$data .= "<center><select id=\'enemylist\'>";
 		$getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");
-		while($enemies = mysql_fetch_array($getenemies))
+		while($enemies = mysqli_fetch_array($getenemies))
 		{
 		    if($char['enemyid'] == $enemies['id'])
 		    {
@@ -68,7 +68,7 @@ if($_POST['enemyid'] != NULL){
 $data .= "<br /><table border=\'1\'>";
 $findScavenges = mysqli_query($conn, "SELECT * FROM characters ORDER BY scavenges DESC LIMIT 50");
 $data .= "<tr><td><u>User</u></td><td><u>Scavenges</u></td></tr>";
-while($tscavenger = mysql_fetch_assoc($findScavenges)){
+while($tscavenger = mysqli_fetch_assoc($findScavenges)){
 	$data .= "<tr><td>".$tscavenger['username']."</td><td>".$tscavenger['scavenges']."</td></tr>";
 }
 $data .= "</table>";

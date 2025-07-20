@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 if($_POST['charrequesting'] != NULL){
 	$currentDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE tousername='".$char['username']."' OR fromusername='".$char['username']."'");
@@ -12,7 +12,7 @@ if($_POST['charrequesting'] != NULL){
 	}else{
 		$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$_POST['charrequesting']."'")or die(mysql_error());
 		if(mysqli_num_rows($findOponent) == 1){
-			$oponent = mysql_fetch_assoc($findOponent);
+			$oponent = mysqli_fetch_assoc($findOponent);
 			if($oponent['life'] > 0){
 				$date = time();
 				$addDuelPending = mysqli_query($conn, "INSERT INTO duelground(`fromusername`, `tousername`, `status`, `turn`, `time`) VALUES ('".$char['username']."', '".$oponent['username']."', 'Requesting', '".$char['username']."', '".$date."')");

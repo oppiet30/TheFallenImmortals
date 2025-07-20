@@ -21,17 +21,17 @@ $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$user
 
 if(mysqli_num_rows($getcharold) === 1)
 {
-	$char = mysql_fetch_assoc($getcharold);
+	$char = mysqli_fetch_assoc($getcharold);
 	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
 	$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$password."' WHERE username='".$char['username']."'");
 	print("fillDiv('displayArea','".$updatePass."');");	
 }
 elseif(mysqli_num_rows($getchar) === 1)
 {
-	$char = mysql_fetch_assoc($getchar);
+	$char = mysqli_fetch_assoc($getchar);
 	$time = time() - "700";
     $findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."' AND username='".$char['username']."'");
-	$active = mysql_fetch_assoc($findonline);
+	$active = mysqli_fetch_assoc($findonline);
 	
 	if($active != NULL){
 		print("alert('You are already logged in. Try coming back in ten minutes. If this problem persist contact the administrator at Alex.jezior(at)gmail.com');");
@@ -39,7 +39,7 @@ elseif(mysqli_num_rows($getchar) === 1)
 	}
     if($_SESSION['userid'] != Null){
         $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-        $char = mysql_fetch_assoc($getchar);
+        $char = mysqli_fetch_assoc($getchar);
     }
     $getbanned = mysqli_query($conn, "SELECT * FROM banned WHERE ip='".$char['ip']."'");
     if(mysqli_num_rows($getbanned) == "1")

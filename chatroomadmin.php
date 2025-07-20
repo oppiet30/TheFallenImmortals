@@ -4,12 +4,12 @@ session_start();
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 if($char['username'] == "Ajezior" || $char['username'] == "Wtfheather"){
 	print "<table>";
 	$getmessages = mysqli_query($conn, "SELECT * FROM chatroom ORDER BY id DESC LIMIT 2500");
-	while($messages = mysql_fetch_array($getmessages))
+	while($messages = mysqli_fetch_array($getmessages))
     {
         $username = $messages['username'];
         $userlevel = $messages['userlevel'];

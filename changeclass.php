@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar)or die();
+$char = mysqli_fetch_assoc($getchar)or die();
 $data .= "";
 
 
@@ -15,7 +15,7 @@ if($_POST['change'] == "yes" && $char['gold'] >= "100000000" && $char['level'] >
 	$CharBlood = $char['blood'];
 	
 	$findSecondClassInTheCookieJar = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
-	$sClass = mysql_fetch_assoc($findSecondClassInTheCookieJar);
+	$sClass = mysqli_fetch_assoc($findSecondClassInTheCookieJar);
 	$newClass = $sClass['class'];
 	if($sClass['level'] == "1"){
 		$messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has switched their class to <b>".$sClass['class']."</b> for the first time. Good luck!.</font></strong><br />";

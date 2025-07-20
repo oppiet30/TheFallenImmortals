@@ -18,12 +18,12 @@ include('active.php');
 		$data .= "<strong>Item:</strong> <select id=\'item\' onchange=\'openItem()\'>";
 		$data .= "<option>Nothing</option>";
 		if(mysqli_num_rows($findForgeItems) > "0"){
-			$forgeType = mysql_fetch_assoc($findForgeItems);
+			$forgeType = mysqli_fetch_assoc($findForgeItems);
 			$findItems = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No' AND type='".$forgeType['type']."'");
 		}else{
 			$findItems = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='No'");
 		}
-		while($inventory = mysql_fetch_array($findItems)){
+		while($inventory = mysqli_fetch_array($findItems)){
 			$itempower = number_format($inventory['strength'] + $inventory['dexterity'] + $inventory['endurance'] + $inventory['concentration'] + $inventory['intelligence']);
 			if(substr($inventory['itemname'], 0, 3) == "(F)"){
 			}else{
@@ -42,7 +42,7 @@ include('active.php');
 	}else{
 		$data .= "<table>";
 		$data .= "<tr><td><u>Name</u></td><td><u>Str:</u></td><td><u>Dex:</u></td><td><u>End:</u></td><td><u>Con:</u></td><td><u>Int:</u></td><td>&nbsp;</td></tr>";
-		while($inventory = mysql_fetch_array($findForgeItems)){
+		while($inventory = mysqli_fetch_array($findForgeItems)){
 		$data .= "<tr><td>". $inventory['itemname'] ."</td><td>". $inventory['strength'] ."</td><td>". $inventory['dexterity'] ."</td><td>". $inventory['endurance'] ."</td><td>". $inventory['concentration'] ."</td><td>". $inventory['intelligence'] ."</td><td>(<a href=\'javascript: removeItem(\"".$inventory['id']."\");\' title=\'Remove from Forge\'>X</a>)</td></tr>";
 		}
 		$data .= "</table>";

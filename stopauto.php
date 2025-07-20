@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 include('varset.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $stopAuto = mysqli_query($conn, "UPDATE characters SET auto='0' WHERE id='".$char['id']."'");
 $data = "<center>Auto stopped! <a href=\'Javascript: runAway();\'>Back to Fight</a>!</center>";

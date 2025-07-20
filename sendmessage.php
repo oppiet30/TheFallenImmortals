@@ -71,7 +71,7 @@ if($char['username'] != NULL || $char['username'] != "")
         {
             $player = substr($message, 4);
             $readidplayer = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$player."' ") or die(mysql_error());
-            $idplayer = mysql_fetch_assoc($readidplayer);
+            $idplayer = mysqli_fetch_assoc($readidplayer);
 
             $iduser = "<font color=\'#FF0000\'><strong>".$player."</strong> is a level ".number_format($idplayer['level'])." ".$idplayer['gender']." ".$idplayer['class']."";
 			if($idplayer['guild'] != "None")
@@ -96,7 +96,7 @@ if($char['username'] != NULL || $char['username'] != "")
             $data = "";
             $num = "1";
             $getips = mysqli_query($conn, "SELECT * FROM characters WHERE ip='".$checkip."'");
-            while($ips = mysql_fetch_array($getips))
+            while($ips = mysqli_fetch_array($getips))
             {
                 if($num < mysqli_num_rows($getips))
                 {
@@ -122,7 +122,7 @@ if($char['username'] != NULL || $char['username'] != "")
             VALUES ('".$date."', '3', '".$char['username']."', '".$message."', 'Chatroom')") or die(mysql_error());
 
             $query = mysqli_query($conn, "SELECT * FROM warnings WHERE username='".$warnuser."' ");
-            $userwarning = mysql_fetch_assoc($query);
+            $userwarning = mysqli_fetch_assoc($query);
 
             $newwarning = $userwarning['warning'] + "1";
             $query = mysqli_query($conn, "UPDATE warnings SET warnings='".$newwarning."' WHERE username='".$warnuser."' ");
@@ -231,7 +231,7 @@ if($char['username'] != NULL || $char['username'] != "")
             $banmessage = "<b><font color=\'#DDDD00\'>Player ".$banuser." has been banned!</font></b><br />";
 
             $getbanned = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$banuser."'");
-            $banned = mysql_fetch_assoc($getbanned);
+            $banned = mysqli_fetch_assoc($getbanned);
             $banip = $banned['ip'];
 
             $query = mysqli_query($conn, "INSERT INTO banned (`ip`)
@@ -280,7 +280,7 @@ if($char['username'] != NULL || $char['username'] != "")
                     $message = "<font color=\'#DD00DD\'><strong>Guild:</strong></font> (<a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#DD00DD\' style=\'text-decoration:none\'>".$charname."</font></a>)<font color=\'#DD00DD\'>: ".$message." [".$date."]</font><br />";
 
                     $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$charguild."'");
-                    while($member = mysql_fetch_array($getmembers))
+                    while($member = mysqli_fetch_array($getmembers))
                     {
                         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$timestamp."', '4', 'PM', '".$member['username']."', '".$message."')");
                     }
@@ -308,7 +308,7 @@ if($char['username'] != NULL || $char['username'] != "")
                 {
                 	$whatTimeIsIt = time();
                 	$findTo = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$touser."'");
-                	$toTime = mysql_fetch_assoc($findTo);
+                	$toTime = mysqli_fetch_assoc($findTo);
                 	$charLastActive = $toTime['lastactive'] + 700;
                 	if($whatTimeIsIt > $charLastActive){
                 		$message3 = "<font color=\'#FF7700\'>From </font><a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$charname."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
@@ -396,7 +396,7 @@ if($char['username'] != NULL || $char['username'] != "")
             				}
             				
             				if($char['mana'] >= $manaCost){
-            					$castto = mysql_fetch_assoc($findCharacter);
+            					$castto = mysqli_fetch_assoc($findCharacter);
             					$openblessing = explode(", ", $castto['blessing']);
             					if($openblessing[0] == "None"){
             						$newBlessingString = $caststr[2].", ".$openblessing[1].", ".$openblessing[2].", ".$openblessing[3].", ".$openblessing[4].", ".$openblessing[5].", ".$openblessing[6].", ".$openblessing[7].", ".$openblessing[8]."";
@@ -460,7 +460,7 @@ if($char['username'] != NULL || $char['username'] != "")
 					$message = str_replace("<div", "", $message);
 				}
             	$preGetGuild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
-            	$getGuild = mysql_fetch_assoc($preGetGuild);
+            	$getGuild = mysqli_fetch_assoc($preGetGuild);
             	$getGuildTag = $getGuild['tag'];
             	if($char['guild'] == "" || $char['guild'] == "None")
             	{

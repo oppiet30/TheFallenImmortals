@@ -24,7 +24,7 @@ if($char['guild'] != "None")
 
     $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
 
-    $guild = mysql_fetch_assoc($getguild);
+    $guild = mysqli_fetch_assoc($getguild);
 
 
 
@@ -34,7 +34,7 @@ if($char['guild'] != "None")
 
 
 
-    while($member = mysql_fetch_array($getmembers))
+    while($member = mysqli_fetch_array($getmembers))
 
     {
 
@@ -138,7 +138,7 @@ if($char['guild'] != "None")
 
     $getapplicants = mysqli_query($conn, "SELECT * FROM applications WHERE guild='".$guild['name']."'");
 
-    while($applicant = mysql_fetch_array($getapplicants))
+    while($applicant = mysqli_fetch_array($getapplicants))
 
     {
 
@@ -281,7 +281,7 @@ if($char['guild'] != "None")
 
     $getLog = mysqli_query($conn, "SELECT * FROM log WHERE name='".$guild['name']."' ORDER BY id DESC LIMIT 10");
 
-    while($logNews=mysql_fetch_array($getLog)){
+    while($logNews=mysqli_fetch_array($getLog)){
 
         $data .= "".$logNews['message']."<br />";
 
@@ -297,7 +297,7 @@ elseif(mysqli_num_rows($getapplication) == "1")
 
 {
 
-    $application = mysql_fetch_assoc($getapplication);
+    $application = mysqli_fetch_assoc($getapplication);
 
     $data .= "You currently have an Application Process for ".$application['guild'].".<br />";
 
@@ -331,7 +331,7 @@ else
 
     $data .= "<option value=\'Select Guild\'>Select Guild</option>";
 
-    while($guild = mysql_fetch_array($getguilds))
+    while($guild = mysqli_fetch_array($getguilds))
 
     {
 

@@ -3,7 +3,7 @@ $time = time();
 $setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 $charname = $char['username'];
 $charulvl = $char['userlevel'];
@@ -13,7 +13,7 @@ $charclass = $char['class'];
 $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
 if(mysqli_num_rows($getequip) > "0")
 {
-    while($equip = mysql_fetch_array($getequip))
+    while($equip = mysqli_fetch_array($getequip))
     {
         $eqstrbon += $equip['strength'];
         $eqdexbon += $equip['dexterity'];
@@ -44,7 +44,7 @@ $blessingStats = explode(', ', $char['blessing']);
 if (in_array('Might', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -59,7 +59,7 @@ if (in_array('Might', $blessingStats))
 if (in_array('Might II', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might II'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -74,7 +74,7 @@ if (in_array('Might II', $blessingStats))
 if (in_array('Might III', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might III'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -89,7 +89,7 @@ if (in_array('Might III', $blessingStats))
 if (in_array('Might IV', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might IV'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -104,7 +104,7 @@ if (in_array('Might IV', $blessingStats))
 if (in_array('Might V', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might V'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -124,7 +124,7 @@ if($totalstr > 0){
 if (in_array('Speed', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -139,7 +139,7 @@ if (in_array('Speed', $blessingStats))
 if (in_array('Speed II', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed II'")or die("alert('Mysql Error!');"); 
-    $level = mysql_fetch_assoc($result)or die("alert('Mysql Error!');"); 
+    $level = mysqli_fetch_assoc($result)or die("alert('Mysql Error!');"); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -154,7 +154,7 @@ if (in_array('Speed II', $blessingStats))
 if (in_array('Speed III', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed III'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -169,7 +169,7 @@ if (in_array('Speed III', $blessingStats))
 if (in_array('Speed IV', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed IV'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -184,7 +184,7 @@ if (in_array('Speed IV', $blessingStats))
 if (in_array('Speed V', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed V'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -204,7 +204,7 @@ if($totaldex > 0){
 if (in_array('Constitution', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -219,7 +219,7 @@ if (in_array('Constitution', $blessingStats))
 if (in_array('Constitution II', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution II'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -234,7 +234,7 @@ if (in_array('Constitution II', $blessingStats))
 if (in_array('Constitution III', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution III'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -249,7 +249,7 @@ if (in_array('Constitution III', $blessingStats))
 if (in_array('Constitution IV', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution IV'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -264,7 +264,7 @@ if (in_array('Constitution IV', $blessingStats))
 if (in_array('Constitution V', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution V'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -284,7 +284,7 @@ if($totalend > 0){
 if (in_array('Concentration', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -299,7 +299,7 @@ if (in_array('Concentration', $blessingStats))
 if (in_array('Concentration II', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration II'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -314,7 +314,7 @@ if (in_array('Concentration II', $blessingStats))
 if (in_array('Concentration III', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration III'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -329,7 +329,7 @@ if (in_array('Concentration III', $blessingStats))
 if (in_array('Concentration IV', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration IV'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -344,7 +344,7 @@ if (in_array('Concentration IV', $blessingStats))
 if (in_array('Concentration V', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration V'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -364,7 +364,7 @@ if($totalcon > 0){
 if (in_array('Intelligence', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -379,7 +379,7 @@ if (in_array('Intelligence', $blessingStats))
 if (in_array('Intelligence II', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence II'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -394,7 +394,7 @@ if (in_array('Intelligence II', $blessingStats))
 if (in_array('Intelligence III', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence III'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -409,7 +409,7 @@ if (in_array('Intelligence III', $blessingStats))
 if (in_array('Intelligence IV', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence IV'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -424,7 +424,7 @@ if (in_array('Intelligence IV', $blessingStats))
 if (in_array('Intelligence V', $blessingStats)) 
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence V'"); 
-    $level = mysql_fetch_assoc($result); 
+    $level = mysqli_fetch_assoc($result); 
     $foo = 0; 
     for($i = 0, $count = count($blessingStats); $i < $count; $i++) 
     { 
@@ -499,7 +499,7 @@ $xbottom = $char['posx'] - $char['foresight'];
 $ytop = $char['posy'] + $char['foresight'];
 $ybottom = $char['posy'] - $char['foresight'];
 $grabBag = mysqli_query($conn, "SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
-$bag = mysql_fetch_assoc($grabBag);
+$bag = mysqli_fetch_assoc($grabBag);
 $there = mysqli_num_rows($grabBag);
 if($there > "0"){
 	$scavenge .= "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";
@@ -507,14 +507,14 @@ if($there > "0"){
 $findOre = mysqli_query($conn, "SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
 $there = mysqli_num_rows($findOre);
 if($there > "0"){
-	$ore = mysql_fetch_assoc($findOre);
+	$ore = mysqli_fetch_assoc($findOre);
 	$scavenge .= "-An Ore was spotted at ".$ore['xpos'].",".$ore['ypos']."";
 }
 $findLogs2 = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
 $findLogs1 = mysqli_num_rows($findLogs2);
 if($findLogs1 > 0){
 	$scavenge .= "<p style=\'color: yellow;\'>";
-	while($scavenger = mysql_fetch_assoc($findLogs2)){
+	while($scavenger = mysqli_fetch_assoc($findLogs2)){
 		$remaining1 = explode("/", $scavenger['collect']);
 		$remaining = $remaining1[1] - $remaining1[0];
 		if($remaining == "0"){
@@ -556,15 +556,15 @@ print("fillDiv('spellsMenu','".$stats."');");
 
 
 $blessing = explode(', ', $char['blessing']); 
-$blessing1 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[0]."'"));
-$blessing2 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[1]."'"));
-$blessing3 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[2]."'"));
-$blessing4 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[3]."'"));
-$blessing5 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[4]."'"));
-$blessing6 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[5]."'"));
-$blessing7 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[6]."'"));
-$blessing8 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[7]."'"));
-$blessing9 = mysql_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[8]."'"));
+$blessing1 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[0]."'"));
+$blessing2 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[1]."'"));
+$blessing3 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[2]."'"));
+$blessing4 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[3]."'"));
+$blessing5 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[4]."'"));
+$blessing6 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[5]."'"));
+$blessing7 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[6]."'"));
+$blessing8 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[7]."'"));
+$blessing9 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[8]."'"));
 $affinity = "<table border=\'1\' width=\'580px\'>";
 if($char['charge'] == "None"){
 $affinity .= "<tr height=\'55px\'>";

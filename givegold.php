@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 include('active.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 $display = "";
 
 if(isset($_POST['toUsername']) && isset($_POST['giveAmount']))
@@ -27,7 +27,7 @@ if(isset($_POST['toUsername']) && isset($_POST['giveAmount']))
 			{
 				$display .= "<center><font color=\'red\'>No such character.</font></center>";
 			}else{
-				$to = mysql_fetch_assoc($findCharacter);
+				$to = mysqli_fetch_assoc($findCharacter);
 				$updateTo = mysqli_query($conn, "UPDATE characters SET gold=gold-'".$amount."' WHERE username='".$char['username']."'")or die("alert('Unable to remove gold. Tell admin.');");
 				$updateTo = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$amount."' WHERE username='".$to['username']."'")or die("alert('Unable to add gold. Tell admin.');");
 				$display .= "<center><font color=\'green\'>You have given ".$to['username']." ".number_format($amount)." gold from your hand!</font></center>";

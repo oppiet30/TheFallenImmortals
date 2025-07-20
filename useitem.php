@@ -7,7 +7,7 @@ if($_POST['itemid'] != "Nothing"){
 	
 	$data = "";
 	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 	if($inventory['type'] == "Item" && $inventory['username'] == $char['username']){
 		
 		if($inventory['itemname'] == "Mammons Sachel"){

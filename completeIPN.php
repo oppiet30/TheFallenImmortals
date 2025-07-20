@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 // PHP 4.1
 // read the post from PayPal system and add 'cmd'
@@ -45,7 +45,7 @@ else
 			{
 				if($payment_status == "Completed" && $receiver_email == "Alex.Jezior@gmail.com"){
 				$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$payer_email."'") or die(mysql_error());
-				$payer = mysql_fetch_assoc($getchar);
+				$payer = mysqli_fetch_assoc($getchar);
 				if($payment_amount == "5.25" && $payment_currency == "USD")
 				{
 					$netAmount = '5';

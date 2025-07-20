@@ -4,13 +4,13 @@ session_start();
 include('db.php');
 
 $checkItems = mysqli_query($conn, "SELECT * FROM shop WHERE value>'10000'");
-while($newLevelReq = mysql_fetch_assoc($checkItems)){
+while($newLevelReq = mysqli_fetch_assoc($checkItems)){
 	$newReq = floor(($newLevelReq['strength'] + $newLevelReq['dexterity'] + $newLevelReq['endurance'] + $newLevelReq['intelligence'] + $newLevelReq['concentration']) * 0.03);
 	$updateShopItems = mysqli_query($conn, "UPDATE shop SET levelreq='".$newReq."' WHERE id='".$newLevelReq['id']."'")or die("alert('Unable to update levelreqs!');");
 }
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 $charname = $char['username'];
 $data = "";
 
@@ -18,7 +18,7 @@ if(isset($_POST['sellid']))   //selling
 {
     $idinven = $_POST['sellid'];
     $check = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$idinven."' AND username='".$charname."'")or die("Not an existing item in your inventory.");
-    $selling = mysql_fetch_assoc($check);
+    $selling = mysqli_fetch_assoc($check);
     $sellid = $selling['id'];
     $findShopThingy = mysqli_query($conn, "SELECT * FROM shop WHERE itemname='".$selling['itemname']."'");
     if(mysqli_num_rows($findShopThingy) > 0){
@@ -36,7 +36,7 @@ elseif(isset($_POST['itemid']))   //Buying
 {
     $idshop = $_POST['itemid'];
     $check = mysqli_query($conn, "SELECT * FROM shop WHERE id='".$idshop."'")or die("Failed to buy item.");
-    $buying = mysql_fetch_assoc($check);
+    $buying = mysqli_fetch_assoc($check);
     if($buying['value'] > $char['gold']){
         $data .= "You cannot buy an item that you cannot afford.<br /><br />";
     }else{
@@ -62,7 +62,7 @@ elseif(isset($_POST['itemid']))   //Buying
     $data .= "<center>Sell: <select id=\'sellid\' onchange=\'sellDesc()\'>";
 	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='No' ORDER BY value");
 	$data .= "<option>Nothing</option>";
-    while($inventory = mysql_fetch_array($querty)){
+    while($inventory = mysqli_fetch_array($querty)){
         $data .= "<option value=\'".$inventory['id']."\'>".$inventory['itemname']."</option>";
     }
     $data .= "</select><div id=\'sellLink\'></div><br />";

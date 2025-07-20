@@ -10,7 +10,7 @@ include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 
@@ -52,7 +52,7 @@ elseif(isset($_POST['page']) && $_POST['page'] == "sellInTrade")
 
         $data .= "<select id=\'item\'>";
 
-        while($inventory = mysql_fetch_array($findInventory)){
+        while($inventory = mysqli_fetch_array($findInventory)){
 
             $data .= "<option value=\'".$inventory['id']."\'>".$inventory['itemname']." - Value: ".number_format($inventory['value'])."</option>";
 
@@ -98,7 +98,7 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         }
 
-        $item = mysql_fetch_assoc($findItemInInventory);
+        $item = mysqli_fetch_assoc($findItemInInventory);
 
         $addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `levelreq`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`, `price`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."', '".$sellPrice."')")or die("alret('Failed to add item.')");
 
@@ -178,7 +178,7 @@ elseif(isset($_POST['buyingid']))
 
     }
 
-    $item = mysql_fetch_assoc($findItemInTrade);
+    $item = mysqli_fetch_assoc($findItemInTrade);
 
     if($char['gold'] >= $item['price']){
 
@@ -264,7 +264,7 @@ elseif(isset($_POST['removeid']))
 
     }
 
-    $item = mysql_fetch_assoc($findItemInTrade);
+    $item = mysqli_fetch_assoc($findItemInTrade);
 
     $data .= "".$item['itemname']." was removed from the market!<br />";
 
@@ -296,7 +296,7 @@ $data .= "<a href=\'javascript: trade(\"\");\'>Your items in trade</a>";
 	$data .= "<select id=\'item\' onchange=\'tradeDesc()\'>";
 	$data .= "<option value=\'Nothing\'>None</option>";
 	$allMarket = mysqli_query($conn, "SELECT * FROM trade WHERE towho='None' ORDER BY value");
-	while($forSale = mysql_fetch_array($allMarket)){
+	while($forSale = mysqli_fetch_array($allMarket)){
 		if($forSale['fromplayer'] == $char['username']){
 			$ownage = "***Your Item***";
 		}else{

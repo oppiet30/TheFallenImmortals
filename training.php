@@ -4,7 +4,7 @@ session_start();
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 $data = "";
@@ -319,7 +319,7 @@ else
     
     $data .= "<br /><br />Your current class is <em>".$char['class']."</em>. <br />";
     $findOtherClass = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
-    $otherClass = mysql_fetch_assoc($findOtherClass);;
+    $otherClass = mysqli_fetch_assoc($findOtherClass);;
     if($char['level'] >= "5000" && $char['gold'] >= "100000000"){
     	
     	$data .= "<a href=\'javascript: changeClass();\'>Change your class</a><br />";

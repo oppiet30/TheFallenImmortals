@@ -6,7 +6,7 @@ include('db.php');
 if($_POST['itemid'] != "Nothing"){
 	$data = "";
 	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
-	$inventory = mysql_fetch_assoc($querty);
+	$inventory = mysqli_fetch_assoc($querty);
 	if($inventory['type'] == "Item"){
 		
 		$data .= "<center> <a href=\'javascript: useItem(\"".$inventory['id']."\");\'><b>Use</b></a><table>";
@@ -15,7 +15,7 @@ if($_POST['itemid'] != "Nothing"){
 	elseif($inventory['equipped'] == "No" && $inventory['type'] != "Item"){
 		
 		$current = mysqli_query($conn, "SELECT * FROM inventory WHERE type='".$inventory['type']."' AND equipped='Yes' AND username='".$char['username']."'");
-		$equipped = mysql_fetch_assoc($current);
+		$equipped = mysqli_fetch_assoc($current);
 		$information = "Name: ".$equipped['itemname']." &#013; |Type: ".$equipped['type']." &#013; |Lvl Req: ".$equipped['levelreq']." &#013; |Str: ".$equipped['strength']." &#013; |Dex: ".$equipped['dexterity']." &#013; |End: ".$equipped['endurance']." &#013; |Int: ".$equipped['intelligence']." &#013; |Con: ".$equipped['concentration']." &#013; |Price: ".$equipped['value']."";
 		$data .= "<center>[<a title=\'".$information."\'>?</a>] <a href=\'javascript: equip(\"".$inventory['id']."\");\'><b>Equip</b></a><table>";
 		
