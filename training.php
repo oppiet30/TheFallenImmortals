@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysql_fetch_assoc($getchar);
 
 
@@ -15,11 +15,11 @@ if(isset($_POST['train']) && $_POST['train'] == $char['class'] && $char['class']
         $newclass = "Fighter II";
         $newgold = $char['gold'] - 500000;
         $newblood = $char['blood'] - 5000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-    	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+    	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -30,11 +30,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Fighter III";
         $newgold = $char['gold'] - 2000000;
         $newblood = $char['blood'] - 10000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -45,11 +45,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Fighter IV";
         $newgold = $char['gold'] - 10000000;
         $newblood = $char['blood'] - 20000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -60,11 +60,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Fighter V";
         $newgold = $char['gold'] - 100000000;
         $newblood = $char['blood'] - 50000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -75,11 +75,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Assassin";
         $newgold = $char['gold'] - 500000000;
         $newblood = $char['blood'] - 300000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -90,11 +90,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Assassin II";
         $newgold = $char['gold'] - 1000000000;
         $newblood = $char['blood'] - 800000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -105,11 +105,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Assassin III";
         $newgold = $char['gold'] - 2000000000;
         $newblood = $char['blood'] - 2000000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -120,11 +120,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Assassin IV";
         $newgold = $char['gold'] - 3000000000;
         $newblood = $char['blood'] - 4000000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -135,11 +135,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $char['cla
         $newclass = "Mage II";
         $newgold = $char['gold'] - 500000;
         $newblood = $char['blood'] - 5000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-    	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+    	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -150,11 +150,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Mage III";
         $newgold = $char['gold'] - 2000000;
         $newblood = $char['blood'] - 10000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -165,11 +165,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Mage IV";
         $newgold = $char['gold'] - 10000000;
         $newblood = $char['blood'] - 20000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -180,11 +180,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Mage V";
         $newgold = $char['gold'] - 100000000;
         $newblood = $char['blood'] - 50000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -195,11 +195,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Sorcerer";
         $newgold = $char['gold'] - 500000000;
         $newblood = $char['blood'] - 300000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -210,11 +210,11 @@ elseif(isset($_POST['train']) && $_POST['train'] == $char['class'] && $_POST['tr
         $newclass = "Sorcerer II";
         $newgold = $char['gold'] - 1000000000;
         $newblood = $char['blood'] - 650000;
-        $updatecharacter = mysql_query("UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
+        $updatecharacter = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', class='".$newclass."', blood='".$newblood."' WHERE id='".$_SESSION['userid']."'");
         $messagechat = "<strong><font color=\'#660077\'><b>".$char['username']."</b> has upgraded their class to <b>".$newclass."</b>. Allowing them to equip better means of Weapons or Protection Gear and increased their Stats gained per level.</font></strong><br />";
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
         $data .= "You were very cooperative during your training period. You have successfully upgraded to ".$newclass."!<br />";
-	$updateclass = mysql_query("UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
+	$updateclass = mysqli_query($conn, "UPDATE characters SET classlevel=classlevel+'1' WHERE id='".$char['id']."'");
     }else{
         $data .= "You do not have the assets to pay for training.";
     }
@@ -318,7 +318,7 @@ else
     }
     
     $data .= "<br /><br />Your current class is <em>".$char['class']."</em>. <br />";
-    $findOtherClass = mysql_query("SELECT * FROM secondclass WHERE username='".$char['username']."'");
+    $findOtherClass = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
     $otherClass = mysql_fetch_assoc($findOtherClass);;
     if($char['level'] >= "5000" && $char['gold'] >= "100000000"){
     	

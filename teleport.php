@@ -3,7 +3,7 @@ session_name("icsession");
 session_start();
 include('db.php');
 $whom = ucwords(strtolower($_POST['whom']));
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysql_fetch_assoc($getchar);
 
 if($char['teleporter'] == "Yes"){
@@ -16,8 +16,8 @@ if($char['teleporter'] == "Yes"){
 	if($xcord <= "100" && $xcord >= "1" && $ycord <= "100" && $ycord >= "1"){
 		
 		$timeTeleported = time();
-		$updateLocation = mysql_query("UPDATE characters SET posx='".$xcord."', posy='".$ycord."', teleportlast='".$timeTeleported."' WHERE username='".$char['username']."'");
-		$findMap = mysql_query("SELECT * FROM map WHERE xpos='".$xcord."' and ypos='".$ycord."'");
+		$updateLocation = mysqli_query($conn, "UPDATE characters SET posx='".$xcord."', posy='".$ycord."', teleportlast='".$timeTeleported."' WHERE username='".$char['username']."'");
+		$findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$xcord."' and ypos='".$ycord."'");
 		$map = mysql_fetch_assoc($findMap);
 		print("fillDiv('locationMap','<div style=\'width:480px;height:480px;background-color:#000000;background-image:url(".$map['background'].");padding:".$map['locationpadding'].";\'></div>');");
 		print("fillDiv('cLocation','Current Location: (".$char['posx'].", ".$char['posy'].")');");

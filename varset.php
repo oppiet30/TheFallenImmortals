@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
 $char = mysql_fetch_assoc($getchar);
 
 //Character & Player classifications
@@ -32,7 +32,7 @@ $charcash = $char['cash'];
 $charstatmulti = $char['statmult'] / 100;
 
 //Modified stats from item bonuses (For display purposes only)
-$getinv = mysql_query("SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
+$getinv = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
 while($inv = mysql_fetch_array($getinv))
 {
 	$charstrmod += $inv['strength'];
@@ -59,7 +59,7 @@ $charbank = $char['bank'];
 //Characters Guild
 if($charguild != "None")
 {
-	$getguild = mysql_query("SELECT * FROM guilds WHERE name='".$charguild."'");
+	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
 	$guild = mysql_fetch_assoc($getguild);
 }
 ?>

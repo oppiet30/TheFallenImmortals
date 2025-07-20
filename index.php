@@ -202,12 +202,12 @@ a {
 		$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
 		mysql_select_db($database) or die("Where?");
 		$time = time() - "600";
-		$findonline = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
+		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numonline = mysql_num_rows($findonline);
 		$time = time() - "604800";
-		$findweek = mysql_query("SELECT * FROM characters WHERE lastactive>'".$time."'");
+		$findweek = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numweek = mysql_num_rows($findweek);
-		$findregistered = mysql_query("SELECT * FROM characters");
+		$findregistered = mysqli_query($conn, "SELECT * FROM characters");
     	$numregistered = mysql_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />

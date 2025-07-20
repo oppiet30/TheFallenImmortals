@@ -12,7 +12,7 @@ include('functions.php');
 
 
 
-$getapplication = mysql_query("SELECT * FROM applications WHERE username='".$charname."'");
+$getapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$charname."'");
 
 
 
@@ -22,13 +22,13 @@ if($char['guild'] != "None")
 
 {
 
-    $getguild = mysql_query("SELECT * FROM guilds WHERE name='".$char['guild']."'");
+    $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
 
     $guild = mysql_fetch_assoc($getguild);
 
 
 
-    $getmembers = mysql_query("SELECT * FROM characters WHERE guild='".$char['guild']."'");
+    $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$char['guild']."'");
 
     $members = mysql_num_rows($getmembers);
 
@@ -42,7 +42,7 @@ if($char['guild'] != "None")
 
             if($members >= "10"){
 
-                $setRecruiting = mysql_query("UPDATE guilds SET recruiting='No' WHERE name='".$char['guild']."'");
+                $setRecruiting = mysqli_query($conn, "UPDATE guilds SET recruiting='No' WHERE name='".$char['guild']."'");
 
             }
 
@@ -136,7 +136,7 @@ if($char['guild'] != "None")
 
 
 
-    $getapplicants = mysql_query("SELECT * FROM applications WHERE guild='".$guild['name']."'");
+    $getapplicants = mysqli_query($conn, "SELECT * FROM applications WHERE guild='".$guild['name']."'");
 
     while($applicant = mysql_fetch_array($getapplicants))
 
@@ -279,7 +279,7 @@ if($char['guild'] != "None")
 
     $data .= "<tr><td colspan=\'2\'>";
 
-    $getLog = mysql_query("SELECT * FROM log WHERE name='".$guild['name']."' ORDER BY id DESC LIMIT 10");
+    $getLog = mysqli_query($conn, "SELECT * FROM log WHERE name='".$guild['name']."' ORDER BY id DESC LIMIT 10");
 
     while($logNews=mysql_fetch_array($getLog)){
 
@@ -309,7 +309,7 @@ else
 
 {
 
-    $getguilds = mysql_query("SELECT * FROM guilds WHERE recruiting='Yes'");
+    $getguilds = mysqli_query($conn, "SELECT * FROM guilds WHERE recruiting='Yes'");
 
 
 

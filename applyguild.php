@@ -14,11 +14,11 @@ if($chargold >= "1000000")    //1m
 {
     $guildname = $_POST['guildname'];
 
-    $getguild = mysql_query("SELECT * FROM guilds WHERE id='".$guildname."'");
+    $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE id='".$guildname."'");
     if(mysql_num_rows($getguild) == "1")
     {
         $guild = mysql_fetch_assoc($getguild);
-        $getmembers = mysql_query("SELECT * FROM characters WHERE guild='".$guild['name']."'");
+        $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$guild['name']."'");
         $members = mysql_num_rows($getmembers);
         if($guild['recruiting'] == "Yes" && $members < "10")
         {
@@ -27,8 +27,8 @@ if($chargold >= "1000000")    //1m
                 $data = "<font color=\'#00FF00\'>You have sent your application to ".$guild['name'].".</font><br />";
 
                 $newgold = $chargold - "1000000";
-                $updatechar = mysql_query("UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
-                $setapplication = mysql_query("INSERT INTO applications (`guild`, `username`) VALUES ('".$guild['name']."', '".$charname."')");
+                $updatechar = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
+                $setapplication = mysqli_query($conn, "INSERT INTO applications (`guild`, `username`) VALUES ('".$guild['name']."', '".$charname."')");
             }
             elseif($guild['accept'] == "Auto")
             {
@@ -36,7 +36,7 @@ if($chargold >= "1000000")    //1m
                 $data .= "<a href=\'javascript: viewGuild();\'>Click Here</a> to go to ".$guild['name']."\'s Guild Portal.</center>";
 
                 $newgold = $chargold - "1000000";
-                $updatechar = mysql_query("UPDATE characters SET gold='".$newgold."', guild='".$guild['name']."' WHERE id='".$_SESSION['userid']."'");
+                $updatechar = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."', guild='".$guild['name']."' WHERE id='".$_SESSION['userid']."'");
             }
         }
         else
