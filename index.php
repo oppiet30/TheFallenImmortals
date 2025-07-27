@@ -11,7 +11,7 @@
 <script src="dom.js" type="text/javascript"></script>
 <script src="functions.js" type="text/javascript"></script>
 <script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 <script src="chatroomfunctions.js" type="text/javascript"></script>
 <style type="text/css">
 body {
@@ -197,9 +197,9 @@ a {
 	      $dbhost = "localhost";
 		 $database = "homestead";
 		 $dbuser = "homestead";
-		 $dbpass = "secret";
+		 $dbpass = "19KiNg73";
 
-		$login = mysql_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database) or trigger_error(mysql_error(),E_USER_ERROR);
 		mysql_select_db($database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");

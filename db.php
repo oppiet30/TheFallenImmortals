@@ -6,8 +6,8 @@ $database = "homestead";
 $dbuser = "homestead";
 $dbpass = "secret";
 
-$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysql_error(),E_USER_ERROR);
-mysql_select_db($database) or die("Where?");
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $database) or trigger_error(mysql_error($conn),E_USER_ERROR);
+mysqli_select_db($database) or die("Where?");
 include('varset.php');
 
 //Global Variables

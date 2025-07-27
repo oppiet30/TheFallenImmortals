@@ -18,7 +18,7 @@ session_start();
 
 <script src="dom.js" type="text/javascript"></script>
 
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 
 
 

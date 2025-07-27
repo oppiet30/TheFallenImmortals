@@ -38,7 +38,7 @@ if (browserName=="Microsoft Internet Explorer")
 <script src="dom.js" type="text/javascript"></script>
 <script src="functions.js" type="text/javascript"></script>
 <script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 <script src="chatroomfunctions.js" type="text/javascript"></script>
 <link href="gameindex.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Expires" content="The Fallen Immortals! A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />

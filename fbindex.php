@@ -19,7 +19,7 @@ if (browserName=="Microsoft Internet Explorer")
 <script src="dom.js" type="text/javascript"></script>
 <script src="functions.js" type="text/javascript"></script>
 <script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 <script src="chatroomfunctions.js" type="text/javascript"></script>
 <link href="fbstyle.css" rel="stylesheet" type="text/css" />
 
@@ -94,7 +94,7 @@ if (browserName=="Microsoft Internet Explorer")
     <tr>
         <td valign="bottom" colspan="2">
             <div id="chatBox"></div>
-            <div id="chatRoom"><center>Copyright &copy; 2010, Alexander J Jezior (Vulcan).<br /> We encourage you to take a look at <a href="/privacypolicy.php" target="_BLANK">Privacy Policy</a> and <a href=\'Javascript: viewPP();\'>Terms And Conditions</a> before browsing this site.</center></div>
+            <div id="chatRoom"><center>Copyright &copy; 2010, Alexander J Jezior (Vulcan).<br /> We encourage you to take a look at <a href="<?php echo '__DIR__'/privacypolicy.php" target="_BLANK">Privacy Policy</a> and <a href=\'Javascript: viewPP();\'>Terms And Conditions</a> before browsing this site.</center></div>
         </td><td valign="top">
             <div id="onlineList"></div>
             

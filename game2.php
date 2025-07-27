@@ -17,7 +17,7 @@ $char = mysqli_fetch_assoc($getchar)or die("You need to login!");
 <script src="dom.js" type="text/javascript"></script>
 <script src="functions.js" type="text/javascript"></script>
 <script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 <script src="chatroomfunctions.js" type="text/javascript"></script>
       <script type="text/javascript">
          function showRecaptcha(element) {
