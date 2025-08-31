@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+$char = mysqli_fetch_assoc($getchar);
 $characterSpells = explode(', ', $char['spells']);
 
 $display = "<br /><br /><br />Welcome to Divination! You can learn all sorts of spells to either cast upon yourself or others. Everything comes at a price and wether you have the knowledge or resources will be up to you.";
@@ -26,10 +26,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 300 && $char['blood'] < 15000 && $char['gold'] < 10000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query($conn, "UPDATE characters SET blood=blood-'15000', gold=gold-'10000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid II";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query($conn, "UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid II!!!";
 			}
 			
@@ -45,10 +45,10 @@ if(isset($_POST['name'])){
 			if($char['intelligence'] < 1000 && $char['blood'] < 45000 && $char['gold'] < 30000000){
 				$display .= "You do not meet the requirements to learn this spell.<br /><br />";
 			}else{
-				$removeFee = mysql_query("UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
+				$removeFee = mysqli_query($conn, "UPDATE characters SET blood=blood-'45000', gold=gold-'30000000' WHERE id='".$_SESSION['userid']."'");
 				$characterSpells[0] = "First Aid III";
 				$newCharacterSpells = "".$characterSpells[0].", ".$characterSpells[1].", ".$characterSpells[2].", ".$characterSpells[3].", ".$characterSpells[4].", ".$characterSpells[5].", ".$characterSpells[6].", ".$characterSpells[7].", ".$characterSpells[8].", ".$characterSpells[9].", ".$characterSpells[10].", ".$characterSpells[11]."";
-				$giveSpell = mysql_query("UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
+				$giveSpell = mysqli_query($conn, "UPDATE characters SET spells='".$newCharacterSpells."' WHERE id='".$_SESSION['userid']."'");
 				$display .= "You have learned First Aid III!!!";
 			}
 			
