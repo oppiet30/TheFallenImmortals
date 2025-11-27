@@ -1,3 +1,12 @@
-
 Options -MultiViews
-ErrorDocument 404 //images/68564.php
+<ifModule mod_expires.c>
+    ExpiresActive On
+    # Default expiration (applies to all files not explicitly defined below)
+    ExpiresDefault "access plus 7 days"
+
+    # Specific rules
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+
+</ifModule>
+# ErrorDocument 404 //images/68564.php
