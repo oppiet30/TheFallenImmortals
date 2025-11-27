@@ -50,9 +50,9 @@ if($username != NULL && $username != "")
 
 	{
 
-	    $getuser = mysql_query("SELECT * FROM characters WHERE username='".$username."'");
+	    $getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
 
-	    if(mysql_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
+	    if(mysqli_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
 
 	    {
 
@@ -132,13 +132,13 @@ if($_POST['userEmail'] != NULL)
 
 {
 
-    $getemail = mysql_query("SELECT * FROM characters WHERE email='".$_POST['userEmail']."'");
+    $getemail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$_POST['userEmail']."'");
 
     if(eregi("^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$", $email))
 
     {
 
-        if(mysql_num_rows($getemail) >= "1"){
+        if(mysqli_num_rows($getemail) >= "1"){
 
             $message .= "Email: <font color=\'#DD0000\'>In Use</font><br />";
 
@@ -180,9 +180,9 @@ if($comrade != NULL)
 
 {
 
-    $getcomrade = mysql_query("SELECT * FROM characters WHERE username='".$comrade."'");
+    $getcomrade = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$comrade."'");
 
-    if(mysql_num_rows($getcomrade) == "1")    //Username does not exist
+    if(mysqli_num_rows($getcomrade) == "1")    //Username does not exist
 
     {
 
@@ -288,19 +288,19 @@ if($create == "Yes")
 
     }
 
-    $makeSecondClass = mysql_query("INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES ('".$username."', '".$secondClass."', '1', '0', '15', '0')");
+    $makeSecondClass = mysqli_query($conn, "INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES ('".$username."', '".$secondClass."', '1', '0', '15', '0')");
 
-    $createuser = mysql_query("INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES ('".$username."', '".$password."', '".$email."', '".$gender."', '".$class."', '".$end."', '".$int."', '".$str."', '".$dex."', '".$end."', '".$int."', '".$con."', '".$_SERVER['REMOTE_ADDR']."', '".$comrade."')");
+    $createuser = mysqli_query($conn, "INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES ('".$username."', '".$password."', '".$email."', '".$gender."', '".$class."', '".$end."', '".$int."', '".$str."', '".$dex."', '".$end."', '".$int."', '".$con."', '".$_SERVER['REMOTE_ADDR']."', '".$comrade."')");
 
-    $createkey = mysql_query("INSERT INTO activation (`username`, `key`) VALUES ('".$username."', '".$key."')");
+    $createkey = mysqli_query($conn, "INSERT INTO activation (`username`, `key`) VALUES ('".$username."', '".$key."')");
 
-    $createwarn = mysql_query("INSERT INTO warnings (`username`) VALUES ('".$username."')");
+    $createwarn = mysqli_query($conn, "INSERT INTO warnings (`username`) VALUES ('".$username."')");
 
     
 
     $messageChat = "<b><font color=\'#008888\'>".$username." has registered an account. (Welcome the new player once they have entered the game.)[Mod Chat]</font></b><br />";
 
-    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysql_error());
+    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysqli_error($conn));
 
 
 

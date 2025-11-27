@@ -5,8 +5,8 @@ include('db.php');
 
 if($_POST['spellid'] != "Nothing"){
 	$data = "";
-	$findSpell = mysql_query("SELECT * FROM affinity WHERE name='".$_POST['spellid']."'");
-	$spell = mysql_fetch_assoc($findSpell);
+	$findSpell = mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$_POST['spellid']."'");
+	$spell = mysqli_fetch_assoc($findSpell);
 	if($spell['level'] == 1){
 		$data .= "Cost: 1,000 mana<br />";
 	}elseif($spell['level'] == 2){

@@ -5,7 +5,7 @@ include('db.php');
 include('varset.php');
 include('active.php');
 
-$Fixplayers = mysql_query("UPDATE characters SET captcha='Inactive', captcha_time_limit='0'");
+$Fixplayers = mysqli_query($conn, "UPDATE characters SET captcha='Inactive', captcha_time_limit='0'");
 
 $whatTimeIsIt = time();
 if($char['auto'] > "0" && $char['lastfight']+2 > $whatTimeIsIt){
@@ -20,12 +20,12 @@ if(preg_match("/^javascript:/", $_SERVER['HTTP_REFERER'])){
 
 
 if($char['security']=="1"){
-    $setback = mysql_query("UPDATE characters SET security='0' WHERE id='".$char['id']."'");
+    $setback = mysqli_query($conn, "UPDATE characters SET security='0' WHERE id='".$char['id']."'");
 }
 
 $securitytest = rand(1,200);
 if($securitytest == "1" && $char['auto'] == "0"){
-	$giveTest = mysql_query("UPDATE characters SET security='1' WHERE id='".$char['id']."'");
+	$giveTest = mysqli_query($conn, "UPDATE characters SET security='1' WHERE id='".$char['id']."'");
 }
 
 $attacktype = $_POST['attackType'];
@@ -33,16 +33,16 @@ $enemyid = $char['enemyid'];
 $enemytype = $char['enemytype'];
 $enemylife = $char['enemylife'];
 
-$getenemy = mysql_query("SELECT * FROM enemies WHERE id='".$enemyid."'") or die(mysql_error());
-$enemy = mysql_fetch_assoc($getenemy);
+$getenemy = mysqli_query($conn, "SELECT * FROM enemies WHERE id='".$enemyid."'") or die(mysqli_error($conn));
+$enemy = mysqli_fetch_assoc($getenemy);
 
 $enemyname = $enemy['name'];
 $enemylvl = $enemy['level'];
 $enemystr = $enemy['level'] * "10";
 $enemydex = $enemy['level'] * "10";
 
-/*$getlocation = mysql_query("SELECT * FROM areas WHERE name='".$charloc."'");
-$location = mysql_fetch_assoc($getlocation);
+/*$getlocation = mysqli_query($conn, "SELECT * FROM areas WHERE name='".$charloc."'");
+$location = mysqli_fetch_assoc($getlocation);
 $locx = $location['sizex'];
 $locy = $location['sizey'];*/
 
@@ -166,31 +166,31 @@ if($enemylife > "0"){
             
         }
 
-        $setlife = mysql_query("UPDATE characters SET life='".$charlife."' WHERE id='".$_SESSION['userid']."' ");
+        $setlife = mysqli_query($conn, "UPDATE characters SET life='".$charlife."' WHERE id='".$_SESSION['userid']."' ");
         if($enemylife < "1")    //Enemy has died and the player is rewarded for the fight
         {
             if($charguild != "None")
             {
-		$getMonsterRows = mysql_query("SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl * ("1" + ($guild['exp'] / "100")) / "1.8"));
                 $enemygold = floor("15" * $gettingMR *("1" + ($guild['gold'] / "100")));
 				$tax = ($guild['tax'] / "100");
 				$tax = floor($tax * $enemygold);
 				$enemygold = $enemygold - $tax;
-				$addGuildGold = mysql_query("UPDATE guilds SET bank=bank+'".$tax."' WHERE name='".$charguild."'");
+				$addGuildGold = mysqli_query($conn, "UPDATE guilds SET bank=bank+'".$tax."' WHERE name='".$charguild."'");
 				$taxTalk = "<br />Guild tax: ".$guild['tax']."% (-".number_format($tax)." gold)";
 				
             }
             else
             {
-		$getMonsterRows = mysql_query("SELECT * FROM enemies WHERE level <='".$enemylvl."'");
-		$gettingMR = mysql_num_rows($getMonsterRows);
+		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
+		$gettingMR = mysqli_num_rows($getMonsterRows);
                 $enemyexp = floor("1" + ($enemylvl / "1.8"));   //1.5
                 $enemygold = floor("15" * $gettingMR);  //
             }
-			$getBonusTime = mysql_query("SELECT * FROM bonus WHERE id='1'");
-			$bonusTime = mysql_fetch_assoc($getBonusTime);
+			$getBonusTime = mysqli_query($conn, "SELECT * FROM bonus WHERE id='1'");
+			$bonusTime = mysqli_fetch_assoc($getBonusTime);
 			$currentTime = time();
 			$gstrong = "";
 			$endgStrong = "";
@@ -212,9 +212,9 @@ if($enemylife > "0"){
 				$activeBonus = "<font color=\"#00FF00\">Bonus Time!</font>";
 			}
 			if($bonusTime['experationTime'] <= $date && $bonusTime['experationTime'] != 0){
-				$killBonusTime = mysql_query("UPDATE bonus SET gold='No', experience='No', experationTime='0' WHERE id='1'");
+				$killBonusTime = mysqli_query($conn, "UPDATE bonus SET gold='No', experience='No', experationTime='0' WHERE id='1'");
 				$messagechat = "<strong><font color=\"#00FF00\">Bonus time has ended.</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 			}
 			if($bonusTime['experationTime'] != 0){
 				$bonusTimeLeft = $bonusTime['experationTime'] - time();
@@ -228,21 +228,21 @@ if($enemylife > "0"){
             $newblood = $char['blood'] + "1";
             $newkillstreak = $char['killstreak'] + "1";
 			$lastFight = time();
-            $rewards = mysql_query("UPDATE characters SET expacq='".$newexp."', killstreak='".$newkillstreak."', gold='".$newgold."', blood='".$newblood."', enemylife='0', lastfight='".$lastFight."' WHERE id='".$_SESSION['userid']."' ");
+            $rewards = mysqli_query($conn, "UPDATE characters SET expacq='".$newexp."', killstreak='".$newkillstreak."', gold='".$newgold."', blood='".$newblood."', enemylife='0', lastfight='".$lastFight."' WHERE id='".$_SESSION['userid']."' ");
 
             $data .= "<font color=\'#FFAA22\'>You have killed the ".$enemyname."!<br />You have gained ".$estrong."".number_format($enemyexp)."".$endeStrong." Experience and ".$gstrong."".number_format($enemygold)."".$endgStrong." Gold from the fight!".$taxTalk." <br />".$activeBonus." ".$bonusTimeText."</font><br />";
             include("killstreakreward.php");
             if($char['auto'] > "0"){
 	            $charauto --;
-				$query = mysql_query("UPDATE characters SET auto='".$charauto."' WHERE id='".$_SESSION['userid']."'");
+				$query = mysqli_query($conn, "UPDATE characters SET auto='".$charauto."' WHERE id='".$_SESSION['userid']."'");
             }
 			
 
             if($newexp >= $chartnl)    //Player has levelled up and has gained some stats
             {
                 $data .= "<br />You gained a Level!<br />";
-                $getclass = mysql_query("SELECT * FROM classes WHERE name='".$charclass."'");
-                $class = mysql_fetch_assoc($getclass);
+                $getclass = mysqli_query($conn, "SELECT * FROM classes WHERE name='".$charclass."'");
+                $class = mysqli_fetch_assoc($getclass);
 
                 $newstr = $char['strength'] + $class['strength'];
                 $newdex = $char['dexterity'] + $class['dexterity'];
@@ -302,7 +302,7 @@ if($enemylife > "0"){
 
                 $data .= "+".$class['strength']." Strength, +".$class['dexterity']." Dexterity, +".$class['endurance']." Endurance,<br /> +".$class['intelligence']." Intelligence, +".$class['concentration']." Concentration and ".$addstat." Stat Points";
 
-                $setchar = mysql_query("UPDATE characters SET strength='".$newstr."', dexterity='".$newdex."', endurance='".$newend."', intelligence='".$newint."', concentration='".$newcon."', stats='".$newstats."', level='".$newlvl."', expacq='".$newexp."', expreq='".$newtnl."' WHERE id='".$_SESSION['userid']."'");
+                $setchar = mysqli_query($conn, "UPDATE characters SET strength='".$newstr."', dexterity='".$newdex."', endurance='".$newend."', intelligence='".$newint."', concentration='".$newcon."', stats='".$newstats."', level='".$newlvl."', expacq='".$newexp."', expreq='".$newtnl."' WHERE id='".$_SESSION['userid']."'");
             }
 
             //////////////////////////////////////////////////////////////
@@ -327,10 +327,10 @@ if($enemylife > "0"){
             }
 			
 			$location = "".$char['posx'].", ".$char['posy']."";
-			$findAdventure = mysql_query("SELECT * FROM scavenger WHERE username='".$char['username']."' AND location='".$location."' AND monster='".$enemyname."'");
-			$advent = mysql_fetch_assoc($findAdventure);
+			$findAdventure = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."' AND location='".$location."' AND monster='".$enemyname."'");
+			$advent = mysqli_fetch_assoc($findAdventure);
 			$collect = explode("/", $advent['collect']);
-			if(mysql_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
+			if(mysqli_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
 				$drop = mt_rand("1","100000");
 				$dropNeeded = 1000 - $char['scavenges'];
 				if($drop <= $dropNeeded)    //Adventure item drop
@@ -346,7 +346,7 @@ if($enemylife > "0"){
             		}
             		$collect0 =  $collect[0] + 1;
             		$collectcorrection = $collect0."/".$collect[1];
-            		$updateCollect = mysql_query("UPDATE scavenger SET collect='".$collectcorrection."' WHERE id='".$advent['id']."'");
+            		$updateCollect = mysqli_query($conn, "UPDATE scavenger SET collect='".$collectcorrection."' WHERE id='".$advent['id']."'");
             		if($collect0 == $collect[1]){
             			$data .= "<b>Thats the last one!</b><br />";
             		}
@@ -355,17 +355,17 @@ if($enemylife > "0"){
 			
 			$drop = mt_rand("1","100000");
 			$base = 75 + $char['networth'];
-			$findCash = mysql_query("SELECT * FROM cashpot WHERE cash>'0'");
-			$cash = mysql_fetch_assoc($findCash);
+			$findCash = mysqli_query($conn, "SELECT * FROM cashpot WHERE cash>'0'");
+			$cash = mysqli_fetch_assoc($findCash);
             if($drop <= $base && $cash['cash'] > 0 && $char['networth'] > 0)    //Cash Drop
             {
                 $data .= "<font color=\'#CCFF00\'><<<<< CASH FOUND >>>>>><b>!!!NETWORTH BONUS!!!</b></font><br />";
 				$data .= "<img src=\'/images/cashDrop.png\'>";
                 $cash = $cash['cash'] - 1;
-                $addcash = mysql_query("UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'");
-                $removecash = mysql_query("UPDATE cashpot SET cash=cash-'1'");
+                $addcash = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'");
+                $removecash = mysqli_query($conn, "UPDATE cashpot SET cash=cash-'1'");
                 $messagechat = "<strong><font color=\'#CCFF00\'><<<<< CASH FOUND >>>>>>".$char['username']." obtained One game cash! (".$cash." Left!)</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
 			
             $drop = mt_rand("1","100000");
@@ -379,9 +379,9 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($statdrop)." Stat Points! <b>BONUS</b>!</font><br />";
 				$fillImg = "<img src=\'/images/statpointDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $addpoints = mysql_query("UPDATE characters SET stats='".$charstats."' WHERE id='".$_SESSION['userid']."'");
+                $addpoints = mysqli_query($conn, "UPDATE characters SET stats='".$charstats."' WHERE id='".$_SESSION['userid']."'");
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." obtained ".number_format($statdrop)." Stat Points as a bonus!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
 
             $drop = mt_rand("1","100000");
@@ -394,9 +394,9 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($golddrop)." Gold! <b>BONUS</b>!</font><br />";
 				$fillImg = "<img src=\'/images/goldDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $addgold = mysql_query("UPDATE characters SET gold='".$chargold."' WHERE id='".$_SESSION['userid']."'");
+                $addgold = mysqli_query($conn, "UPDATE characters SET gold='".$chargold."' WHERE id='".$_SESSION['userid']."'");
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." obtained ".number_format($golddrop)." Gold as a bonus!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","100000");
             if($drop <= "40")    //Blood Drop
@@ -406,18 +406,18 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($randomBlood)." oz. of Blood! <b>BONUS</b>!</font><br />";
 				$fillImg = "<img src=\'/images/bloodDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $addgold = mysql_query("UPDATE characters SET blood='".$charblood."' WHERE id='".$_SESSION['userid']."'");
+                $addgold = mysqli_query($conn, "UPDATE characters SET blood='".$charblood."' WHERE id='".$_SESSION['userid']."'");
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has hit the main artery of ".$enemyname." and gains ".number_format($randomBlood)." oz. of Blood as a bonus!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","100000");
             if($drop <= "40")    //bag Drop
             {
                 $randx = rand(1,100);
                 $randy = rand(1,100);
-                $addBag = mysql_query("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+                $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
                 $messagechat = "<strong><font color=\'#CCFF00\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","100000");
             if($drop <= "20" && $char['mana'] < $char['intelligence'])    //mana Drop
@@ -425,9 +425,9 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'><b>You feel rejuvenated!</b></font><br />";
 				$fillImg = "<img src=\'/images/manaDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $addBag = mysql_query("UPDATE characters SET mana='".$char['intelligence']."' WHERE id='".$_SESSION['userid']."'");
+                $addBag = mysqli_query($conn, "UPDATE characters SET mana='".$char['intelligence']."' WHERE id='".$_SESSION['userid']."'");
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has had their Mana recharged!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","100000");
             if($drop <= "10" && $char['temple'] == "1")    //Temple Regenerate
@@ -435,9 +435,9 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'><b>You may visit the Temple again!</b></font><br />";
 				$fillImg = "<img src=\'/images/templeReset.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $addBag = mysql_query("UPDATE characters SET temple='0' WHERE id='".$_SESSION['userid']."'");
+                $addBag = mysqli_query($conn, "UPDATE characters SET temple='0' WHERE id='".$_SESSION['userid']."'");
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has had their Temple reset and may donate again!</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","100000");
             if($drop <= "3" && $char['tradeskill'] < "1000")    //Trade Skill Increase
@@ -445,7 +445,7 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'><b>You have learned to better manage your money with the Shop!</b></font><br />";
 				$fillImg = "<img src=\'/images/tradeskillDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $increaseTradeSkill = mysql_query("UPDATE characters SET tradeskill=tradeskill+'1' WHERE id='".$_SESSION['userid']."'");
+                $increaseTradeSkill = mysqli_query($conn, "UPDATE characters SET tradeskill=tradeskill+'1' WHERE id='".$_SESSION['userid']."'");
             }
 			$drop = mt_rand("1","100000");
             if($drop <= "3")    //Cash Drop
@@ -458,9 +458,9 @@ if($enemylife > "0"){
                 $data .= "<font color=\'#CCFF00\'><b>You robbed the Gula of her <strong>Cash</strong>!(+1NP)</b></font><br />";
 				$fillImg = "<img src=\'/images/cashDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $increaseTradeSkill = mysql_query("UPDATE characters SET cash=cash+'1', nobility='".$newNp."' WHERE id='".$_SESSION['userid']."'");
+                $increaseTradeSkill = mysqli_query($conn, "UPDATE characters SET cash=cash+'1', nobility='".$newNp."' WHERE id='".$_SESSION['userid']."'");
 				$messagechat = "<font color=\'#CCFF00\'>".$char['username']." has robbed the Gula of her <strong>Cash</strong>!(+1NP)</font><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
             }
             $drop = mt_rand("1","80000");
             if($drop <= "5")    //Demon Spawn
@@ -510,8 +510,8 @@ if($enemylife > "0"){
 				$fillImg = "<img src=\'/images/demonSpawn.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $messagechat = "<strong><font color=\'#00FF20\'>".$char['username']." has spawned ".$BossName." from the depths of HELL! Location: (".$randBossX.", ".$randBossY.")</font></strong><br />";
-                $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
-                $spawnDemon = mysql_query("INSERT INTO demons (`name`, `health`, `power`, `xpos`, `ypos`) VALUES ('".$BossName."', '".$BossHealth."', '".$BossPower."', '".$randBossX."', '".$randBossY."')");
+                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                $spawnDemon = mysqli_query($conn, "INSERT INTO demons (`name`, `health`, `power`, `xpos`, `ypos`) VALUES ('".$BossName."', '".$BossHealth."', '".$BossPower."', '".$randBossX."', '".$randBossY."')");
             }
 			include("nobilityLvl.php");
         }
@@ -519,13 +519,13 @@ if($enemylife > "0"){
         {
         	$enemylife = "0";
             $data .= "<font color=\'#FF0000\'>You have died!</font><br /><input type=\'button\' id=\'ressurect\' value=\'Ressurect\' onClick=\'ressurectChar();\' />";
-            $killplayer = mysql_query("UPDATE characters SET life='0', auto='0', enemylife='".$enemylife."' WHERE id='".$_SESSION['userid']."' ");
+            $killplayer = mysqli_query($conn, "UPDATE characters SET life='0', auto='0', enemylife='".$enemylife."' WHERE id='".$_SESSION['userid']."' ");
 			print("fillDiv('displayArea','".$data."');");
 			die();
         }
         else    //Neither are dead and the form is given to attack again
         {
-            $damageplayer = mysql_query("UPDATE characters SET life='".$charlife."', enemylife='".$enemylife."' WHERE id='".$_SESSION['userid']."' ");
+            $damageplayer = mysqli_query($conn, "UPDATE characters SET life='".$charlife."', enemylife='".$enemylife."' WHERE id='".$_SESSION['userid']."' ");
 
 			$data .= "Attacking Again! Please wait...";
             print("setTimeout('fightEnemy();', 2000);");

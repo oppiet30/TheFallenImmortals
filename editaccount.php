@@ -2,8 +2,8 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+$char = mysqli_fetch_assoc($getchar);
 $display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewAccount();\">Back</a></strong><br /><br />";
 
 if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != Null){
@@ -11,8 +11,8 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	$nemail = $_POST['nemail'];
 	$nemail2 = $_POST['nemail2'];
 	
-	$checkNewEmail = mysql_query("SELECT * FROM characters WHERE email='".$nemail."'");
-	$CheckRowOnEmail = mysql_num_rows($checkNewEmail);
+	$checkNewEmail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$nemail."'");
+	$CheckRowOnEmail = mysqli_num_rows($checkNewEmail);
 	
 	if($oemail != $char['email']){
 		$display .= "<center>Your current email address is not correct!</center><br />";
@@ -32,7 +32,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your old email. Once you have followed the link in your OLD EMAIL address you new email will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysql_query("INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES ('".$char['username']."', '".$nemail."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
+		$addActivationDatabase = mysqli_query($conn, "INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES ('".$char['username']."', '".$nemail."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
 	}
 }elseif($_POST['opass'] != NULL && $_POST['npass'] != Null && $_POST['npass2'] != Null){
 	function murder($data){ 
@@ -64,7 +64,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your email. Once you have followed the link in your email address you new password will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysql_query("INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES ('".$char['username']."', '".$npass."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
+		$addActivationDatabase = mysqli_query($conn, "INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES ('".$char['username']."', '".$npass."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
 	}else{
 		$display .= "<center>Problem changing password. If problem persist, contact an admin!</center><br />";
 	}
@@ -100,11 +100,11 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	}else{
 		die("alert(\'NO Chat COLOR!\');");
 	}
-	$updateRainbow = mysql_query("UPDATE characters SET chatcolour='".$color."' WHERE id='".$_SESSION['userid']."'");
+	$updateRainbow = mysqli_query($conn, "UPDATE characters SET chatcolour='".$color."' WHERE id='".$_SESSION['userid']."'");
 	$display .= "<font color=\'".$color."\'>Chat color has been changed.</font><br /><br />";
 }
-$findReferals = mysql_query("SELECT * FROM characters WHERE refferal='".$char['username']."'");
-$numOfRef = mysql_num_rows($findReferals);
+$findReferals = mysqli_query($conn, "SELECT * FROM characters WHERE refferal='".$char['username']."'");
+$numOfRef = mysqli_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
 $display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Refferals: ".$numOfRef."</center>";

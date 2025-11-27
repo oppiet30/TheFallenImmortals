@@ -6,13 +6,13 @@ include('db.php');
 if($_POST['name'] != Null){
     $name = $_POST['name'];
     
-    $getchar = mysql_query("SELECT * FROM characters WHERE username='".$name."'") or die(mysql_error());
-    $char = mysql_fetch_assoc($getchar);
+    $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$name."'") or die(mysqli_error($conn));
+    $char = mysqli_fetch_assoc($getchar);
     
-    $getequip = mysql_query("SELECT * FROM inventory WHERE username='".$name."' AND equipped='Yes'");
-    if(mysql_num_rows($getequip) > "0")
+    $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$name."' AND equipped='Yes'");
+    if(mysqli_num_rows($getequip) > "0")
     {
-        while($equip = mysql_fetch_array($getequip))
+        while($equip = mysqli_fetch_array($getequip))
         {
             $eqstrbon += $equip['strength'];
             $eqdexbon += $equip['dexterity'];
@@ -36,13 +36,13 @@ if($_POST['name'] != Null){
     if($chargold >= "1000000000000")
     {
         $chargold = "1000000000000";
-        $setgold = mysql_query("UPDATE characters SET gold='".$chargold."' WHERE username='".$name."'");
+        $setgold = mysqli_query($conn, "UPDATE characters SET gold='".$chargold."' WHERE username='".$name."'");
     }
     $charbank = $char['bank'];
     if($charbank >= "1000000000000")
     {
         $charbank = "1000000000000";
-        $setbank = mysql_query("UPDATE characters SET bank='".$charbank."' WHERE username='".$name."'");
+        $setbank = mysqli_query($conn, "UPDATE characters SET bank='".$charbank."' WHERE username='".$name."'");
     }
 
     $charloc = $char['location'];
@@ -99,8 +99,8 @@ if($_POST['name'] != Null){
     $data .= "<table width=\'100%\'>";
     $data .= "<tr>";
     $data .= "<td>";
-    $findSecondClass = mysql_query("SELECT * FROM secondclass WHERE username='".$char['username']."'");
-    $sclass = mysql_fetch_assoc($findSecondClass);
+    $findSecondClass = mysqli_query($conn, "SELECT * FROM secondclass WHERE username='".$char['username']."'");
+    $sclass = mysqli_fetch_assoc($findSecondClass);
     $data .= "<br><table border=\'1\'>";
 	$data .= "<tr><td colspan=\'3\'><center><u>Second Class</u></center></td></tr>";
 	$data .= "<tr><td>Class: ".$sclass['class']."</td><td>Level: ".number_format($sclass['level'])."</td><td>Blood: ".$sclass['blood']."</td></tr>";
@@ -116,15 +116,15 @@ if($_POST['name'] != Null){
     $data .= "</td>";
     $data .= "<td>";
     $blessing = explode(', ', $char['blessing']); 
-	$blessing1 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[0]."'"));
-	$blessing2 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[1]."'"));
-	$blessing3 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[2]."'"));
-	$blessing4 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[3]."'"));
-	$blessing5 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[4]."'"));
-	$blessing6 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[5]."'"));
-	$blessing7 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[6]."'"));
-	$blessing8 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[7]."'"));
-	$blessing9 = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE name='".$blessing[8]."'"));
+	$blessing1 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[0]."'"));
+	$blessing2 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[1]."'"));
+	$blessing3 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[2]."'"));
+	$blessing4 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[3]."'"));
+	$blessing5 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[4]."'"));
+	$blessing6 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[5]."'"));
+	$blessing7 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[6]."'"));
+	$blessing8 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[7]."'"));
+	$blessing9 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[8]."'"));
 	$data .= "<u>Affinity Bonuses:</u>";
 	$data .= "<table border=\'0\'>";
     $data .= "<tr><td title=\'".$blessing1['description']."\'><img src=\'".$blessing1['image']."\'><br />".$blessing[0]."</td><td title=\'".$blessing2['description']."\'><img src=\'".$blessing2['image']."\'><br />".$blessing[1]."</td><td title=\'".$blessing3['description']."\'><img src=\'".$blessing3['image']."\'><br />".$blessing[2]."</td></tr><tr><td title=\'".$blessing4['description']."\'><img src=\'".$blessing4['image']."\'><br />".$blessing[3]."</td><td title=\'".$blessing5['description']."\'><img src=\'".$blessing5['image']."\'><br />".$blessing[4]."</td><td title=\'".$blessing6['description']."\'><img src=\'".$blessing6['image']."\'><br />".$blessing[5]."</td></tr><tr><td title=\'".$blessing7['description']."\'><img src=\'".$blessing7['image']."\'><br />".$blessing[6]."</td><td title=\'".$blessing8['description']."\'><img src=\'".$blessing8['image']."\'><br />".$blessing[7]."</td><td title=\'".$blessing9['description']."\'><img src=\'".$blessing9['image']."\'><br />".$blessing[8]."</td></tr><tr>";
@@ -171,11 +171,11 @@ if($_POST['showAll'] == "Yes"){
 }else{
 	$extention = " ORDER BY Level DESC LIMIT 20";
 }
-$getchar = mysql_query("SELECT * FROM characters WHERE status='Normal' AND level>'10'".$extention."");
-while($char = mysql_fetch_array($getchar))
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE status='Normal' AND level>'10'".$extention."");
+while($char = mysqli_fetch_array($getchar))
 {
-	$getcharRank = mysql_query("SELECT * FROM characters WHERE level>'".$char['level']."'");
-	$charRank = mysql_num_rows($getcharRank);
+	$getcharRank = mysqli_query($conn, "SELECT * FROM characters WHERE level>'".$char['level']."'");
+	$charRank = mysqli_num_rows($getcharRank);
 	$charRank = $charRank + 1;
     $name = $char['username'];
     $level = $char['level'];

@@ -3,13 +3,13 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+$char = mysqli_fetch_assoc($getchar);
 
 if(isset($_POST['demonid'])){
-    $findDemon = mysql_query("SELECT * FROM demons WHERE id='".$_POST['demonid']."'");
-    if(mysql_num_rows($findDemon) >= "1"){
-        $demon = mysql_fetch_assoc($findDemon);
+    $findDemon = mysqli_query($conn, "SELECT * FROM demons WHERE id='".$_POST['demonid']."'");
+    if(mysqli_num_rows($findDemon) >= "1"){
+        $demon = mysqli_fetch_assoc($findDemon);
 		if($char['level'] >= "10000" && $demon['power'] == "1"){
 			die("alert('After level 10,000, you may only kill Overlord Demons.');");
 		}
@@ -43,51 +43,51 @@ if(isset($_POST['demonid'])){
             
             $damageval = mt_rand($damagemin, $damagemax);
             $demonNewHealth = $demon['health'] - $damageval;
-            $hurtdemon = mysql_query("UPDATE demons SET health=health-'".$damageval."' WHERE id='".$demon['id']."'");
+            $hurtdemon = mysqli_query($conn, "UPDATE demons SET health=health-'".$damageval."' WHERE id='".$demon['id']."'");
             $data .= "You hit ".$demon['name']." for ".number_format($damageval)." damage!<br />";
             $data .= "".$demon['name']." has ".number_format($demonNewHealth)." left!<br />";
             if($demon['health'] <= "0" || $demonNewHealth <= "0"){
                 $data .= "You killed ".$demon['name']."!<br />";
                 if($demon['name'] == "Barbatos"){
-                    $reward = mysql_query("UPDATE characters SET stats=stats+'250' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET stats=stats+'250' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 250 Stat Points in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 250 Stat Points!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Barbatos Overlord"){
-                    $reward = mysql_query("UPDATE characters SET stats=stats+'1000' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET stats=stats+'1000' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 1,000 Stat Points in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 1,000 Stat Points!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Incubus"){
-                    $reward = mysql_query("UPDATE characters SET gold=gold+'1500000' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET gold=gold+'1500000' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 1,500,000 Gold in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 1,500,000 Gold!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Incubus Overlord"){
-                    $reward = mysql_query("UPDATE characters SET gold=gold+'10000000' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET gold=gold+'10000000' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 10,000,000 Gold in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 10,000,000 Gold!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Eurynome"){
-                    $reward = mysql_query("UPDATE characters SET blood=blood+'300' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET blood=blood+'300' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 300 oz. of Blood in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 300 oz. of Blood!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Eurynome Overlord"){
-                    $reward = mysql_query("UPDATE characters SET blood=blood+'1200' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET blood=blood+'1200' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 1,200 oz. of Blood in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 1,200 oz. of Blood!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Gula"){
-                    $reward = mysql_query("UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 1 Cash in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 1 Cash!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }elseif($demon['name'] == "Gula Overlord"){
-                    $reward = mysql_query("UPDATE characters SET cash=cash+'3' WHERE id='".$_SESSION['userid']."'");
+                    $reward = mysqli_query($conn, "UPDATE characters SET cash=cash+'3' WHERE id='".$_SESSION['userid']."'");
                     $data .= "You gain 3 Cash in your success!<br />";
                     $messagechat = "<strong><font color=\'#FF0000\'>".$char['username']." killed ".$demon['name']." and gained 3 Cash!</font></strong><br />";
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
                 }
             }else{
                 $demondamsmall = floor($demon['power'] * "500000");
@@ -95,11 +95,11 @@ if(isset($_POST['demonid'])){
                 $demondamage = mt_rand($demondamsmall, $demondambig);
                 $data .= "".$demon['name']." hits you for ".number_format($demondamage)." damage!<br />";
                 $data .= "".$demon['name']." has ".number_format($demon['health'])." left!<br />";
-                $updateCharHealth = mysql_query("UPDATE characters SET life=life-'".$demondamage."' WHERE id='".$_SESSION['userid']."'");
+                $updateCharHealth = mysqli_query($conn, "UPDATE characters SET life=life-'".$demondamage."' WHERE id='".$_SESSION['userid']."'");
                 $charhealth = $char['life'] - $demondamage;
                 if($char['life'] <= "0" || $charhealth <= "0"){
                     $data .= "<font color=\'#FF0000\'>You have died, but the fierce will to defeat this demon has brought you back to life!</font><br />";
-                    $killplayer = mysql_query("UPDATE characters SET life='".$char['endurance']."' WHERE id='".$_SESSION['userid']."' ");
+                    $killplayer = mysqli_query($conn, "UPDATE characters SET life='".$char['endurance']."' WHERE id='".$_SESSION['userid']."' ");
                     $data .= "</center>";
                 }else{
                     $data .= "</center>";
@@ -115,7 +115,7 @@ if(isset($_POST['demonid'])){
             $charhealth = $char['life'] - $demondamage;
             if($char['life'] <= "0" || $charhealth <= "0"){
                 $data .= "<font color=\'#FF0000\'>You have died, but the fierce will to defeat this demon has brought you back to life!</font><br />";
-                $killplayer = mysql_query("UPDATE characters SET life='".$char['endurance']."' WHERE id='".$_SESSION['userid']."' ");
+                $killplayer = mysqli_query($conn, "UPDATE characters SET life='".$char['endurance']."' WHERE id='".$_SESSION['userid']."' ");
                 $data .= "</center>";
             }else{
                 

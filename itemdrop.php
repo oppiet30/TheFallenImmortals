@@ -264,20 +264,20 @@ if($itemname == ""){
 }else{
 	$value = ("10" * ($strbon + $dexbon + $endbon + $intbon + $conbon));
 	$itemname = $char['username']." ".$itemname."";
-	$findInventory = mysql_query("SELECT * FROM inventory WHERE username='".$char['username']."'");
-	$inventoryFull = mysql_num_rows($findInventory);
+	$findInventory = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."'");
+	$inventoryFull = mysqli_num_rows($findInventory);
 	if($inventoryFull >= $char['backpacksize']){
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />But your backpack is already holding it\'s max limit of ".$char['backpacksize']." items. So the item was lost.<br />";
 		$activeTime = time();
-		$query = mysql_query("INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysql_real_escape_string($data2)."')");
+		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $data2)."')");
 	}else{
-		$makeitem = mysql_query("INSERT INTO inventory (`username`, `itemname`, `levelreq`, `power`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$charname."', '".$itemname."', '".$bonmin."', '".$itempower."', '".$itemtype."', '".$strbon."', '".$dexbon."', '".$endbon."', '".$intbon."', '".$conbon."', '".$value."')");
+		$makeitem = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `levelreq`, `power`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$charname."', '".$itemname."', '".$bonmin."', '".$itempower."', '".$itemtype."', '".$strbon."', '".$dexbon."', '".$endbon."', '".$intbon."', '".$conbon."', '".$value."')");
 		
-		$itemSet = mysql_insert_id();
+		$itemSet = mysqli_insert_id($conn);
 		
 		$data2 .= "You find a ".$itemname." on the enemies corpse!<br />Str: ".$strbon." Dex: ".$dexbon." End: ".$endbon." Int: ".$intbon." Con: ".$conbon." Val: ".$value."(<a href=\'javascript: sell(\"".$itemSet."\");\'>Sell</a>)<br />";
 		$activeTime = time();
-		$query = mysql_query("INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysql_real_escape_string($data2)."')");
+		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $data2)."')");
 	}
 }	
 ?>

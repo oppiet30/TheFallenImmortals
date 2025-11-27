@@ -8,15 +8,15 @@ include('db.php');
 
 
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 
-$char = mysql_fetch_assoc($getchar);
+$char = mysqli_fetch_assoc($getchar);
 
 
 
-$gettemple = mysql_query("SELECT * FROM temple");
+$gettemple = mysqli_query($conn, "SELECT * FROM temple");
 
-$temple = mysql_fetch_assoc($gettemple);
+$temple = mysqli_fetch_assoc($gettemple);
 
 
 
@@ -46,19 +46,19 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
         $byegold = $char['gold'] - $amount;
 
-        $update = mysql_query("UPDATE characters SET gold='".$byegold."', temple='1' WHERE id='".$_SESSION['userid']."'");
+        $update = mysqli_query($conn, "UPDATE characters SET gold='".$byegold."', temple='1' WHERE id='".$_SESSION['userid']."'");
 
         $add = $temple['pot'] + $amount;
 
-        $moregold = mysql_query("UPDATE temple SET pot='".$add."'");
+        $moregold = mysqli_query($conn, "UPDATE temple SET pot='".$add."'");
 
-        $addUserToLotto = mysql_query("INSERT INTO donationpot (`username`) VALUES ('".$char['username']."')")or die("alert('Can't add to dpot, Tell an Admin!');");
+        $addUserToLotto = mysqli_query($conn, "INSERT INTO donationpot (`username`) VALUES ('".$char['username']."')")or die("alert('Can't add to dpot, Tell an Admin!');");
 
         $data = "Your contribution of ".number_format($amount)." has been added to our donations, thank you!<br />";
 
         $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." donated ".number_format($amount)." gold to the reform efforts of the Temple!</font></strong><br />";
 
-        $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
         
 
@@ -97,7 +97,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
             
 
-            $numberBlessings = mysql_num_rows(mysql_query("SELECT * FROM `affinity` WHERE name<>'None' AND name<>'Buy'"));             
+            $numberBlessings = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM `affinity` WHERE name<>'None' AND name<>'Buy'"));             
 
             if($random01 == 1 && $char['affinitys'] >= '1'){
 
@@ -105,7 +105,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $firstSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$firstSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$firstSlot."'"));
 
                 $blessing[0] = $name['name'];
 
@@ -115,7 +115,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -137,7 +137,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $secondSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$secondSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$secondSlot."'"));
 
                 $blessing[1] = $name['name'];
 
@@ -147,7 +147,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -169,7 +169,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $thirdSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$thirdSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$thirdSlot."'"));
 
                 $blessing[2] = $name['name'];
 
@@ -179,7 +179,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -199,7 +199,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fourthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fourthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fourthSlot."'"));
 
                 $blessing[3] = $name['name'];
 
@@ -209,7 +209,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -231,7 +231,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[4] = $name['name'];
 
@@ -241,7 +241,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -263,7 +263,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[5] = $name['name'];
 
@@ -273,7 +273,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -295,7 +295,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[6] = $name['name'];
 
@@ -305,7 +305,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -327,7 +327,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[7] = $name['name'];
 
@@ -337,7 +337,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -359,7 +359,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                 $fifthSlot = rand(1, $numberBlessings);
 
-                $name = mysql_fetch_assoc(mysql_query("SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE id='".$fifthSlot."'"));
 
                 $blessing[8] = $name['name'];
 
@@ -369,7 +369,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
                     $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." gained ".$name['name']." blessing for their donation.</font></strong><br />";
 
-                    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 
                 }
 
@@ -389,7 +389,7 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 
             $updateBlessings = "".$blessing[0].", ".$blessing[1].", ".$blessing[2].", ".$blessing[3].", ".$blessing[4].", ".$blessing[5].", ".$blessing[6].", ".$blessing[7].", ".$blessing[8]."";
 
-            $blessingsINmysql = mysql_query("UPDATE characters SET blessing='".$updateBlessings."' WHERE id='".$_SESSION['userid']."'");
+            $blessingsINmysql = mysqli_query($conn, "UPDATE characters SET blessing='".$updateBlessings."' WHERE id='".$_SESSION['userid']."'");
 
         
 
@@ -401,9 +401,9 @@ if($_POST['amount'] >= 0 && ctype_digit($_POST['amount']))
 			$nobilityLevel = $nobilityLevel + 1;
 			$newNp = $nobilityRank."(".$nobilityLevel.")";
             $data .= "<br /><font color=\'#808000\'><b>You have been blessed!(+1NP)</b></font>";
-            $increaseTradeSkill = mysql_query("UPDATE characters SET nobility='".$newNp."' WHERE id='".$_SESSION['userid']."'");
+            $increaseTradeSkill = mysqli_query($conn, "UPDATE characters SET nobility='".$newNp."' WHERE id='".$_SESSION['userid']."'");
 			$messagechat = "<font color=\'#CCFF00\'>By the power of the gods ".$char['username']." has been <strong>Blessed</strong>!(+1NP)</font><br />";
-            $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
 		}
 
     }
@@ -441,8 +441,8 @@ else
 			$newb = "<input type=\'hidden\' id=\'amount\' value=\'0\' /><input type=\'button\' value=\'FREE DONATION\' onclick=\'Javascript: makeDonation();\' />";
 		}
 		
-		$findDonations = mysql_query("SELECT * FROM donationpot WHERE username='".$char['username']."'");
-		$timesDonated = mysql_num_rows($findDonations);
+		$findDonations = mysqli_query($conn, "SELECT * FROM donationpot WHERE username='".$char['username']."'");
+		$timesDonated = mysqli_num_rows($findDonations);
 
         print("fillDiv('displayArea','<center><strong>Donation Temple</strong><br /><br />Your prayers are much needed since this evil has fallen upon us.<br /> As you may have already noticed, the Temple is falling apart and we are trying to rebuild. The only problem though is the lack of donations to hire soneone to do some repairs around here.<br />Would you be so kind?<br />Total Donations: ".number_format($temple['pot'])."<br />Times donated this month: ".$timesDonated."<br />".$newb."<br />NOTE: <br />-Under level 250 donate for blessings for free<br />-250,000 gold for chance to get Blessings<br />-5,000,000 gold to recieve 1 Nobility Point<br />-Every time you donate, get a ticket towards winning the donation pot at the end of the month.</center>');");
 

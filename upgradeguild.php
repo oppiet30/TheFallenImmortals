@@ -4,8 +4,8 @@ session_start();
 include('db.php');
 include('varset.php');
 
-$getguild = mysql_query("SELECT * FROM guilds WHERE name='".$charguild."'");
-$guild = mysql_fetch_assoc($getguild);
+$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
+$guild = mysqli_fetch_assoc($getguild);
 
 if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain'])
 {
@@ -17,7 +17,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname
             $newexp = $guild['exp'] + "1";
             $newcost = floor($guild['expcost'] * "1.25");
             $newbank = $guild['bank'] - $guild['expcost'];
-            $setguild = mysql_query("UPDATE guilds SET exp='".$newexp."', expcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
+            $setguild = mysqli_query($conn, "UPDATE guilds SET exp='".$newexp."', expcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
         }
     }
     elseif($upgrade == "Gold")
@@ -27,7 +27,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname
             $newgold = $guild['gold'] + "1";
             $newcost = floor($guild['goldcost'] * "1.25");
             $newbank = $guild['bank'] - $guild['goldcost'];
-            $setguild = mysql_query("UPDATE guilds SET gold='".$newgold."', goldcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
+            $setguild = mysqli_query($conn, "UPDATE guilds SET gold='".$newgold."', goldcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
         }
     }
     elseif($upgrade == "Item Drop")
@@ -37,7 +37,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname
             $newitemdrop = $guild['itemdrop'] + "1";
             $newcost = floor($guild['itemdropcost'] * "1.25");
             $newbank = $guild['bank'] - $guild['itemdropcost'];
-            $setguild = mysql_query("UPDATE guilds SET itemdrop='".$newitemdrop."', itemdropcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
+            $setguild = mysqli_query($conn, "UPDATE guilds SET itemdrop='".$newitemdrop."', itemdropcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
         }
     }
     elseif($upgrade == "Item Boost")
@@ -47,7 +47,7 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname
             $newitemboost = $guild['itemboost'] + "1";
             $newcost = floor($guild['itemboostcost'] * "1.25");
             $newbank = $guild['bank'] - $guild['itemboostcost'];
-            $setguild = mysql_query("UPDATE guilds SET itemboost='".$newitemboost."', itemboostcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
+            $setguild = mysqli_query($conn, "UPDATE guilds SET itemboost='".$newitemboost."', itemboostcost='".$newcost."', bank='".$newbank."' WHERE name='".$guild['name']."'");
         }
     }
 
