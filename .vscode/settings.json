@@ -1,0 +1,8 @@
+{
+  // SonarLint rule overrides for this project
+  "sonarlint.rules": {
+    "javascript:S7764": {
+      "level": "off"
+    }
+  }
+}

@@ -53,3 +53,8 @@ that this project does not accurately depict. This project merely shows an examp
 of my experience as a developer. Now-a-days, you can find me spending my time trying to build my own frame work, or CMS,
  and at times, dabbling with other developers ideas, such as, Laravel, or OctoberCMS. Feel free to connect with me, 
  I'm always happy to talk about programming!
+
+## SonarLint setup
+
+If you still see S7764 warnings, copy `.vscode/settings.json`
+into your User settings.

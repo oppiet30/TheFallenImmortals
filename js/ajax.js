@@ -21,7 +21,7 @@ function evalAJAXHtml(source){
 			}
 		}
 		catch(e){
-			//Exception-bug in FF
+			console.error("XHR callback error:", e, "Response was:", ajax.responseText);
 		}
 	}
 	ajax.send(null);
@@ -46,7 +46,7 @@ function evalpostAJAXHtml(source,datan){
 			}
 		}
 		catch(e){
-			//Exception-bug in FF
+			console.error("XHR callback error:", e, "Response was:", ajax.responseText);
 		}
 	}
 	ajax.send(datan);
