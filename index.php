@@ -1,45 +1,42 @@
 <?php error_reporting(E_ALL ^ E_DEPRECATED); ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta name="KEYWORDS" content="MMORPG; RPG; game; multiplayer; online; fun; free; games; role; playing; Neflaria; Shimlar; Race War Kingdoms; Dragon; Kingdoms; War; Immoral; Attack; Immoral Attack; Immortal; Domain; Heroes; Old; School; Lost; Runes; Fallen; Immortals; Fallen Immortals; Eternal; Wars; Eternal Wars;" >
-<meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
+    <head>
+        <meta name="KEYWORDS" content="MMORPG; RPG; game; multiplayer; online; fun; free; games; role; playing; Neflaria; Shimlar; Race War Kingdoms; Dragon; Kingdoms; War; Immoral; Attack; Immoral Attack; Immortal; Domain; Heroes; Old; School; Lost; Runes; Fallen; Immortals; Fallen Immortals; Eternal; Wars; Eternal Wars;" >
+        <meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
 
-<title>The Fallen Immortals! Online Text-Based MMORPG</title>
-<script src="./js/ajax.js" type="text/javascript"></script>
-<script src="./js/dom.js" type="text/javascript"></script>
-<script src="./js/functions.js" type="text/javascript"></script>
-<script src="./js/homefunctions.js" type="text/javascript"></script>
-<script src="./js/gamefunctions.js" type="text/javascript"></script>
-<script src="./js/chatroomfunctions.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="./css/index.css" />
+        <title>The Fallen Immortals! Online Text-Based MMORPG</title>
+        <script src="./js/ajax.js" type="text/javascript"></script>
+        <script src="./js/dom.js" type="text/javascript"></script>
+        <script src="./js/functions.js" type="text/javascript"></script>
+        <script src="./js/homefunctions.js" type="text/javascript"></script>
+        <script src="./js/gamefunctions.js" type="text/javascript"></script>
+        <script src="./js/chatroomfunctions.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" type="text/css" href="./css/index.css" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X5RE5YMJ6E"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-X5RE5YMJ6E');
+    gtag('config', 'G-X5RE5YMJ6E');
 </script>
-
 </head>
 
 <body>
 <div id="container">
 <div id="top"></div>
 
-
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	      $dbhost = "localhost";
-		 $database = "homestead";
-		 $dbuser = "homestead";
-		 $dbpass = "secret";
-
-		$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
+	
+        include("db-conn.php");
+    
+        $dbhost = 'localhost';$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
 		mysqli_select_db($conn, $database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
