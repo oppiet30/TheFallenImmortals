@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
 <meta name="KEYWORDS" content="MMORPG; RPG; game; multiplayer; online; fun; free; games; role; playing; Neflaria; Shimlar; Race War Kingdoms; Dragon; Kingdoms; War; Immoral; Attack; Immoral Attack; Immortal; Domain; Heroes; Old; School; Lost; Runes; Fallen; Immortals; Fallen Immortals; Eternal; Wars; Eternal Wars;" >
 <meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
 
