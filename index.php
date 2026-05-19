@@ -41,7 +41,7 @@
 		 $dbpass = "secret";
 
 		$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error(),E_USER_ERROR);
-		mysqli_select_db($database) or die("Where?");
+		mysqli_select_db($conn, $database) or die("Where?");
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numonline = mysqli_num_rows($findonline);
