@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$char = mysqli_fetch_assoc($getchar);
 ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

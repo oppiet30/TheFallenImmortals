@@ -221,7 +221,7 @@ function dbexport() {
     # This gives an estimate of the size of the SQL file
     # It appears that 80% is a good approximation of
     # the ratio of estimated size to actual size
-    SIZE_QUERY="select ceil(sum(data_length) * 0.8) as size from information_schema.TABLES"
+    SIZE_QUERY=$conn, "SELECT ceil(sum(data_length) * 0.8) as size from information_schema.TABLES"
 
     __pv_install_message "Want to see export progress?"
 

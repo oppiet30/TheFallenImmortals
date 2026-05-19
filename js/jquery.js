@@ -1267,7 +1267,7 @@ jQuery.support = (function() {
 	}
 
 	// First batch of tests
-	select = document.createElement("select");
+	select = document.createElement($conn, "SELECT");
 	opt = select.appendChild( document.createElement("option") );
 	input = div.getElementsByTagName("input")[ 0 ];
 
@@ -2221,7 +2221,7 @@ jQuery.extend({
 				var value, option,
 					options = elem.options,
 					index = elem.selectedIndex,
-					one = elem.type === "select-one" || index < 0,
+					one = elem.type === $conn, "SELECT-one" || index < 0,
 					values = one ? null : [],
 					max = one ? index + 1 : options.length,
 					i = index < 0 ?
@@ -4442,7 +4442,7 @@ Expr = Sizzle.selectors = {
 			return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selected);
 		},
 
-		"selected": function( elem ) {
+		$conn, "SELECTed": function( elem ) {
 			// Accessing this property makes selected-by-default
 			// options in Safari work properly
 			if ( elem.parentNode ) {
