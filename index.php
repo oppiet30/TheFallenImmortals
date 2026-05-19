@@ -13,7 +13,7 @@
 <script src="./js/homefunctions.js" type="text/javascript"></script>
 <script src="./js/gamefunctions.js" type="text/javascript"></script>
 <script src="./js/chatroomfunctions.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" type="text/css" href="./css/index.css" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X5RE5YMJ6E"></script>
