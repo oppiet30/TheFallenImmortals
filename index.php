@@ -7,12 +7,12 @@
 <meta name="DESCRIPTION" content="A free text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!">
 
 <title>The Fallen Immortals! Online Text-Based MMORPG</title>
-<script src="js/ajax.js" type="text/javascript"></script>
-<script src="js/dom.js" type="text/javascript"></script>
-<script src="js/functions.js" type="text/javascript"></script>
-<script src="js/homefunctions.js" type="text/javascript"></script>
-<script src="js/gamefunctions.js" type="text/javascript"></script>
-<script src="js/chatroomfunctions.js" type="text/javascript"></script>
+<script src="./js/ajax.js" type="text/javascript"></script>
+<script src="./js/dom.js" type="text/javascript"></script>
+<script src="./js/functions.js" type="text/javascript"></script>
+<script src="./js/homefunctions.js" type="text/javascript"></script>
+<script src="./js/gamefunctions.js" type="text/javascript"></script>
+<script src="./js/chatroomfunctions.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 
 <!-- Google tag (gtag.js) -->
