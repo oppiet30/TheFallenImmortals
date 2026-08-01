@@ -7,6 +7,9 @@ vendor/*
 .vagrant/
 Homestead.json
 
+# Local DB credentials (see db-conn.example.php)
+db-conn.php
+
 # OS/editor cruft
 .DS_Store
 Thumbs.db

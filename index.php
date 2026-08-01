@@ -194,14 +194,7 @@ a {
 <div id="leftSide"></div>
 <div id="activity">
 	<?php
-	      $dbhost = "localhost";
-		 $database = "homestead";
-		 $dbuser = "homestead";
-		 $dbpass = "secret";
-
-		mysqli_report(MYSQLI_REPORT_OFF);
-		$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error($conn),E_USER_ERROR);
-		mysqli_select_db($conn, $database) or die("Where?");
+		include('db-conn.php');
 		$time = time() - "600";
 		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numonline = mysqli_num_rows($findonline);

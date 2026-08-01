@@ -38,8 +38,9 @@ folder and import the SQL file, via phpMyAdmin panel, to the database you create
 ######
 
 With the database tables populated to your table, we will want to setup the association to your database in the code. 
-Open db.php, index.php, indexdb.php, and add your database credentials. Once you have done that, you should be ready to 
-register your first character! 
+Copy `db-conn.example.php` to `db-conn.php`, then edit `db-conn.php` with your database connection string 
+(`$dbhost`/`$database`/`$dbuser`/`$dbpass`). `db-conn.php` is gitignored, so your credentials stay local. Once you have 
+done that, you should be ready to register your first character! 
 
 ######
 
