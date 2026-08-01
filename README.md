@@ -4,7 +4,7 @@
 
 # The Fallen Immortals 
 You can see this site today at: http://fallen.jez-your.com/
-For now...... PHP 5.6 is slow, and I do not wish to continue supporting for it.
+This originally targeted PHP 5.6, but the codebase has since been migrated off the removed `mysql_` extension to `mysqli_`, so it now runs on PHP 7+.
 
 ## History
 In December 2009, I had an idea to develop a text-based MMORPG game for the browser, so that any user, coming from any 
@@ -17,9 +17,9 @@ stone grow some wings and tossing it out to the open world!
 ######
 
 Feel free to use, and develop upon this project per the License attached to this repository. Keeping in mind, this 
-project uses dated and deprecated PHP and MySQL coding techniques that were acceptable in 2009, but are no longer 
-supported by the newer programming technology updates. **PHP 5.6** is the last known version to support this project; 
-for a fact, **this will not work on PHP 7.**
+project uses dated and deprecated PHP and MySQL coding techniques that were acceptable in 2009. It originally required 
+**PHP 5.6** and would not run on PHP 7, but all `mysql_*` calls have since been migrated to `mysqli_*`, so it now runs 
+on **PHP 7+**.
 
 ## Installation
 So, you want to install this beast? In this section, I will help with the general setup of this project on your server. 
