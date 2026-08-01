@@ -4,15 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-The Fallen Immortals is a text-based browser MMORPG, written as procedural PHP circa 2009-2010. It targets **PHP 5.6 and MySQL with the legacy `mysql_*` extension** — this code does **not** run on PHP 7+. The author (see README.md) describes it explicitly as old, unmaintained, dated code kept public for reference/research purposes, not something to be hosted as-is or modeled architecturally for new work. When making changes, preserve the existing procedural style and PHP 5.6/`mysql_*` API constraints rather than modernizing incidentally — any migration to `mysqli`/PDO or PHP 7+ is a large, deliberate undertaking, not a drive-by fix.
+The Fallen Immortals is a text-based browser MMORPG, written as procedural PHP circa 2009-2010. It originally targeted **PHP 5.6 and MySQL with the legacy `mysql_*` extension**, but that extension has since been fully migrated to **`mysqli_*`** (~2,650 call sites across 108 files), so the codebase now runs on **PHP 7+**. The author (see README.md) describes it explicitly as old, unmaintained, dated code kept public for reference/research purposes, not something to be hosted as-is or modeled architecturally for new work. When making changes, preserve the existing procedural style rather than modernizing incidentally — the mysqli migration was a deliberate, explicitly-requested exception, not a precedent for further modernization (PDO, OOP, a framework, etc.) without being asked.
 
 ## Running the project
 
 There is no build step, package manager for the app itself, no test suite, and no linter configured. `composer.json` only pulls in `laravel/homestead` as a dev dependency for the Vagrant box.
 
-- **Local VM**: `vagrant up` boots a Homestead box configured in `Homestead.yaml` (PHP 5.6, site `fallenimmortals.old`, VM IP `192.168.10.11`, DB `homestead`). Paths in `Homestead.yaml`/`Vagrantfile` reference a specific developer's Windows machine (`C:\Users\ajezi\...`) and will need updating for any other environment.
+- **Local VM**: `vagrant up` boots a Homestead box configured in `Homestead.yaml` (PHP 5.6, site `fallenimmortals.old`, VM IP `192.168.10.11`, DB `homestead`). Paths in `Homestead.yaml`/`Vagrantfile` reference a specific developer's Windows machine (`C:\Users\ajezi\...`) and will need updating for any other environment. `vendor/laravel/homestead` (from `composer install`) is also required before `vagrant up`/`vagrant status` will even parse the `Vagrantfile` — it is not installed by default.
 - **Database**: import `installation/fallendb.sql` into MySQL to create the schema (characters, guilds, inventory, chatroom, enemies, forge, temple, shop, trade, etc. — ~30 tables total).
-- **DB credentials**: hardcoded in `db.php`, `indexdb.php`, and inline in `index.php` (`$dbhost`/`$database`/`$dbuser`/`$dbpass`, default `localhost`/`homestead`/`homestead`/`secret`). All three must be kept in sync if credentials change — there is no shared config file.
+- **DB credentials**: `db.php`, `indexdb.php`, and `index.php` all `include('db-conn.php')`, the single source of truth for `$dbhost`/`$database`/`$dbuser`/`$dbpass` and the `$conn` mysqli connection handle used everywhere. `db-conn.php` is gitignored (local-only); copy `db-conn.example.php` to `db-conn.php` and edit it to get a working connection.
+- **Verifying changes**: no test suite — run `php -l <file>` after editing an endpoint. To see it rendered, note Apache's `DocumentRoot` is unrelated to this project; it's served via `mod_userdir` at `http://localhost/~<user>/<repo-dir>/...`.
 
 ## Architecture
 
@@ -27,7 +28,7 @@ This is a **flat, multi-page PHP application** with no framework, router, or MVC
 
 **Naming/organization convention:** endpoint files are named for the action they perform (`fightenemy.php`, `castspell.php`, `equip.php`, `raisestat.php`, `buytype.php`, `mineore.php`, `forgecraft.php`, `travelmove.php`, ...) and generally correspond 1:1 with a JS function in `js/gamefunctions.js` / `js/homefunctions.js` that triggers the AJAX call. When adding a new game action, follow this existing pattern (new endpoint file + matching JS trigger) rather than introducing routing.
 
-**Front-end**: no build tooling — plain `<script src="...">` tags pull in `jquery.js`, `ajax.js`, `dom.js`, `functions.js`, `homefunctions.js`, `gamefunctions.js`, `chatroomfunctions.js`. `game.php` is the main authenticated game shell; `index.php` is the public landing/login/register page (and itself embeds a second, duplicate set of DB credentials for the online-player-count widget).
+**Front-end**: no build tooling — plain `<script src="js/...">` tags pull in `jquery.js`, `ajax.js`, `dom.js`, `functions.js`, `homefunctions.js`, `gamefunctions.js`, `chatroomfunctions.js` from `js/` (CSS lives in `css/` the same way — both were flat in the repo root originally). `game.php` is the main authenticated game shell; `index.php` is the public landing/login/register page.
 
 **`tfiTutorial/`** is a separate, older/parallel copy of parts of the app (its own `index.php`, `ajax.js`, `dom.js`, images) — treat it as a distinct, largely dead-end area unless a task specifically references it.
 
