@@ -1,3 +1,13 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+.vscode
 vendor/*
+
+# Vagrant/Homestead local state
+.vagrant/
+Homestead.json
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
+*.log
