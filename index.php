@@ -200,15 +200,15 @@ a {
 		 $dbpass = "secret";
 
 		mysqli_report(MYSQLI_REPORT_OFF);
-		$login = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error($login),E_USER_ERROR);
-		mysqli_select_db($login, $database) or die("Where?");
+		$conn = mysqli_connect($dbhost, $dbuser, $dbpass) or trigger_error(mysqli_error($conn),E_USER_ERROR);
+		mysqli_select_db($conn, $database) or die("Where?");
 		$time = time() - "600";
-		$findonline = mysqli_query($login, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numonline = mysqli_num_rows($findonline);
 		$time = time() - "604800";
-		$findweek = mysqli_query($login, "SELECT * FROM characters WHERE lastactive>'".$time."'");
+		$findweek = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
     	$numweek = mysqli_num_rows($findweek);
-		$findregistered = mysqli_query($login, "SELECT * FROM characters");
+		$findregistered = mysqli_query($conn, "SELECT * FROM characters");
     	$numregistered = mysqli_num_rows($findregistered);
 	?>
 	Online: <?=$numonline?><br />

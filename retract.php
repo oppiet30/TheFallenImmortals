@@ -3,12 +3,12 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$findapplication = mysqli_query($login, "SELECT * FROM applications WHERE username='".$char['username']."'");
+$findapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$char['username']."'");
 if(mysqli_num_rows($findapplication) == 1){
 
-	$removeApplication = mysqli_query($login, "DELETE FROM applications WHERE username='".$char['username']."'")or die(mysqli_error($login));
+	$removeApplication = mysqli_query($conn, "DELETE FROM applications WHERE username='".$char['username']."'")or die(mysqli_error($conn));
 	$data = "You can now apply to a different guild.";
-	$giveTheGoldBack = mysqli_query($login, "UPDATE characters SET gold=gold+'900000' WHERE username='".$char['username']."'");
+	$giveTheGoldBack = mysqli_query($conn, "UPDATE characters SET gold=gold+'900000' WHERE username='".$char['username']."'");
 
 }else{
 	

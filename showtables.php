@@ -3,15 +3,15 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$query = mysqli_query($login, "DELETE FROM banned WHERE ip='67.183.247.88'") or die(mysqli_error($login));
+$query = mysqli_query($conn, "DELETE FROM banned WHERE ip='67.183.247.88'") or die(mysqli_error($conn));
 
-$getchar = mysqli_query($login, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
 $char = mysqli_fetch_assoc($getchar);
 
 echo "<table width='75%' border='1' align='center'><tr><td width='25%' valign='top'>";
 if($char['userlevel'] == "1")
 {
-	$showtables = mysqli_query($login, "SHOW TABLES FROM forsake1_ic") or die(mysqli_error($login));
+	$showtables = mysqli_query($conn, "SHOW TABLES FROM forsake1_ic") or die(mysqli_error($conn));
 	while($tables = mysqli_fetch_row($showtables))
 	{
 		echo "Table: <a href='javascript: showtable(".$tables[0].");'>".$tables[0]."</a><br />";

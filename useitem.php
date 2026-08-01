@@ -6,7 +6,7 @@ include('db.php');
 if($_POST['itemid'] != "Nothing"){
 	
 	$data = "";
-	$querty = mysqli_query($login, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
+	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE id='".$_POST['itemid']."' AND username='".$char['username']."'");
 	$inventory = mysqli_fetch_assoc($querty);
 	if($inventory['type'] == "Item" && $inventory['username'] == $char['username']){
 		
@@ -71,8 +71,8 @@ if($_POST['itemid'] != "Nothing"){
 			if($stron == 2 && $dexon == 2 && $endon == 2 && $conon == 2 && $inton == 2){
 				$data .= "Mammon decided to keep the greeds to himself!";
 			}else{
-				$addtoInventory = mysqli_query($login, "INSERT INTO inventory (`username`, `itemname`, `type`, `equipped`, `strength`, `dexterity`, `endurance`, `concentration`, `intelligence`)VALUES ('".$char['username']."', '".$itemname."', '".$itemtype."', 'No', '".$newstr."', '".$newdex."', '".$newend."', '".$newcon."', '".$newint."')")or die(mysqli_error($login));
-				$deletesachel = mysqli_query($login, "DELETE FROM inventory WHERE id='".$_POST['itemid']."'");
+				$addtoInventory = mysqli_query($conn, "INSERT INTO inventory (`username`, `itemname`, `type`, `equipped`, `strength`, `dexterity`, `endurance`, `concentration`, `intelligence`)VALUES ('".$char['username']."', '".$itemname."', '".$itemtype."', 'No', '".$newstr."', '".$newdex."', '".$newend."', '".$newcon."', '".$newint."')")or die(mysqli_error($conn));
+				$deletesachel = mysqli_query($conn, "DELETE FROM inventory WHERE id='".$_POST['itemid']."'");
 				$data .= "(".$char['username'].", ".$itemname.", ".$itemtype.", No, ".$newstr.", ".$newdex.", ".$newend.", ".$newcon.", ".$newint.")";
 			}
 		}else{
