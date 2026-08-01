@@ -11,14 +11,14 @@ $char = mysql_fetch_assoc($getchar)or die("You need to login!");
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script src="jquery.js"></script>
+<script src="js/jquery.js"></script>
 <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
-<script src="ajax.js" type="text/javascript"></script>
-<script src="dom.js" type="text/javascript"></script>
-<script src="functions.js" type="text/javascript"></script>
-<script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
-<script src="chatroomfunctions.js" type="text/javascript"></script>
+<script src="js/ajax.js" type="text/javascript"></script>
+<script src="js/dom.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/homefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
+<script src="js/chatroomfunctions.js" type="text/javascript"></script>
       <script type="text/javascript">
          function showRecaptcha(element) {
            Recaptcha.create("6Ld9zssSAAAAAJwo6kchU03wK4K9aoteWZ0nnlFR", element, {
