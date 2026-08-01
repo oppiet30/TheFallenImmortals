@@ -48,6 +48,14 @@ done that, you should be ready to register your first character!
 INSTALLING THE SITE, NOTHING MORE. DO I NEED TO STRESS THE IMPORTANCE OF REMOVING THE SITE'S .ZIP FOLDER THAT YOU 
 BROUGHT IT IN WITH?**
 
+## Security Note
+This repo's `images/` folder previously contained an `images/.htaccess.LCK` file with the contents `Alex||Alex.Jezior@gmail.com` 
+— the original developer's name and email. Its naming and content match the "already compromised" bookkeeping markers left 
+by mass PHP-infection toolkits, and it sat alongside an actual remote-code-execution backdoor (`images/68564.php`, since 
+removed) that had been wired into the site's error handling. Both were present in this repo's very first commit, meaning 
+the live site was already compromised before it was ever published here. The `.LCK` file itself was inert (Apache never 
+reads a file that isn't literally named `.htaccess`) and has since been deleted; its contents are preserved here for the record.
+
 ## About the Developer
 My name is Alexander Jezior, and I enjoy developing in PHP! Over the years, I have evolved my code base into something 
 that this project does not accurately depict. This project merely shows an example of where I started, and gives a sense 
