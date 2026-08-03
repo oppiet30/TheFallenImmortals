@@ -32,6 +32,11 @@ $charcash = $char['cash'];
 $charstatmulti = $char['statmult'] / 100;
 
 //Modified stats from item bonuses (For display purposes only)
+$charstrmod = 0;
+$chardexmod = 0;
+$charendmod = 0;
+$charintmod = 0;
+$charconmod = 0;
 $getinv = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
 while($inv = mysqli_fetch_array($getinv))
 {
