@@ -1,6 +1,8 @@
 <?php
-session_name("icsession");
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+	session_name("icsession");
+	session_start();
+}
 include('db.php');
 
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
