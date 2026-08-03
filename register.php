@@ -212,6 +212,8 @@ if($create == "Yes")
 
     $charset = "abcdefghijklmnopqrstuvwxyz1234567890";
 
+    $key = "";
+
     $i = "1";
 
     while($i < "15")
