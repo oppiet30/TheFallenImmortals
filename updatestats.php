@@ -10,6 +10,11 @@ $charulvl = $char['userlevel'];
 $charclass = $char['class'];
 
 
+$eqstrbon = 0;
+$eqdexbon = 0;
+$eqendbon = 0;
+$eqintbon = 0;
+$eqconbon = 0;
 $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
 if(mysqli_num_rows($getequip) > "0")
 {
@@ -41,7 +46,8 @@ $chary = $char['posy'];
 
 
 $blessingStats = explode(', ', $char['blessing']);
-if (in_array('Might', $blessingStats)) 
+$totalstr = 0;
+if (in_array('Might', $blessingStats))
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Might'"); 
     $level = mysqli_fetch_assoc($result); 
@@ -121,7 +127,8 @@ if($totalstr > 0){
 }else{
 	$stradd = '';
 }
-if (in_array('Speed', $blessingStats)) 
+$totaldex = 0;
+if (in_array('Speed', $blessingStats))
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Speed'"); 
     $level = mysqli_fetch_assoc($result); 
@@ -201,7 +208,8 @@ if($totaldex > 0){
 }else{
 	$dexadd = '';
 }
-if (in_array('Constitution', $blessingStats)) 
+$totalend = 0;
+if (in_array('Constitution', $blessingStats))
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Constitution'"); 
     $level = mysqli_fetch_assoc($result); 
@@ -281,7 +289,8 @@ if($totalend > 0){
 }else{
 	$endadd = '';
 }
-if (in_array('Concentration', $blessingStats)) 
+$totalcon = 0;
+if (in_array('Concentration', $blessingStats))
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Concentration'"); 
     $level = mysqli_fetch_assoc($result); 
@@ -361,7 +370,8 @@ if($totalcon > 0){
 }else{
 	$conadd = '';
 }
-if (in_array('Intelligence', $blessingStats)) 
+$totalint = 0;
+if (in_array('Intelligence', $blessingStats))
 { 
     $result = mysqli_query($conn, "SELECT level FROM affinity WHERE name='Intelligence'"); 
     $level = mysqli_fetch_assoc($result); 

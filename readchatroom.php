@@ -14,7 +14,7 @@ $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['
 
 $char = mysqli_fetch_assoc($getchar);
 
-
+$char['chatlog'] = $char['chatlog'] ?? 0;
 
 $activeTime = time();
 
@@ -93,9 +93,9 @@ $duel = mysqli_fetch_assoc($findYourDuel);
 
 $date = time();
 
-$timeofDuel = $duel['time'] + "30";
+$timeofDuel = ($duel['time'] ?? 0) + "30";
 
-if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != NULL){
+if($timeofDuel < $date && $char['username'] != NULL && ($duel['fromusername'] ?? NULL) != NULL){
 
 	$messagechat = "<strong><font color=\'#FF3300\'>".$duel['tousername']." has taken too much time to accept the duel. Try again later.</font></strong><br />";
 
@@ -187,7 +187,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $numonline = mysqli_num_rows($findonline);
 
-
+    $data2 = "";
 
     while($active = mysqli_fetch_assoc($findonline))
 
@@ -210,14 +210,14 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
         $colour = $active['chatcolour'];
 
 
-		if($guildTag['tag'] == ""){
+		if(($guildTag['tag'] ?? "") == ""){
 			$tag = "";
 		}else{
 			$tag = "(".$guildTag['tag'].")";
 		}
 
 
-        if($active['access'] == "Admin" && $data != "")
+        if(($active['access'] ?? "") == "Admin" && $data != "")
 
         {
 
