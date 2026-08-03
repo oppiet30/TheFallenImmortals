@@ -134,7 +134,7 @@ if($_POST['userEmail'] != NULL)
 
     $getemail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$_POST['userEmail']."'");
 
-    if(eregi("^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$", $email))
+    if(preg_match("/^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$/i", $email))
 
     {
 
