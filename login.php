@@ -37,7 +37,7 @@ elseif(mysqli_num_rows($getchar) === 1)
 		print("alert('You are already logged in. Try coming back in ten minutes. If this problem persist contact the administrator at Alex.jezior(at)gmail.com');");
 		die();
 	}
-    if($_SESSION['userid'] != Null){
+    if(isset($_SESSION['userid'])){
         $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
         $char = mysqli_fetch_assoc($getchar);
     }
@@ -51,8 +51,6 @@ elseif(mysqli_num_rows($getchar) === 1)
     {
         if($char['activated'] == "Yes" || $char['level'] < "100")
         {
-            session_name("icsession");
-            session_start();
             $_SESSION['userid'] = $char['id'];
             include('varset.php');
         
