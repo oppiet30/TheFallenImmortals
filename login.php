@@ -112,7 +112,7 @@ elseif(mysqli_num_rows($getchar) === 1)
             	
             }
 
-            print("window.location = 'http://fallen.jez-your.com/game.php';");
+            print("window.location = 'game.php';");
         }
         else
         {
