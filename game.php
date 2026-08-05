@@ -313,10 +313,10 @@ a {
           <tr>
             <th height="60" scope="row"><div id="spellsMenu" style="width:210px;height:75px;overflow: auto;">&nbsp;</div></th>
             <td colspan="3">
-                <table
+                <table>
                 <tr>
                 	<td>
-                        <div id="blessingsMenu"><table border="1" width="756px">
+                        <div id="blessingsMenu" style="padding-top:12px;"><table border="1" width="756px">
                         <tr height="55px">
                         <td width="55px">None</td><td width="55px">None</td><td width="55px">None</td><td width="55px">None</td><td width="55px">Buy</td><td width="55px">Buy</td><td width="55px">Buy</td><td width="55px">Buy</td><td width="55px">Buy</td>
                         </tr>
