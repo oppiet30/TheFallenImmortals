@@ -1,6 +1,7 @@
 <?php
 
-include('db.php');
+include('db-conn.php');
+$date = time();
 
 
 
@@ -22,11 +23,11 @@ while($userMana = mysqli_fetch_array($getUsers)){
 
     $getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='Yes'");
 
+    $eqintbon = 0;
+
     if(mysqli_num_rows($getequip) > "0")
 
     {
-
-    	$eqintbon = 0;
 
         while($equip = mysqli_fetch_array($getequip))
 
