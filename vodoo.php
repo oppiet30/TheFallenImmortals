@@ -9,7 +9,7 @@ $char = mysqli_fetch_assoc($getchar);
 
 if($char['vodooattempt'] == $char['vodoomax']){
 	$data .= "<b>You have used all your attempts in vodoo!</b><br /><br />";
-	print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a sucsessful steal.</center>');");
+	print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a successful steal.</center>');");
 }
 elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
 {
@@ -50,7 +50,7 @@ elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
                     $data = "Yoo do not have enough gold.<br /><br />";
                 }
             }else{
-                $data = "Yoo cannot steal from someone withoww asset.<br /><br />";
+                $data = "Yoo cannot steal from someone without asset.<br /><br />";
             }
         }
         else
@@ -63,7 +63,7 @@ elseif($_POST['what'] == "StealGold" && $_POST['whom'] != NULL)
         $data = "No survivor with dat name.<br /><br />";
     }
     
-    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a sucsessful steal.</center>');");
+    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a successful steal.</center>');");
     
 }
 elseif($_POST['what'] == "StealBlood" && $_POST['whom'] != NULL)
@@ -109,7 +109,7 @@ elseif($_POST['what'] == "StealBlood" && $_POST['whom'] != NULL)
                     $data = "Yoo do not have enough gold.<br /><br />";
                 }
             }else{
-                $data = "Yoo cannot steal from someone withoww asset.<br /><br />";
+                $data = "Yoo cannot steal from someone without asset.<br /><br />";
             }
         }
         else
@@ -122,12 +122,12 @@ elseif($_POST['what'] == "StealBlood" && $_POST['whom'] != NULL)
         $data = "No survivor with dat name.<br /><br />";
     }
     
-    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a sucsessful steal.</center>');");
+    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a successful steal.</center>');");
     
 }
 else
 {
-    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a sucsessful steal.</center>');");
+    print("fillDiv('displayArea','".$data."<center>Aye, I see anotha survivor. Well are you feeling a bit down on your luck mahn? Have any of da other survivors given you any trouble? What can I do for ya?<br />Whom(Username): <input type=\'text\' id=\'whom\' /><br /><select id=\'what\'><option value=\'StealGold\'>Steal Gold</option><option value=\'StealBlood\'>Steal Blood</option></select><br /><input type=\'button\' value=\'Make Happen\' onclick=\'runVodoo();\' /><br />I will not guarantee all of these to work man.<br /><b>Stealing gold</b> works about 15% of the time at the cost of (10*UserLevel). You can get anywhere from 1-25% of their holdings.<br /><b>Stealing blood</b> works about 10% of the time at the cost of (15*UserLevel). You can get anywhere from 1-100 ounces of blood with a successful steal.</center>');");
 }
 include('updatestats.php');
 ?>

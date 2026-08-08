@@ -12,7 +12,7 @@
 
 	$display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewVote();\">Back</a></strong><br /><br />";	
 
-	$display .= "<strong style=\"margin: 5px;\">Welcome to the voting page.</strong><br /> This helps the website accumulate players, and even the people you have meet already! <br /><br /><strong>Note:</strong><br />-Vote on all sites and recieve a reward daily!(Once every 24 hours)<br />-Vote 14 days in a row(with each vote 24-36 hours apart from each other) and be rewarded one cash!<br /><br /><br />";
+	$display .= "<strong style=\"margin: 5px;\">Welcome to the voting page.</strong><br /> This helps the website accumulate players, and even the people you have meet already! <br /><br /><strong>Note:</strong><br />-Vote on all sites and receive a reward daily!(Once every 24 hours)<br />-Vote 14 days in a row(with each vote 24-36 hours apart from each other) and be rewarded one cash!<br /><br /><br />";
 
 	
 
@@ -30,11 +30,11 @@
 
 				
 
-				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and recieved 5,000 Gold as a reward!</font></strong><br />";
+				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 5,000 Gold as a reward!</font></strong><br />";
 
                 $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
 
-				$display .= "<font size=\'14px\'><center>You recieve 5,000 gold for voting!</center></font>";
+				$display .= "<font size=\'14px\'><center>You receive 5,000 gold for voting!</center></font>";
 
 				$newgold = $char['gold'] + "5000";
 
@@ -46,11 +46,11 @@
 
 				
 
-				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and recieved 10 Statpoints as a reward!</font></strong><br />";
+				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 10 Statpoints as a reward!</font></strong><br />";
 
                 $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
 
-				$display .= "<font size=\'14px\'><center>You recieve 10 Statpoints for voting!</center></font>";
+				$display .= "<font size=\'14px\'><center>You receive 10 Statpoints for voting!</center></font>";
 
 				$newstatpoints = $char['stats'] + "10";
 
@@ -62,11 +62,11 @@
 
 				
 
-				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and recieved 100 oz. of Blood as a reward!</font></strong><br />";
+				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 100 oz. of Blood as a reward!</font></strong><br />";
 
                 $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
 
-				$display .= "<font size=\'14px\'><center>You recieve 100 oz. of blood for voting!</center></font>";
+				$display .= "<font size=\'14px\'><center>You receive 100 oz. of blood for voting!</center></font>";
 
 				$newblood = $char['blood'] + "100";
 
@@ -92,7 +92,7 @@
 				if($newconsecutive == 14){
 					$givecc = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
 					$newconsecutive = 0;
-					$messagechat = "<strong><font color=\'#CCFF00\'>!!!As a reward for voting 14 consecutive days, ".$char['username']." recieved 1 Cash!!!</font></strong><br />";
+					$messagechat = "<strong><font color=\'#CCFF00\'>!!!As a reward for voting 14 consecutive days, ".$char['username']." received 1 Cash!!!</font></strong><br />";
                 	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
 				}
 			}else{

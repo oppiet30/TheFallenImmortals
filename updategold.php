@@ -48,7 +48,7 @@ if($gold >= $_POST['depositAmount'] && $_POST['depositAmount'] >= "0" && ctype_d
 
 
 
-    $data = "<center>You deposited ".number_format($depositAmount)." gold, ".number_format($depositFee)." gold went to the banker. And you withdrew ".number_format($_POST['withdrawAmount'])." gold into your hand.<br />You have ".number_format($bank)." Gold in the bank and ".number_format($gold)." Gold in your hand!<br />The bank will deduct 5% of all deposits made. Withdraws are non-deductable.<br /><br />Deposit: <input type=\'text\' value=\'0\' id=\'depositamount\' /><br />Withdraw: <input type=\'text\' value=\'0\' id=\'withdrawamount\' /><br /> <input type=\'button\' value=\'Make Transaction\' onclick=\'runTransaction();\' /></center>";
+    $data = "<center>You deposited ".number_format($depositAmount)." gold, ".number_format($depositFee)." gold went to the banker. And you withdrew ".number_format($_POST['withdrawAmount'])." gold into your hand.<br />You have ".number_format($bank)." Gold in the bank and ".number_format($gold)." Gold in your hand!<br />The bank will deduct 5% of all deposits made. Withdraws are non-deductible.<br /><br />Deposit: <input type=\'text\' value=\'0\' id=\'depositamount\' /><br />Withdraw: <input type=\'text\' value=\'0\' id=\'withdrawamount\' /><br /> <input type=\'button\' value=\'Make Transaction\' onclick=\'runTransaction();\' /></center>";
 
 }
 
@@ -56,7 +56,7 @@ else
 
 {
 
-    $data = "<center>That is not possible<br />You have ".number_format($bank)." Gold in the bank and ".number_format($gold)." Gold in your hand!<br />The bank will deduct 5% of all deposits made. Withdraws are non-deductable.<br /><br />Deposit: <input type=\'text\' value=\'0\' id=\'depositamount\' /><br />Withdraw: <input type=\'text\' value=\'0\' id=\'withdrawamount\' /><br /> <input type=\'button\' value=\'Make Transaction\' onclick=\'runTransaction();\' /></center>";
+    $data = "<center>That is not possible<br />You have ".number_format($bank)." Gold in the bank and ".number_format($gold)." Gold in your hand!<br />The bank will deduct 5% of all deposits made. Withdraws are non-deductible.<br /><br />Deposit: <input type=\'text\' value=\'0\' id=\'depositamount\' /><br />Withdraw: <input type=\'text\' value=\'0\' id=\'withdrawamount\' /><br /> <input type=\'button\' value=\'Make Transaction\' onclick=\'runTransaction();\' /></center>";
 
 }
 

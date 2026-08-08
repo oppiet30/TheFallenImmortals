@@ -23,7 +23,7 @@ $email = $_POST['email'];
 		$char = mysqli_fetch_assoc($findEmailAssoc);
 		$to      = $char['email'];
 		$subject = 'Password Recovery at The Fallen Immortals!';
-		$message = 'Hello <strong>'.$char['username'].'</strong><br />Your temporary password is: '.$tempPassword.'<br />Once you login, change your password immeadiatly. Edit Account, in the top links inside the game, will help you change your password.<br /><br />If you did not request this password change then forget you ever saw this email.<br /><br />www.TheFallenImmortals.com';
+		$message = 'Hello <strong>'.$char['username'].'</strong><br />Your temporary password is: '.$tempPassword.'<br />Once you login, change your password immediately. Edit Account, in the top links inside the game, will help you change your password.<br /><br />If you did not request this password change then forget you ever saw this email.<br /><br />www.TheFallenImmortals.com';
 		// To send HTML mail, the Content-type header must be set
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

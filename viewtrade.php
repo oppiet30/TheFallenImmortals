@@ -100,7 +100,7 @@ elseif(isset($_POST['price']) && isset($_POST['item']) && is_numeric($_POST['pri
 
         $item = mysqli_fetch_assoc($findItemInInventory);
 
-        $addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `levelreq`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`, `price`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."', '".$sellPrice."')")or die("alret('Failed to add item.')");
+        $addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `levelreq`, `type`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`, `price`) VALUES ('".$char['username']."', '".$item['itemname']."', '".$item['levelreq']."', '".$item['type']."', '".$item['strength']."', '".$item['dexterity']."', '".$item['endurance']."', '".$item['intelligence']."', '".$item['concentration']."', '".$item['value']."', '".$sellPrice."')")or die("alert('Failed to add item.')");
 
         $data .= "You put ".$item['itemname']." on to market for ".$sellPrice." gold!<br />";
 
@@ -130,7 +130,7 @@ elseif(isset($_POST['price']) && $_POST['type'] == "Cash")
 
 		$takeCash = mysqli_query($conn, "UPDATE characters SET cash=cash-'1' WHERE username='".$char['username']."'");
 
-		$addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `price`) VALUES ('".$char['username']."', 'Cash', '".$_POST['price']."')")or die("alret('Failed to add item.')");
+		$addToMarket = mysqli_query($conn, "INSERT INTO trade (`fromplayer`, `itemname`, `price`) VALUES ('".$char['username']."', 'Cash', '".$_POST['price']."')")or die("alert('Failed to add item.')");
 
 		$data .= "You put Cash on to market for ".number_format($_POST['price'])." gold!<br />";
 

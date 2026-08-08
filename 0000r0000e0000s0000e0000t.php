@@ -99,7 +99,7 @@ $runblessingReset9 = mysqli_query($conn, "UPDATE characters SET blessing='".$upd
 
 
 
-$messagechat = "<strong><font color=\'#00FF00\'>(System): Daily reset occured. Blessings reset, Temple reset, Mana rejuvinated.</font></strong><br />";
+$messagechat = "<strong><font color=\'#00FF00\'>(System): Daily reset occurred. Blessings reset, Temple reset, Mana rejuvenated.</font></strong><br />";
 
 $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
 

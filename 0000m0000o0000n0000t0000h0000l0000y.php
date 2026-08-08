@@ -15,7 +15,7 @@ if($ticketRow > 0)
 
     $updateUser = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
 
-    $messagechat = "<strong><font color=\'orange\'>".$winner['username']." sucsessfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
+    $messagechat = "<strong><font color=\'orange\'>".$winner['username']." successfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
     $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
 
     $updateTemple = mysqli_query($conn, "UPDATE temple SET pot='0', lastwinner='".$winner['username']."'");

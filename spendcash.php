@@ -38,7 +38,7 @@ if($_POST['cashoption'] == "FiveMill" && $char['cash'] >= "1")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', gold='".$gold."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your wealth by 5,000,000 gold.<br />";
+        $grid = "You successfully increase your wealth by 5,000,000 gold.<br />";
 
     }else{
 
@@ -66,7 +66,7 @@ elseif($_POST['cashoption'] == "ThirtyMill" && $char['cash'] >= "5")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', gold='".$gold."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your wealth by 30,000,000 gold.<br />";
+        $grid = "You successfully increase your wealth by 30,000,000 gold.<br />";
 
     }else{
 
@@ -94,7 +94,7 @@ elseif($_POST['cashoption'] == "FiveHundredStat" && $char['cash'] >= "1")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', stats='".$stats."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Stat Points by 500.<br />";
+        $grid = "You successfully increase your Stat Points by 500.<br />";
 
     }else{
 
@@ -122,7 +122,7 @@ elseif($_POST['cashoption'] == "TwentysevenFiftyStat" && $char['cash'] >= "5")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', stats='".$stats."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Stat Points by 2,750.<br />";
+        $grid = "You successfully increase your Stat Points by 2,750.<br />";
 
     }else{
 
@@ -150,7 +150,7 @@ elseif($_POST['cashoption'] == "EightKBlood" && $char['cash'] >= "1")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', blood='".$blood."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Blood by 8,000 oz.<br />";
+        $grid = "You successfully increase your Blood by 8,000 oz.<br />";
 
     }else{
 
@@ -178,7 +178,7 @@ elseif($_POST['cashoption'] == "FiftyKBlood" && $char['cash'] >= "5")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', blood='".$blood."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Blood by 50,000 oz.<br />";
+        $grid = "You successfully increase your Blood by 50,000 oz.<br />";
 
     }else{
 
@@ -206,7 +206,7 @@ elseif($_POST['cashoption'] == "HalfStatMulti" && $char['cash'] >= "8")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Stat Multiplier by 0.5.<br />";
+        $grid = "You successfully increase your Stat Multiplier by 0.5.<br />";
 
     }else{
 
@@ -234,7 +234,7 @@ elseif($_POST['cashoption'] == "WholeStatMulti" && $char['cash'] >= "15")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Stat Multiplier by 1.<br />";
+        $grid = "You successfully increase your Stat Multiplier by 1.<br />";
 
     }else{
 
@@ -262,7 +262,7 @@ elseif($_POST['cashoption'] == "FiveStatMulti" && $char['cash'] >= "70")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Stat Multiplier by 5.<br />";
+        $grid = "You successfully increase your Stat Multiplier by 5.<br />";
 
     }else{
 
@@ -288,7 +288,7 @@ elseif($_POST['cashoption'] == "OneForesight" && $char['cash'] >= "10")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', foresight='".$foresight."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Foresight level to ".$foresight.".<br />";
+        $grid = "You successfully increase your Foresight level to ".$foresight.".<br />";
 	}
 
 }
@@ -341,7 +341,7 @@ elseif($_POST['cashoption'] == "AddAffinity" && $char['cash'] >= "20")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', affinitys='".$addAffinity."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully bought an additional Affinity!<br />";
+        $grid = "You successfully bought an additional Affinity!<br />";
 
     }else{
 
@@ -369,7 +369,7 @@ elseif($_POST['cashoption'] == "OneAuto" && $char['cash'] >= "1")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Auto Attack by 1.<br />";
+        $grid = "You successfully increase your Auto Attack by 1.<br />";
 
     }else{
 
@@ -397,7 +397,7 @@ elseif($_POST['cashoption'] == "FiveAuto" && $char['cash'] >= "5")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Auto Attack by 5.<br />";
+        $grid = "You successfully increase your Auto Attack by 5.<br />";
 
     }else{
 
@@ -425,7 +425,7 @@ elseif($_POST['cashoption'] == "TenAuto" && $char['cash'] >= "10")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Auto Attack by 10.<br />";
+        $grid = "You successfully increase your Auto Attack by 10.<br />";
 
     }else{
 
@@ -455,7 +455,7 @@ elseif($_POST['cashoption'] == "OneTradeSkill" && $char['cash'] >= "5")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', tradeskill='".$tradeSkill."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Trade Skill by 1%.<br />";
+        $grid = "You successfully increase your Trade Skill by 1%.<br />";
 
     }else{
 
@@ -485,7 +485,7 @@ elseif($_POST['cashoption'] == "TwoTwentythTradeSkill" && $char['cash'] >= "10")
 
         $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', tradeskill='".$tradeSkill."' WHERE username='".$charname."'");
 
-        $grid = "You sucsessfully increase your Trade Skill by 2.2%.<br />";
+        $grid = "You successfully increase your Trade Skill by 2.2%.<br />";
 
     }else{
 

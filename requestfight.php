@@ -19,10 +19,10 @@ if($_POST['charrequesting'] != NULL){
 				$messagechat = "<strong><font color=\'#FF3300\'>".$char['username']." has requested a duel against you! <a href=\'javascript: acceptFight();\'>Accept</a> | <a href=\'javascript: declineFight();\'>Decline</a></font></strong><br />";
 				$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponent['username']."')");
 			}else{
-				print("alert('Oponent is already dead...');");
+				print("alert('Opponent is already dead...');");
 			}
 		}else{
-			print("alert('Failed to find oponent...');");
+			print("alert('Failed to find opponent...');");
 		}
 	}
 }

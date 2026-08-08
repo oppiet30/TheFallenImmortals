@@ -9,7 +9,7 @@ session_start();
 var browserName=navigator.appName; 
 if (browserName=="Microsoft Internet Explorer")
 { 
- alert("We noticed that you are using Internet Explorer. We recommend you use Google Chrome or Firefox. Half of the functionality of this website will not work in Internet Explorer. Feel free to try anyways, but if you would like to see the full functionality of the game I would reccommend Chrome or Firefox.");
+ alert("We noticed that you are using Internet Explorer. We recommend you use Google Chrome or Firefox. Half of the functionality of this website will not work in Internet Explorer. Feel free to try anyways, but if you would like to see the full functionality of the game I would recommend Chrome or Firefox.");
 }
 //-->
 </SCRIPT>

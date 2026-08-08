@@ -230,13 +230,13 @@ else
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";
         }
     }elseif($char['class'] == "Fighter II"){
-        $data .= "<center>Training to this class wasn\'t very difficult for you I see. Let move on to something a little more toughening. Before we start go and aquire the level of 1,000, 10,000 ounces of blood, and 2,000,000 gold. Come back once you have gathered these.<br /></center>";
+        $data .= "<center>Training to this class wasn\'t very difficult for you I see. Let move on to something a little more toughening. Before we start go and acquire the level of 1,000, 10,000 ounces of blood, and 2,000,000 gold. Come back once you have gathered these.<br /></center>";
         if($char['gold'] >= "2000000" && $char['blood'] >= "10000" && $char['level'] >= "1000"){
             $data .= "<center>It seems as though you may meet all the requirements. Would you like to proceed?<br /></center>";
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";
         }
     }elseif($char['class'] == "Fighter III"){
-        $data .= "<center>You are learning very swiftly. Of course I still have much training for you my young canidate. To afford this next part of training you will need level of 2,000, 20,000 ounces of blood, and 10,000,000 gold. I will be awaiting your return.<br /></center>";
+        $data .= "<center>You are learning very swiftly. Of course I still have much training for you my young candidate. To afford this next part of training you will need level of 2,000, 20,000 ounces of blood, and 10,000,000 gold. I will be awaiting your return.<br /></center>";
         if($char['gold'] >= "10000000" && $char['blood'] >= "20000" && $char['level'] >= "2000"){
             $data .= "<center>It seems as though you may meet all the requirements. Would you like to proceed?<br /></center>";
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";
@@ -284,13 +284,13 @@ else
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";
         }
     }elseif($char['class'] == "Mage II"){
-        $data .= "<center>Training to this class wasn\'t very difficult for you I see. Let move on to something a little more toughening. Before we start go and aquire the level of 1,000, 10,000 ounces of blood, and 2,000,000 gold. Come back once you have gathered these.<br /></center>";
+        $data .= "<center>Training to this class wasn\'t very difficult for you I see. Let move on to something a little more toughening. Before we start go and acquire the level of 1,000, 10,000 ounces of blood, and 2,000,000 gold. Come back once you have gathered these.<br /></center>";
         if($char['gold'] >= "2000000" && $char['blood'] >= "10000" && $char['level'] >= "1000"){
             $data .= "<center>It seems as though you may meet all the requirements. Would you like to proceed?<br /></center>";
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";
         }
     }elseif($char['class'] == "Mage III"){
-        $data .= "<center>You are learning very swiftly. Of course I still have much training for you my young canidate. To afford this next part of training you will need level of 2,000, 20,000 ounces of blood, and 10,000,000 gold. I will be awaiting your return.<br /></center>";
+        $data .= "<center>You are learning very swiftly. Of course I still have much training for you my young candidate. To afford this next part of training you will need level of 2,000, 20,000 ounces of blood, and 10,000,000 gold. I will be awaiting your return.<br /></center>";
         if($char['gold'] >= "10000000" && $char['blood'] >= "20000" && $char['level'] >= "2000"){
             $data .= "<center>It seems as though you may meet all the requirements. Would you like to proceed?<br /></center>";
             $data .= "<center><a href=\'javascript: runTrainingCourse(\"".$charclass."\");\'>Proceed with Training</a></center>";

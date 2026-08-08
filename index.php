@@ -82,9 +82,9 @@
 			<?php
 				$comrade = isset($_GET['comrade']);
 				if(is_null($comrade) || $comrade === null){
-					print("Refferal: <input type=\"text\" id=\"comrade\" value=\"\" readonly /><br />");
+					print("Referral: <input type=\"text\" id=\"comrade\" value=\"\" readonly /><br />");
 				}else{
-					print("Refferal: <input type=\"text\" id=\"comrade\" value=\"".$comrade."\" readonly /><br />");
+					print("Referral: <input type=\"text\" id=\"comrade\" value=\"".$comrade."\" readonly /><br />");
 				}
 			?>
             
@@ -95,9 +95,9 @@
 
 		<div id="about">
 			<h3><u>About the game</u></h3>
-			<i>&nbsp;&nbsp;This is a game about one being(yourself) going up against evil, in order to restore peace in the world. TFI has been in development since December 2010, and has evolved in a great manner. Constant updates to keep you entertained, and bug fixes when they happen. We are hosted on a Dedicated server and will always be up and running as long as the player base stays up, that\'s our guarentee.<br />
+			<i>&nbsp;&nbsp;This is a game about one being(yourself) going up against evil, in order to restore peace in the world. TFI has been in development since December 2010, and has evolved in a great manner. Constant updates to keep you entertained, and bug fixes when they happen. We are hosted on a Dedicated server and will always be up and running as long as the player base stays up, that\'s our guarantee.<br />
 			<br />
-			&nbsp;&nbsp;The main objective of the game is to select an oponent in which you can kill and do so; while reaping the rewards of experience points, gold, stat points, blood, bag drops, and more. Applying Scavenger to fighting will allow you to get even more rewards, even Cash drops(Real life currency to Game currency). Use stat points upon leveling up to make your character stronger in ways like no other. Join a guild to get more from exp and gold drops.<br />
+			&nbsp;&nbsp;The main objective of the game is to select an opponent in which you can kill and do so; while reaping the rewards of experience points, gold, stat points, blood, bag drops, and more. Applying Scavenger to fighting will allow you to get even more rewards, even Cash drops(Real life currency to Game currency). Use stat points upon leveling up to make your character stronger in ways like no other. Join a guild to get more from exp and gold drops.<br />
 			<br />
 			&nbsp;&nbsp;Many features have been build in to keep you playing; Voodoo system, Mining and Forge system, PvP system, and Class swap and upgrade system. Try it out today! Register and follow the link in your email to begin playing. What's the worst that could happen?</i>
 		</div>

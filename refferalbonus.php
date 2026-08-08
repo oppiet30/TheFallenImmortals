@@ -14,25 +14,25 @@ if($char['refferal'] != "None" && $char['refferal'] != "" && $char['refferal'] !
         $bonusGold = "10000";
         $refferalNEWgold = $refferal['gold'] + $bonusGold;
         $updateRefferal = mysqli_query($conn, "UPDATE characters SET gold='".$refferalNEWgold."' WHERE username='".$char['refferal']."'");
-        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a refferal bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
+        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a referral bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
     }elseif($newlvl == "500"){
         $bonusGold = "100000";
         $refferalNEWgold = $refferal['gold'] + $bonusGold;
         $updateRefferal = mysqli_query($conn, "UPDATE characters SET gold='".$refferalNEWgold."' WHERE username='".$char['refferal']."'");
-        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a refferal bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
+        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a referral bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
     }elseif($newlvl == "1000"){
         $bonusGold = "1000000";
         $refferalNEWgold = $refferal['gold'] + $bonusGold;
         $updateRefferal = mysqli_query($conn, "UPDATE characters SET gold='".$refferalNEWgold."' WHERE username='".$char['refferal']."'");
-        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a refferal bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
+        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a referral bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
     }elseif($newlvl == "5000"){
         $bonusGold = "10000000";
         $refferalNEWgold = $refferal['gold'] + $bonusGold;
         $updateRefferal = mysqli_query($conn, "UPDATE characters SET gold='".$refferalNEWgold."' WHERE username='".$char['refferal']."'");
-        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a refferal bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
+        $messagechat = "<strong><font color=\'#662200\'>".$char['username']." reached level ".number_format($newlvl).". As a referral bonus, ".$refferal['username']." gets ".number_format($bonusGold)." gold!</font></strong><br />";
         $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
     }
 }

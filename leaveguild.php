@@ -40,7 +40,7 @@ if(isset($_POST['decision']) && $_POST['decision'] == "Yes"){
     $data .= "Your guild will be pleased with this decision.<br />";
     print"viewGuild();";
 }else{
-    $data .= "<strong>Are you sure you want to leave your guild?</strong><br />You will recieve no compensation once you leave the guild.<br />This is your final decision...<br /><a href=\'javascript: confirmLeave(\"Yes\");\'>Yes</a> | <a href=\'javascript: confirmLeave(\"No\");\'>No</a><br />";
+    $data .= "<strong>Are you sure you want to leave your guild?</strong><br />You will receive no compensation once you leave the guild.<br />This is your final decision...<br /><a href=\'javascript: confirmLeave(\"Yes\");\'>Yes</a> | <a href=\'javascript: confirmLeave(\"No\");\'>No</a><br />";
 }
 print("fillDiv('displayArea','".$data."');");
 include('updatestats.php');

@@ -107,7 +107,7 @@ $findReferals = mysqli_query($conn, "SELECT * FROM characters WHERE refferal='".
 $numOfRef = mysqli_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
 $display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
-$display .= "<center>Number of your Refferals: ".$numOfRef."</center>";
+$display .= "<center>Number of your Referrals: ".$numOfRef."</center>";
 $display .= "<table border=\'0px\'><tr><td>";
 
 $display .= "<table style=\'border:0px;\'>";

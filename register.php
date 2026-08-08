@@ -194,7 +194,7 @@ if($comrade != NULL)
 
     {
 
-        $message .= "Comrade: <font color=\'#DD0000\'>Not found. Try requesting the refferal link again from the person who gave it to you, otherwise make sure the url is similar to www.riseimmortals.com.</font><br /><br />";
+        $message .= "Comrade: <font color=\'#DD0000\'>Not found. Try requesting the referral link again from the person who gave it to you, otherwise make sure the url is similar to www.riseimmortals.com.</font><br /><br />";
 
         $create = "No";
 

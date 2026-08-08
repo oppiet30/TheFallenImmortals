@@ -7,7 +7,7 @@ $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['
 $char = mysqli_fetch_assoc($getchar);
 $characterSpells = explode(', ', $char['spells']);
 
-$display = "<br /><br /><br />Welcome to Divination! You can learn all sorts of spells to either cast upon yourself or others. Everything comes at a price and wether you have the knowledge or resources will be up to you.";
+$display = "<br /><br /><br />Welcome to Divination! You can learn all sorts of spells to either cast upon yourself or others. Everything comes at a price and whether you have the knowledge or resources will be up to you.";
 $display .= "<br /><br />";
 
 
