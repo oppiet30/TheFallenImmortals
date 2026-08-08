@@ -1,25 +1,25 @@
 <?php
-session_name("icsession");
-session_start();
-include('db.php');
+include('db-conn.php');
+$date = time();
 
 $ticketQuery = mysqli_query($conn, "SELECT * FROM donationpot");
 $ticketRow = mysqli_num_rows($ticketQuery);
 
-$choosenOne = rand(1,$ticketRow);
+if($ticketRow > 0)
+{
+    $getWinner = mysqli_query($conn, "SELECT * FROM donationpot ORDER BY RAND() LIMIT 1");
+    $winner = mysqli_fetch_assoc($getWinner);
 
-$getWinner = mysqli_query($conn, "SELECT * FROM donationpot WHERE id='".$choosenOne."'");
-$winner = mysqli_fetch_array($getWinner);
+    $gettemple = mysqli_query($conn, "SELECT * FROM temple");
+    $temple = mysqli_fetch_assoc($gettemple);
 
-$gettemple = mysqli_query($conn, "SELECT * FROM temple");
-$temple = mysqli_fetch_assoc($gettemple);
+    $updateUser = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
 
-$updateUser = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
+    $messagechat = "<strong><font color=\'orange\'>".$winner['username']." sucsessfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
+    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
 
-$messagechat = "<strong><font color=\'orange\'>".$winner['username']." sucsessfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
-$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
+    $updateTemple = mysqli_query($conn, "UPDATE temple SET pot='0', lastwinner='".$winner['username']."'");
 
-$updateTemple = mysqli_query($conn, "UPDATE temple SET pot='0', lastwinner='".$winner['username']."'");
-
-$deleteTickets = mysqli_query($conn, "TRUNCATE TABLE  `donationpot`");
+    $deleteTickets = mysqli_query($conn, "TRUNCATE TABLE  `donationpot`");
+}
 ?>

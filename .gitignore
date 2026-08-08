@@ -7,6 +7,11 @@ claude.txt
 # Vagrant/Homestead local state
 .vagrant/
 Homestead.json
+Vagrantfile
+
+# Local dependency lockfile (developer-machine-specific paths)
+composer.json
+composer.lock
 
 # Local DB credentials (see db-conn.example.php)
 db-conn.php
