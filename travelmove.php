@@ -11,19 +11,25 @@ $updateMap = "False";
 $findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
 $map = mysqli_fetch_assoc($findMap);
 $findOre = mysqli_query($conn, "SELECT * FROM ore WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."'");
-$ore = mysqli_fetch_assoc($findOre);
-$oreRel = explode(', ', $ore['relativeLoc']);
-$oreXtop = $oreRel[0]+16;
-$oreXbottom = $oreRel[0]-16;
-$oreYtop = $oreRel[1]+16;
-$oreYbottom = $oreRel[1]-16;
+$oreBoxes = array();
+while($ore = mysqli_fetch_assoc($findOre)){
+	$oreRel = explode(', ', $ore['relativeLoc']);
+	$oreBoxes[] = array($oreRel[0]-16, $oreRel[0]+16, $oreRel[1]-16, $oreRel[1]+16);
+}
 $findDemons = mysqli_query($conn, "SELECT * FROM demons WHERE xpos='".$char['posx']."' and ypos='".$char['posy']."' and health>'0'");
-$demon = mysqli_fetch_assoc($findDemons);
-$demonRel = explode(', ', $demon['relativeLoc']);
-$demonXtop = $demonRel[0]+16;
-$demonXbottom = $demonRel[0]-16;
-$demonYtop = $demonRel[1]+16;
-$demonYbottom = $demonRel[1]-16;
+$demonBoxes = array();
+while($demon = mysqli_fetch_assoc($findDemons)){
+	$demonRel = explode(', ', $demon['relativeLoc']);
+	$demonBoxes[] = array($demonRel[0]-16, $demonRel[0]+16, $demonRel[1]-16, $demonRel[1]+16);
+}
+function collidesWithBox($relLoc, $boxes){
+	foreach($boxes as $box){
+		if($box[1] >= $relLoc[0] && $box[0] <= $relLoc[0] && $box[3] >= $relLoc[1] && $box[2] <= $relLoc[1]){
+			return true;
+		}
+	}
+	return false;
+}
 
 
 
@@ -50,11 +56,11 @@ if(!isset($_POST['direction'])){
 		$relLoc[1] -= 16;
 		
 		//Finding Ore collision
-		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $oreBoxes)){
 			die();
 		}
 		//Finding Demon collision
-		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $demonBoxes)){
 			die();
 		}
 		if($relLoc[1]<0){
@@ -82,11 +88,11 @@ if(!isset($_POST['direction'])){
 		
 		$relLoc[0] -= 16;
 		
-		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $oreBoxes)){
 			die();
 		}
 		//Finding Demon collision
-		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $demonBoxes)){
 			die();
 		}
 		if($relLoc[0]<0){
@@ -113,11 +119,11 @@ if(!isset($_POST['direction'])){
 		
 		$relLoc[0] += 16;
 		
-		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $oreBoxes)){
 			die();
 		}
 		//Finding Demon collision
-		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $demonBoxes)){
 			die();
 		}
 		if($relLoc[0]>1018){
@@ -145,11 +151,11 @@ if(!isset($_POST['direction'])){
 	
 		$relLoc[1] += 16;
 		
-		if(mysqli_num_rows($findOre) >= "1" && ($oreXtop >= $relLoc[0] && $oreXbottom <= $relLoc[0]) && ($oreYtop >= $relLoc[1] && $oreYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $oreBoxes)){
 			die();
 		}
 		//Finding Demon collision
-		if(mysqli_num_rows($findDemons) >= "1" && ($demonXtop >= $relLoc[0] && $demonXbottom <= $relLoc[0]) && ($demonYtop >= $relLoc[1] && $demonYbottom <= $relLoc[1])){
+		if(collidesWithBox($relLoc, $demonBoxes)){
 			die();
 		}
 		if($relLoc[1] > 502){
