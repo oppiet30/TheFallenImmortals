@@ -2,6 +2,7 @@
 .idea
 .vscode
 vendor/*
+claude.txt
 
 # Vagrant/Homestead local state
 .vagrant/
@@ -20,6 +21,3 @@ db-conn.php
 Thumbs.db
 *.log
 *.un~
-
-# Local Claude Code session note
-claude.txt
