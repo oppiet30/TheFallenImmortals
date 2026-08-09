@@ -57,16 +57,16 @@
 	<div id="displayArea">
 		<div id="loginForm">
             <h3>Login</h3><br />
-            <form name="loginForm" id="loginForm" onsubmit="this.disabled=true;this.value='Submitting...';goLogin();">
+            <form name="loginForm" id="loginForm" onsubmit="document.getElementById('login').disabled=true;document.getElementById('login').value='Submitting...';goLogin();return false;">
                 Username: <input type="text" id="username" /><br />
                 Password: <input type="password" id="password" /><br />
-                <input type="button" id="login" name="login" value="Login" onclick="this.disabled=true;this.value='Submitting...';goLogin();" />
+                <input type="submit" id="login" name="login" value="Login" />
             </form><br />
             <a href="Javascript: forgotPassword();">Forgot Password</a>
         </div>
         <div id="registerForm">
         	<h3>Register</h3><br />
-            <form name="registrationForm" id="registrationForm" onsubmit="this.disabled=true;this.value='Submitting...';goRegister();">
+            <form name="registrationForm" id="registrationForm" onsubmit="document.getElementById('register').disabled=true;document.getElementById('register').value='Submitting...';goRegister();return false;">
             Username: <input type="text" id="usernamereg" maxlength="20" /><br />
             Password: <input type="password" id="passwordreg" /><br />
             Password Confirm: <input type="password" id="passwordvreg" /><br />
@@ -88,7 +88,7 @@
 				}
 			?>
             
-            <input type="button" id="register" value="Register" onclick="this.disabled=true;this.value='Submitting...';goRegister();" />
+            <input type="submit" id="register" value="Register" />
         </div>
 		
 		<!--------------------------------->
