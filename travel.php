@@ -1,6 +1,8 @@
 <?php
-session_name("fallenimmortals");
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+	session_name("fallenimmortals");
+	session_start();
+}
 include('db.php');
 
 
