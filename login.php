@@ -2,33 +2,53 @@
 include('indexdb.php');
 session_name("fallenimmortals");
 session_start();
-function murder($data){ 
-	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
-	$salt = md5($salt); 
-	$data = md5($salt.$data); 
-	$data = base64_encode($data); 
-	$data = sha1($data); 
-	return $data; 
+// Legacy hash formats, kept only to verify (and then upgrade) passwords
+// that predate the switch to password_hash()/PASSWORD_DEFAULT (bcrypt).
+// Never use murder() to create a new hash - only to check an old one.
+function murder($data){
+	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?";
+	$salt = md5($salt);
+	$data = md5($salt.$data);
+	$data = base64_encode($data);
+	$data = sha1($data);
+	return $data;
 }
 $date = time();
 $username = $_POST['userAlias'];
-$passwordold = md5($_POST['userPass']);
-$password = murder($_POST['userPass']);
+$plaintextPassword = $_POST['userPass'];
 
+$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
+$char = mysqli_fetch_assoc($getchar);
 
-$getcharold = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$passwordold."' ");
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND password='".$password."' OR temppass='".$password."'");
+$loginMatched = false;
+$oldFormatUpgraded = false;
+$matchedViaTemp = false;
 
-if(mysqli_num_rows($getcharold) === 1)
-{
-	$char = mysqli_fetch_assoc($getcharold);
-	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
-	$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$password."' WHERE username='".$char['username']."'");
-	print("fillDiv('displayArea','".$updatePass."');");	
+if($char){
+	if(password_verify($plaintextPassword, $char['password'])){
+		$loginMatched = true;
+	}elseif(murder($plaintextPassword) === $char['password']){
+		$loginMatched = true;
+		$newHash = password_hash($plaintextPassword, PASSWORD_DEFAULT);
+		mysqli_query($conn, "UPDATE characters SET password='".$newHash."' WHERE id='".$char['id']."'");
+		$char['password'] = $newHash;
+	}elseif(md5($plaintextPassword) === $char['password']){
+		$oldFormatUpgraded = true;
+		$newHash = password_hash($plaintextPassword, PASSWORD_DEFAULT);
+		$addNewPassword = mysqli_query($conn, "UPDATE characters SET password='".$newHash."' WHERE username='".$char['username']."'");
+	}elseif($char['temppass'] != "None" && (password_verify($plaintextPassword, $char['temppass']) || murder($plaintextPassword) === $char['temppass'])){
+		$loginMatched = true;
+		$matchedViaTemp = true;
+	}
 }
-elseif(mysqli_num_rows($getchar) === 1)
+
+if($oldFormatUpgraded)
 {
-	$char = mysqli_fetch_assoc($getchar);
+	$updatePass = "Since your last visit password security just got better!<br /><br /> Please login again!";
+	print("fillDiv('displayArea','".$updatePass."');");
+}
+elseif($loginMatched)
+{
 	$time = time() - "700";
     $findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."' AND username='".$char['username']."'");
 	$active = mysqli_fetch_assoc($findonline);
@@ -54,8 +74,9 @@ elseif(mysqli_num_rows($getchar) === 1)
             $_SESSION['userid'] = $char['id'];
             include('varset.php');
         
-			if($char['temppass'] != "None" && $char['temppass'] == $password){
-				$resetup = mysqli_query($conn, "UPDATE characters SET password='".$password."', temppass='None' WHERE id='".$char['id']."'");
+			if($matchedViaTemp){
+				$newHash = password_hash($plaintextPassword, PASSWORD_DEFAULT);
+				$resetup = mysqli_query($conn, "UPDATE characters SET password='".$newHash."', temppass='None' WHERE id='".$char['id']."'");
 				print("alert('Please change your password in the Edit Account link at the top of the page! Your current password is the temporary password.');");
 			}
             

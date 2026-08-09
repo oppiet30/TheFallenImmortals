@@ -4,29 +4,11 @@ include('indexdb.php');
 
 
 
-function murder($data){ 
-
-	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
-
-	$salt = md5($salt); 
-
-	$data = md5($salt.$data); 
-
-	$data = base64_encode($data); 
-
-	$data = sha1($data); 
-
-	return $data; 
-
-}
-
-
-
 $username = ucwords(strtolower($_POST['userAlias']));
 
 $emailPassword = $_POST['userPass'];
 
-$password = murder($_POST['userPass']);
+$password = password_hash($_POST['userPass'], PASSWORD_DEFAULT);
 
 $email = $_POST['userEmail'];
 

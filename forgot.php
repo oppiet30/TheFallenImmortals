@@ -8,17 +8,9 @@ if(isset($_POST['email'])){
 $email = $_POST['email'];
 	$findEmailAssoc = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$email."'");
 	if(mysqli_num_rows($findEmailAssoc) == 1){
-		function murder($data){ 
-			$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
-			$salt = md5($salt); 
-			$data = md5($salt.$data); 
-			$data = base64_encode($data); 
-			$data = sha1($data); 
-			return $data; 
-		}
 		$randomInt = rand(1,5000);
 		$tempPassword = "password".$randomInt;
-		$hashedTemp = murder($tempPassword);
+		$hashedTemp = password_hash($tempPassword, PASSWORD_DEFAULT);
 		$createTempPass = mysqli_query($conn, "UPDATE characters SET temppass='".$hashedTemp."' WHERE email='".$email."'")or die();
 		$char = mysqli_fetch_assoc($findEmailAssoc);
 		$to      = $char['email'];
