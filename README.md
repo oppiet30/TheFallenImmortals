@@ -48,6 +48,24 @@ done that, you should be ready to register your first character!
 INSTALLING THE SITE, NOTHING MORE. DO I NEED TO STRESS THE IMPORTANCE OF REMOVING THE SITE'S .ZIP FOLDER THAT YOU 
 BROUGHT IT IN WITH?**
 
+## Cron Jobs
+A few scripts need to run on a schedule outside of a browser session — add these to your crontab (`crontab -e`), 
+using the full path to your PHP CLI binary and to wherever you extracted this project:
+
+```
+# Daily reset (temple flag, mana, blessings, login flags) - once a day
+@daily /usr/bin/php /path/to/TheFallenImmortals/0000r0000e0000s0000e0000t.php >> /path/to/TheFallenImmortals/cron.log 2>&1
+
+# Monthly temple donation pot draw - once a month
+@monthly /usr/bin/php /path/to/TheFallenImmortals/0000m0000o0000n0000t0000h0000l0000y.php >> /path/to/TheFallenImmortals/cron.log 2>&1
+
+# Passive health regen (1% of max endurance every 5 minutes)
+*/5 * * * * /usr/bin/php /path/to/TheFallenImmortals/0000h0000e0000a0000l0000t0000h.php >> /path/to/TheFallenImmortals/cron.log 2>&1
+```
+
+These filenames are intentionally obfuscated (e.g. `0000monthly.php` spells "monthly.php" with zeros interspersed 
+between each letter) since they're cron-only scripts, not meant to be reachable or guessable as public URLs.
+
 ## Security Note
 This repo's `images/` folder previously contained an `images/.htaccess.LCK` file with the contents `Alex||Alex.Jezior@gmail.com` 
 — the original developer's name and email. Its naming and content match the "already compromised" bookkeeping markers left 
