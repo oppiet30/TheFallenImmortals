@@ -1,6 +1,6 @@
 <?php
 include('db.php');
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 
 include('varset.php');

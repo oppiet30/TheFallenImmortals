@@ -1,6 +1,6 @@
 <?php
 include('indexdb.php');
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 function murder($data){ 
 	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 

@@ -1,6 +1,6 @@
 <?php
 
-    session_name("icsession");
+    session_name("fallenimmortals");
 
 	session_start();
 

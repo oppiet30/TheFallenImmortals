@@ -1,5 +1,5 @@
 <?php 
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 include('db.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");

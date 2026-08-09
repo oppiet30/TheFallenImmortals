@@ -1,5 +1,5 @@
 <?php
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 include('db.php');
 	$data = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewTop();\">Back</a></strong><br /><br />";
