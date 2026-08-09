@@ -1,4 +1,13 @@
 <?php
+function formatBlood($oz){
+	$oz = floor($oz);
+	$gal = floor($oz / 128);
+	$remainder = $oz % 128;
+	$pt = floor($remainder / 16);
+	$oz = $remainder % 16;
+	return number_format($gal)." gal ".number_format($pt)." pt ".number_format($oz)." oz.";
+}
+
 $time = time();
 $setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
 
@@ -490,7 +499,7 @@ print("fillDiv('barMenu','".$bar."');");
 $assets = "<table>";
 $assets .= "<tr><td width=\'50\'>&nbsp;</td><td width=\'220\'>".number_format($char['gold'])."</td><td width=\'70\'>&nbsp;</td><td width=\'180\'>".number_format($char['networth'])."</td><td width=\'50\'>&nbsp;</td><td width=\'30\'>".number_format($char['copperore'])."</td></tr>";
 $assets .= "<tr><td>&nbsp;</td><td>".number_format($char['bank'])."</td><td>&nbsp;</td><td>".number_format($char['cash'])."</td><td>&nbsp;</td><td>".number_format($char['ironore'])."</td></tr>";
-$assets .= "<tr><td>&nbsp;</td><td> ".number_format($char['blood'])." oz.</td><td>&nbsp;</td><td>".$char['nobility']."</td><td>&nbsp;</td><td>".number_format($char['steelore'])."</td></tr>";
+$assets .= "<tr><td>&nbsp;</td><td> ".formatBlood($char['blood'])."</td><td>&nbsp;</td><td>".$char['nobility']."</td><td>&nbsp;</td><td>".number_format($char['steelore'])."</td></tr>";
 $assets .= "</table>";
 print("fillDiv('assetsMenu','".$assets."');");
 
