@@ -1,6 +1,8 @@
 <?php
-session_name("fallenimmortals");
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+	session_name("fallenimmortals");
+	session_start();
+}
 include('db.php');
 include('varset.php');
 include('active.php');
@@ -28,7 +30,8 @@ if($securitytest == "1" && $char['auto'] == "0"){
 	$giveTest = mysqli_query($conn, "UPDATE characters SET security='1' WHERE id='".$char['id']."'");
 }
 
-$attacktype = $_POST['attackType'];
+$attacktype = $_POST['attackType'] ?? '';
+$data = $data ?? "";
 $enemyid = $char['enemyid'];
 $enemytype = $char['enemytype'];
 $enemylife = $char['enemylife'];
@@ -169,6 +172,7 @@ if($enemylife > "0"){
         $setlife = mysqli_query($conn, "UPDATE characters SET life='".$charlife."' WHERE id='".$_SESSION['userid']."' ");
         if($enemylife < "1")    //Enemy has died and the player is rewarded for the fight
         {
+            $taxTalk = "";
             if($charguild != "None")
             {
 		$getMonsterRows = mysqli_query($conn, "SELECT * FROM enemies WHERE level <='".$enemylvl."'");
@@ -329,7 +333,7 @@ if($enemylife > "0"){
 			$location = "".$char['posx'].", ".$char['posy']."";
 			$findAdventure = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."' AND location='".$location."' AND monster='".$enemyname."'");
 			$advent = mysqli_fetch_assoc($findAdventure);
-			$collect = explode("/", $advent['collect']);
+			$collect = explode("/", $advent['collect'] ?? "0/0");
 			if(mysqli_num_rows($findAdventure) > 0 && $collect[0] < $collect[1]){
 				$drop = mt_rand("1","100000");
 				$dropNeeded = 1000 - $char['scavenges'];

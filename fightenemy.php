@@ -5,6 +5,7 @@ include('db.php');
 include('varset.php');
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
 $char = mysqli_fetch_assoc($getchar);
+$data = "";
 
 
 if($_POST['auto'] == "Yes")
