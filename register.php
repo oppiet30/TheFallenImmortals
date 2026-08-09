@@ -232,7 +232,11 @@ if($create == "Yes")
 
     $subject = "The Fallen Immortals Activation Key";
 
-    $address = "Hello ".$username."!\n Thank you for registering at http://www.thefallenimmortals.com Visit the following address to activate your account: http://www.thefallenimmortals.com/activate.php?key=".$key." Hope to see you there soon, The Fallen Of Immortals Support Team.\n\nYour password is: ".$emailPassword."";
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+    $baseUrl = $protocol.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+    $activationLink = $baseUrl."/activate.php?key=".$key;
+
+    $address = "Hello ".$username."!\n Thank you for registering at ".$baseUrl." Visit the following address to activate your account: ".$activationLink." Hope to see you there soon, The Fallen Of Immortals Support Team.\n\nYour password is: ".$emailPassword."";
 
     $headers = "From: ajezior@TheFallenImmortals.com";
 
