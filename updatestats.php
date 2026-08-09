@@ -496,6 +496,9 @@ $bar .= "<tr><td>&nbsp;</td><td><table border=\'1\' cellpadding=\'0\' width=\'15
 $bar .= "</table>";
 print("fillDiv('barMenu','".$bar."');");
 
+$civilizationContent = "<a href=\'Javascript: ViewPlayerStats(\'".$char['username']."\');\'>".$char['username']."</a> the level ".number_format($char['level'])." ".$char['class']."&nbsp;&nbsp;&nbsp;Population: 120/150&nbsp;&nbsp;Baracks: 5&nbsp;&nbsp;Divination: 5&nbsp;&nbsp;Temple: 5&nbsp;&nbsp;Treasury: 5&nbsp;&nbsp;Training: 5";
+print("fillDiv('civilizationContent','".$civilizationContent."');");
+
 $assets = "<table>";
 $assets .= "<tr><td width=\'50\'>&nbsp;</td><td width=\'220\'>".number_format($char['gold'])."</td><td width=\'70\'>&nbsp;</td><td width=\'180\'>".number_format($char['networth'])."</td><td width=\'50\'>&nbsp;</td><td width=\'30\'>".number_format($char['copperore'])."</td></tr>";
 $assets .= "<tr><td>&nbsp;</td><td>".number_format($char['bank'])."</td><td>&nbsp;</td><td>".number_format($char['cash'])."</td><td>&nbsp;</td><td>".number_format($char['ironore'])."</td></tr>";

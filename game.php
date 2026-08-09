@@ -93,7 +93,7 @@ function changeDisplay() {
         <?php
 			}else{
         ?>
-        <a href="Javascript: ViewPlayerStats('<?=$char['username']?>');"><?=$char['username']?></a> the level <?=number_format($char['level'])?> <?=$char['class']?>
+        <span id="civilizationContent"><a href="Javascript: ViewPlayerStats('<?=$char['username']?>');"><?=$char['username']?></a> the level <?=number_format($char['level'])?> <?=$char['class']?>&nbsp;&nbsp;&nbsp;Population: 120/150&nbsp;&nbsp;Baracks: 5&nbsp;&nbsp;Divination: 5&nbsp;&nbsp;Temple: 5&nbsp;&nbsp;Treasury: 5&nbsp;&nbsp;Training: 5</span>
         <?php
 			}
 		?>
