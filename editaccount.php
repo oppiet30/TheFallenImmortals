@@ -2,8 +2,10 @@
 session_name("fallenimmortals");
 session_start();
 include('db.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 $display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewAccount();\">Back</a></strong><br /><br />";
 
 if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != Null){
@@ -11,8 +13,10 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	$nemail = $_POST['nemail'];
 	$nemail2 = $_POST['nemail2'];
 	
-	$checkNewEmail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$nemail."'");
-	$CheckRowOnEmail = mysqli_num_rows($checkNewEmail);
+	$checkNewEmail = $conn->prepare("SELECT * FROM characters WHERE email=?");
+	$checkNewEmail->bind_param("s", $nemail);
+	$checkNewEmail->execute();
+	$CheckRowOnEmail = $checkNewEmail->get_result()->num_rows;
 	
 	if($oemail != $char['email']){
 		$display .= "<center>Your current email address is not correct!</center><br />";
@@ -32,7 +36,9 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your old email. Once you have followed the link in your OLD EMAIL address you new email will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysqli_query($conn, "INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES ('".$char['username']."', '".$nemail."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
+		$addActivationDatabase = $conn->prepare("INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES (?, ?, ?)");
+		$addActivationDatabase->bind_param("sss", $char['username'], $nemail, $randComfCode);
+		$addActivationDatabase->execute() or die("alert('Could not add verify code to database. Tell the admin!');");
 	}
 }elseif($_POST['opass'] != NULL && $_POST['npass'] != Null && $_POST['npass2'] != Null){
 	// Legacy hash format, kept only to verify passwords that predate
@@ -71,7 +77,9 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your email. Once you have followed the link in your email address you new password will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysqli_query($conn, "INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES ('".$char['username']."', '".$npass."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
+		$addActivationDatabase = $conn->prepare("INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES (?, ?, ?)");
+		$addActivationDatabase->bind_param("sss", $char['username'], $npass, $randComfCode);
+		$addActivationDatabase->execute() or die("alert('Could not add verify code to database. Tell the admin!');");
 	}
 
 }elseif($_POST['newcolor'] != Null && $char['networth'] >= "5"){
@@ -105,11 +113,15 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	}else{
 		die("alert(\'NO Chat COLOR!\');");
 	}
-	$updateRainbow = mysqli_query($conn, "UPDATE characters SET chatcolour='".$color."' WHERE id='".$_SESSION['userid']."'");
+	$updateRainbow = $conn->prepare("UPDATE characters SET chatcolour=? WHERE id=?");
+	$updateRainbow->bind_param("si", $color, $_SESSION['userid']);
+	$updateRainbow->execute();
 	$display .= "<font color=\'".$color."\'>Chat color has been changed.</font><br /><br />";
 }
-$findReferals = mysqli_query($conn, "SELECT * FROM characters WHERE refferal='".$char['username']."'");
-$numOfRef = mysqli_num_rows($findReferals);
+$findReferals = $conn->prepare("SELECT * FROM characters WHERE refferal=?");
+$findReferals->bind_param("s", $char['username']);
+$findReferals->execute();
+$numOfRef = $findReferals->get_result()->num_rows;
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
 $display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Referrals: ".$numOfRef."</center>";

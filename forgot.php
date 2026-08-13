@@ -6,13 +6,18 @@ $information = "";
 
 if(isset($_POST['email'])){
 $email = $_POST['email'];
-	$findEmailAssoc = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$email."'");
-	if(mysqli_num_rows($findEmailAssoc) == 1){
+	$findEmailAssoc = $conn->prepare("SELECT * FROM characters WHERE email=?");
+	$findEmailAssoc->bind_param("s", $email);
+	$findEmailAssoc->execute();
+	$findEmailAssocResult = $findEmailAssoc->get_result();
+	if($findEmailAssocResult->num_rows == 1){
 		$randomInt = rand(1,5000);
 		$tempPassword = "password".$randomInt;
 		$hashedTemp = password_hash($tempPassword, PASSWORD_DEFAULT);
-		$createTempPass = mysqli_query($conn, "UPDATE characters SET temppass='".$hashedTemp."' WHERE email='".$email."'")or die();
-		$char = mysqli_fetch_assoc($findEmailAssoc);
+		$createTempPass = $conn->prepare("UPDATE characters SET temppass=? WHERE email=?");
+		$createTempPass->bind_param("ss", $hashedTemp, $email);
+		$createTempPass->execute() or die();
+		$char = $findEmailAssocResult->fetch_assoc();
 		$to      = $char['email'];
 		$subject = 'Password Recovery at The Fallen Immortals!';
 		$message = 'Hello <strong>'.$char['username'].'</strong><br />Your temporary password is: '.$tempPassword.'<br />Once you login, change your password immediately. Edit Account, in the top links inside the game, will help you change your password.<br /><br />If you did not request this password change then forget you ever saw this email.<br /><br />www.TheFallenImmortals.com';

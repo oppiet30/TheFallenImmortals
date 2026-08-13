@@ -2,9 +2,38 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+# Role and Context
+
+You are an expert legacy PHP refactoring assistant working on "The Fallen Immortals", a text-based MMORPG browser engine. The project is currently being modernized to use modern, secure coding standards.
+
+# Environment & Tech Stack
+- Language: PHP 8.5 (Strict typing where possible)
+- Database: MySQL / MariaDB (using mysqli extension natively)
+- Testing Framework: PHPUnit / PHPStan for static analysis
+- Local Testing Tools: httpd (Apache) and local PHP error logs
+
+# Core Directives
+
+## 1. Modernization & MySQLi Upgrades
+- Convert all deprecated legacy MySQL extensions or unstructured PDO implementations strictly to native `mysqli`.
+- Enforce prepared statements for any queries processing user-supplied input to prevent SQL injection.
+- Ensure proper object-oriented `mysqli` usage instead of procedural style where applicable.
+- Confirm database connections explicitly check for connection errors and fail gracefully.
+- Maintain consistent session name variables across all refactored files.
+
+## 2. Security, Performance & Log Analysis
+- The codebase was previously scrubbed of security vulnerabilities; write highly defensive code to prevent regression.
+- Before final outputs, cross-reference your modifications against static analysis parameters matching PHPStan expectations.
+- When troubleshooting or testing code behavior, proactively analyze `httpd` and PHP error logs to detect hidden warnings, deprecation notices, or broken session logic.
+
+# Output Format Guidelines
+- Provide clean, production-ready PHP files containing minimal commentary.
+- Prioritize small, iterative diffs or target specific functions rather than rewriting massive files all at once.
+
+
 ## What this is
 
-The Fallen Immortals is a text-based browser MMORPG, written as procedural PHP circa 2009-2010. It originally targeted **PHP 5.6 and MySQL with the legacy `mysql_*` extension**, but that extension has since been fully migrated to **`mysqli_*`** (~2,650 call sites across 108 files), so the codebase now runs on **PHP 7+**. The author (see README.md) describes it explicitly as old, unmaintained, dated code kept public for reference/research purposes, not something to be hosted as-is or modeled architecturally for new work. When making changes, preserve the existing procedural style rather than modernizing incidentally — the mysqli migration was a deliberate, explicitly-requested exception, not a precedent for further modernization (PDO, OOP, a framework, etc.) without being asked.
+The Fallen Immortals is a text-based browser MMORPG, written as procedural PHP circa 2009-2010. It originally targeted **PHP 5.6 and MySQL with the legacy `mysql_*` extension**, but that extension has since been fully migrated to **`mysqli_*`** (~2,650 call sites across 108 files), so the codebase now runs on **PHP 7+**. The author (see README.md) describes it explicitly as old, unmaintained, dated code kept public for reference/research purposes, not something to be hosted as-is or modeled architecturally for new work. **The project is now under active modernization**: convert procedural `mysqli_*` call sites to object-oriented `mysqli` usage (prepared statements via `$conn->prepare()`/`$stmt->bind_param()`/`$stmt->execute()`, not the procedural `mysqli_prepare()`/`mysqli_stmt_*()` equivalents) as files are touched. This supersedes the older "stay procedural" stance — OOP `mysqli` is now the target style for new and modified code, not an exception requiring per-task permission. Still prefer small, iterative diffs over rewriting massive files in one pass, and don't introduce a framework, routing layer, or MVC structure — the modernization is about `mysqli` usage and security hygiene (prepared statements, connection error handling), not an architectural rewrite.
 
 ## Running the project
 
@@ -37,4 +66,4 @@ This is a **flat, multi-page PHP application** with no framework, router, or MVC
 
 **`tfiTutorial/`** is a separate, older/parallel copy of parts of the app (its own `index.php`, `ajax.js`, `dom.js`, images) — treat it as a distinct, largely dead-end area unless a task specifically references it.
 
-**Security note (context, not a to-do list)**: this codebase predates prepared statements in its own idioms — nearly all SQL is built via direct string concatenation of `$_POST`/`$_GET`/`$_SESSION` values, and passwords are hashed with `md5`/`sha1` plus a hardcoded salt (see `murder()` in `login.php`). This is inherent to the project's stated purpose (a historical reference implementation) — do not attempt a blanket security rewrite unless specifically asked; if asked to touch a specific endpoint, note this class of issue but scope fixes to what's requested.
+**Security note**: this codebase predates prepared statements in its own idioms — most SQL is still built via direct string concatenation of `$_POST`/`$_GET`/`$_SESSION` values. Migrating these to prepared statements (OOP `mysqli`, per the modernization directive above) is an active, ongoing goal, not something that requires being asked file-by-file — but given the scale (~780 write queries across 78 files, no test suite), convert in small batches (a handful of files at a time), verify each batch live against the real DB before moving on, and commit incrementally rather than attempting it in one pass. Passwords were previously hashed with `md5`/`sha1` plus a hardcoded salt (see `murder()` in `login.php`) — already migrated to `password_hash()`/`password_verify()` (bcrypt) with a migrate-on-login path for existing accounts; `murder()` remains only as a legacy-verification fallback, never for creating new hashes.

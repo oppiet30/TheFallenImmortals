@@ -32,9 +32,12 @@ if($username != NULL && $username != "")
 
 	{
 
-	    $getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
+	    $getuser = $conn->prepare("SELECT * FROM characters WHERE username=?");
+	    $getuser->bind_param("s", $username);
+	    $getuser->execute();
+	    $getuserResult = $getuser->get_result();
 
-	    if(mysqli_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
+	    if($getuserResult->num_rows != "1" || $username != "Mammons")    //Username does not exist
 
 	    {
 
@@ -114,13 +117,16 @@ if($_POST['userEmail'] != NULL)
 
 {
 
-    $getemail = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$_POST['userEmail']."'");
+    $getemail = $conn->prepare("SELECT * FROM characters WHERE email=?");
+    $getemail->bind_param("s", $_POST['userEmail']);
+    $getemail->execute();
+    $getemailResult = $getemail->get_result();
 
     if(preg_match("/^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$/i", $email))
 
     {
 
-        if(mysqli_num_rows($getemail) >= "1"){
+        if($getemailResult->num_rows >= "1"){
 
             $message .= "Email: <font color=\'#DD0000\'>In Use</font><br />";
 
@@ -162,9 +168,12 @@ if($comrade != NULL)
 
 {
 
-    $getcomrade = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$comrade."'");
+    $getcomrade = $conn->prepare("SELECT * FROM characters WHERE username=?");
+    $getcomrade->bind_param("s", $comrade);
+    $getcomrade->execute();
+    $getcomradeResult = $getcomrade->get_result();
 
-    if(mysqli_num_rows($getcomrade) == "1")    //Username does not exist
+    if($getcomradeResult->num_rows == "1")    //Username does not exist
 
     {
 
@@ -222,7 +231,7 @@ if($create == "Yes")
 
     $headers = "From: ajezior@TheFallenImmortals.com";
 
-    
+
 
     mail($to,$subject,$address,$headers);
 
@@ -276,19 +285,30 @@ if($create == "Yes")
 
     }
 
-    $makeSecondClass = mysqli_query($conn, "INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES ('".$username."', '".$secondClass."', '1', '0', '15', '0')");
+    $makeSecondClass = $conn->prepare("INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES (?, ?, '1', '0', '15', '0')");
+    $makeSecondClass->bind_param("ss", $username, $secondClass);
+    $makeSecondClass->execute();
 
-    $createuser = mysqli_query($conn, "INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES ('".$username."', '".$password."', '".$email."', '".$gender."', '".$class."', '".$end."', '".$int."', '".$str."', '".$dex."', '".$end."', '".$int."', '".$con."', '".$_SERVER['REMOTE_ADDR']."', '".$comrade."')");
+    $createuser = $conn->prepare("INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $remoteAddr = $_SERVER['REMOTE_ADDR'];
+    $createuser->bind_param("ssssssssssssss", $username, $password, $email, $gender, $class, $end, $int, $str, $dex, $end, $int, $con, $remoteAddr, $comrade);
+    $createuser->execute();
 
-    $createkey = mysqli_query($conn, "INSERT INTO activation (`username`, `key`) VALUES ('".$username."', '".$key."')");
+    $createkey = $conn->prepare("INSERT INTO activation (`username`, `key`) VALUES (?, ?)");
+    $createkey->bind_param("ss", $username, $key);
+    $createkey->execute();
 
-    $createwarn = mysqli_query($conn, "INSERT INTO warnings (`username`) VALUES ('".$username."')");
+    $createwarn = $conn->prepare("INSERT INTO warnings (`username`) VALUES (?)");
+    $createwarn->bind_param("s", $username);
+    $createwarn->execute();
 
-    
+
 
     $messageChat = "<b><font color=\'#008888\'>".$username." has registered an account. (Welcome the new player once they have entered the game.)[Mod Chat]</font></b><br />";
 
-    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysqli_error($conn));
+    $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES (?, '2', ?, 'Mod')");
+    $query->bind_param("is", $date, $messageChat);
+    $query->execute() or die($conn->error);
 
 
 
@@ -311,5 +331,3 @@ else
 
 
 print("fillDiv('displayArea','".$message."');");
-
-?>
