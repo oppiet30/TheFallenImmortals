@@ -279,6 +279,5 @@ if($itemname == ""){
 		$activeTime = time();
 		$query = mysqli_query($conn, "INSERT INTO `chatroom` (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$activeTime."', '4', 'PM', '".$char['username']."', '".mysqli_real_escape_string($conn, $data2)."')");
 	}
-}	
-?>
+}
 

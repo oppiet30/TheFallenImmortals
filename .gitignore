@@ -16,6 +16,9 @@ composer.lock
 # Local DB credentials (see db-conn.example.php)
 db-conn.php
 
+# PHPStan bootstrap stub (contains local DB credentials)
+includes/
+
 # OS/editor cruft
 .DS_Store
 Thumbs.db

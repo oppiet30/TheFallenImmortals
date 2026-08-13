@@ -1,0 +1,20 @@
+parameters:
+    # Level 0 catches basic syntax errors, type errors, and basic class/method mismatches
+    level: 0
+
+    # Paths to analyze
+    paths:
+        - .
+
+    # Exclude files or directories if needed (e.g., third-party vendor folders)
+    excludePaths:
+        - vendor/
+        - ChromePhp.php
+
+    # Treat phpDoc types as certain (set to false if legacy docblocks are inaccurate)
+    treatPhpDocTypesAsCertain: false
+
+    # Helpful for legacy codebases where globals or constants are defined across multiple files
+    bootstrapFiles:
+        - includes/db_connect.php
+
