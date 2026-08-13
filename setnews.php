@@ -3,7 +3,7 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 include('varset.php');
-include('functions.php');
+include_once('functions.php');
 
 $getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
 $guild = mysqli_fetch_assoc($getguild);

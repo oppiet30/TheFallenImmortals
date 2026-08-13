@@ -8,7 +8,7 @@ include('db.php');
 
 include('varset.php');
 
-include('functions.php');
+include_once('functions.php');
 
 
 

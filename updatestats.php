@@ -1,12 +1,5 @@
 <?php
-function formatBlood($oz){
-	$oz = floor($oz);
-	$gal = floor($oz / 128);
-	$remainder = $oz % 128;
-	$pt = floor($remainder / 16);
-	$oz = $remainder % 16;
-	return number_format($gal)." gal ".number_format($pt)." pt ".number_format($oz)." oz.";
-}
+include_once('functions.php');
 
 $time = time();
 $setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");

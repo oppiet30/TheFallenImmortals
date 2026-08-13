@@ -3,7 +3,7 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 include('varset.php');
-include('functions.php');
+include_once('functions.php');
 
 if(isset($_POST['guildname']) && $_POST['guildname'] != "Select Guild")
 {

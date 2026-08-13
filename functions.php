@@ -32,4 +32,22 @@ function smartcode($smartstring) {
 
 	return $smartstring;
 }
+
+function formatBlood($oz) {
+	$oz = floor($oz);
+	$gal = floor($oz / 128);
+	$remainder = $oz % 128;
+	$pt = floor($remainder / 16);
+	$oz = $remainder % 16;
+	return number_format($gal)." gal ".number_format($pt)." pt ".number_format($oz)." oz.";
+}
+
+function collidesWithBox($relLoc, $boxes) {
+	foreach($boxes as $box){
+		if($box[1] >= $relLoc[0] && $box[0] <= $relLoc[0] && $box[3] >= $relLoc[1] && $box[2] <= $relLoc[1]){
+			return true;
+		}
+	}
+	return false;
+}
 ?>

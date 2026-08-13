@@ -19,6 +19,9 @@ db-conn.php
 # PHPStan bootstrap stub (contains local DB credentials)
 includes/
 
+# PHPUnit
+.phpunit.result.cache
+
 # OS/editor cruft
 .DS_Store
 Thumbs.db

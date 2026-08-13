@@ -2,6 +2,7 @@
 session_name("fallenimmortals");
 session_start();
 include('db.php');
+include_once('functions.php');
 $time = time();
 $setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
 $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
@@ -22,16 +23,6 @@ while($demon = mysqli_fetch_assoc($findDemons)){
 	$demonRel = explode(', ', $demon['relativeLoc']);
 	$demonBoxes[] = array($demonRel[0]-16, $demonRel[0]+16, $demonRel[1]-16, $demonRel[1]+16);
 }
-function collidesWithBox($relLoc, $boxes){
-	foreach($boxes as $box){
-		if($box[1] >= $relLoc[0] && $box[0] <= $relLoc[0] && $box[3] >= $relLoc[1] && $box[2] <= $relLoc[1]){
-			return true;
-		}
-	}
-	return false;
-}
-
-
 
 if(!isset($_POST['direction'])){
 	die('alert("Invalid movement.");');
