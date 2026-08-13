@@ -5,13 +5,17 @@ include('db.php');
 include('varset.php');
 include_once('functions.php');
 
-$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
-$guild = mysqli_fetch_assoc($getguild);
+$getguild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
+$getguild->bind_param("s", $char['guild']);
+$getguild->execute();
+$guild = $getguild->get_result()->fetch_assoc();
 if($charname == $guild['leader'] || $charname == $guild['coleader'])
 {
 	$news = htmlentities((carriage($_POST['news'])));
 
-	$setguild = mysqli_query($conn, "UPDATE guilds SET news='".$news."' WHERE name='".$char['guild']."'");
+	$setguild = $conn->prepare("UPDATE guilds SET news=? WHERE name=?");
+	$setguild->bind_param("ss", $news, $char['guild']);
+	$setguild->execute();
 	print("viewGuild();");
 }
 ?>

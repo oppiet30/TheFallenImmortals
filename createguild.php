@@ -20,7 +20,7 @@ include('db.php');
 
 include('varset.php');
 
-
+$data = "";
 
 if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildtag']))	//10m
 
@@ -32,9 +32,15 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 
 
-	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$guildname."'");
+	$getguild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
 
-	if(mysqli_num_rows($getguild) != "1")
+	$getguild->bind_param("s", $guildname);
+
+	$getguild->execute();
+
+	$getguildResult = $getguild->get_result();
+
+	if($getguildResult->num_rows != "1")
 
 	{
 
@@ -52,13 +58,25 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 
 
-				$setchar = mysqli_query($conn, "UPDATE characters SET guild='".$guildname."', gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
+				$setchar = $conn->prepare("UPDATE characters SET guild=?, gold=? WHERE id=?");
 
-				$setguild = mysqli_query($conn, "INSERT INTO guilds (`name`, `tag`, `leader`, `news`) VALUES ('".$guildname."', '".$guildtag."', '".$char['username']."', '".$news."')");
+				$setchar->bind_param("sii", $guildname, $newgold, $_SESSION['userid']);
+
+				$setchar->execute();
+
+				$setguild = $conn->prepare("INSERT INTO guilds (`name`, `tag`, `leader`, `coleader`, `captain`, `bank`, `exp`, `gold`, `itemdrop`, `itemboost`, `news`) VALUES (?, ?, ?, '', '', 0, 0, 0, 0, 0, ?)");
+
+				$setguild->bind_param("ssss", $guildname, $guildtag, $char['username'], $news);
+
+				$setguild->execute();
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has registered a new Guild by the name ".$guildname.".</font></strong><br />";
 
-	        	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+	        	$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', ?, ?, 'Chatroom')");
+
+	        	$query->bind_param("ss", $char['username'], $messagechat);
+
+	        	$query->execute();
 
 
 

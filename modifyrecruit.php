@@ -4,8 +4,10 @@ session_start();
 include('db.php');
 include('varset.php');
 
-$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
-$guild = mysqli_fetch_assoc($getguild);
+$getguild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
+$getguild->bind_param("s", $charguild);
+$getguild->execute();
+$guild = $getguild->get_result()->fetch_assoc();
 if($charname == $guild['leader'] || $charname == $guild['coleader'])
 {
 	if($_POST['modify'] == "recruit")
@@ -18,7 +20,9 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		{
 			$set = "Yes";
 		}
-		$setguild = mysqli_query($conn, "UPDATE guilds SET recruiting='".$set."' WHERE name='".$char['guild']."'");
+		$setguild = $conn->prepare("UPDATE guilds SET recruiting=? WHERE name=?");
+		$setguild->bind_param("ss", $set, $char['guild']);
+		$setguild->execute();
 	}
 	elseif($_POST['modify'] == "accept")
 	{		if($guild['accept'] == "Approve")
@@ -29,21 +33,31 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		{
 			$set = "Approve";
 		}
-		$setguild = mysqli_query($conn, "UPDATE guilds SET accept='".$set."' WHERE name='".$charguild."'");
+		$setguild = $conn->prepare("UPDATE guilds SET accept=? WHERE name=?");
+		$setguild->bind_param("ss", $set, $charguild);
+		$setguild->execute();
 	}
 	elseif($_POST['modify'] == "applicant")
 	{
 		if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain'])
 		{
 			$username = $_POST['username'];
-			$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='None'");
-			if(mysqli_num_rows($getuser) == "1")
+			$getuser = $conn->prepare("SELECT * FROM characters WHERE username=? AND guild='None'");
+			$getuser->bind_param("s", $username);
+			$getuser->execute();
+			if($getuser->get_result()->num_rows == "1")
 			{
-				$getapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$username."'");
-				if(mysqli_num_rows($getapplication) == "1")
+				$getapplication = $conn->prepare("SELECT * FROM applications WHERE username=?");
+				$getapplication->bind_param("s", $username);
+				$getapplication->execute();
+				if($getapplication->get_result()->num_rows == "1")
 				{
-					$updateapplicant = mysqli_query($conn, "UPDATE characters SET guild='".$guild['name']."' WHERE username='".$username."'");
-					$deleteapplication = mysqli_query($conn, "DELETE FROM applications WHERE username='".$username."'");
+					$updateapplicant = $conn->prepare("UPDATE characters SET guild=? WHERE username=?");
+					$updateapplicant->bind_param("ss", $guild['name'], $username);
+					$updateapplicant->execute();
+					$deleteapplication = $conn->prepare("DELETE FROM applications WHERE username=?");
+					$deleteapplication->bind_param("s", $username);
+					$deleteapplication->execute();
 				}
 			}
 		}
@@ -53,22 +67,32 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		if($charname == $guild['leader'] || $charname == $guild['coleader'])
 		{
 			$username = $_POST['username'];
-			$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-			if(mysqli_num_rows($getuser) == "1")
+			$getuser = $conn->prepare("SELECT * FROM characters WHERE username=? AND guild=?");
+			$getuser->bind_param("ss", $username, $guild['name']);
+			$getuser->execute();
+			if($getuser->get_result()->num_rows == "1")
 			{
 				if($username != $guild['leader'])
 				{
-					$getmember = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
-					if(mysqli_num_rows($getmember) == "1")
+					$getmember = $conn->prepare("SELECT * FROM characters WHERE username=?");
+					$getmember->bind_param("s", $username);
+					$getmember->execute();
+					if($getmember->get_result()->num_rows == "1")
 					{
-						$updateapplicant = mysqli_query($conn, "UPDATE characters SET guild='None' WHERE username='".$username."'");
+						$updateapplicant = $conn->prepare("UPDATE characters SET guild='None' WHERE username=?");
+						$updateapplicant->bind_param("s", $username);
+						$updateapplicant->execute();
 						if($username == $guild['coleader'])
 						{
-							$updateguild = mysqli_query($conn, "UPDATE guilds SET coleader='' WHERE name='".$charguild."'");
+							$updateguild = $conn->prepare("UPDATE guilds SET coleader='' WHERE name=?");
+							$updateguild->bind_param("s", $charguild);
+							$updateguild->execute();
 						}
 						if($username == $guild['captain'])
 						{
-							$updateguild = mysqli_query($conn, "UPDATE guilds SET captain='' WHERE name='".$charguild."'");
+							$updateguild = $conn->prepare("UPDATE guilds SET captain='' WHERE name=?");
+							$updateguild->bind_param("s", $charguild);
+							$updateguild->execute();
 						}
 					}
 				}
@@ -78,8 +102,10 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 	elseif($_POST['modify'] == "promote")
 	{
 		$username = $_POST['username'];
-		$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-		if(mysqli_num_rows($getuser) == "1")
+		$getuser = $conn->prepare("SELECT * FROM characters WHERE username=? AND guild=?");
+		$getuser->bind_param("ss", $username, $guild['name']);
+		$getuser->execute();
+		if($getuser->get_result()->num_rows == "1")
 		{
 			if($charname == $guild['leader'])
 			{
@@ -87,11 +113,15 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 				{
 					if($username == $guild['captain'])	//Make Co-Leader
 					{
-						$updateguild = mysqli_query($conn, "UPDATE guilds SET coleader='".$username."', captain='' WHERE name='".$charguild."'");
+						$updateguild = $conn->prepare("UPDATE guilds SET coleader=?, captain='' WHERE name=?");
+						$updateguild->bind_param("ss", $username, $charguild);
+						$updateguild->execute();
 					}
 					else	//Make Captain
 					{
-						$updateguild = mysqli_query($conn, "UPDATE guilds SET captain='".$username."' WHERE name='".$charguild."'");
+						$updateguild = $conn->prepare("UPDATE guilds SET captain=? WHERE name=?");
+						$updateguild->bind_param("ss", $username, $charguild);
+						$updateguild->execute();
 					}
 				}
 			}
@@ -99,7 +129,9 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 			{
 				if($username != $guild['leader'] && $username != $guild['coleader'])
 				{
-					$updateguild = mysqli_query($conn, "UPDATE guilds SET captain='".$username."' WHERE name='".$charguild."'");
+					$updateguild = $conn->prepare("UPDATE guilds SET captain=? WHERE name=?");
+					$updateguild->bind_param("ss", $username, $charguild);
+					$updateguild->execute();
 				}
 			}
 		}
@@ -107,8 +139,10 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 	elseif($_POST['modify'] == "demote")
 	{
 		$username = $_POST['username'];
-		$getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."' AND guild='".$guild['name']."'");
-		if(mysqli_num_rows($getuser) == "1")
+		$getuser = $conn->prepare("SELECT * FROM characters WHERE username=? AND guild=?");
+		$getuser->bind_param("ss", $username, $guild['name']);
+		$getuser->execute();
+		if($getuser->get_result()->num_rows == "1")
 		{
 			if($charname == $guild['leader'])
 			{
@@ -116,11 +150,15 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 				{
 					if($username == $guild['coleader'])	//Make Captain
 					{
-						$updateguild = mysqli_query($conn, "UPDATE guilds SET coleader='', captain='".$username."' WHERE name='".$charguild."'");
+						$updateguild = $conn->prepare("UPDATE guilds SET coleader='', captain=? WHERE name=?");
+						$updateguild->bind_param("ss", $username, $charguild);
+						$updateguild->execute();
 					}
 					else	//Make Member
 					{
-						$updateguild = mysqli_query($conn, "UPDATE guilds SET captain='' WHERE name='".$charguild."'");
+						$updateguild = $conn->prepare("UPDATE guilds SET captain='' WHERE name=?");
+						$updateguild->bind_param("s", $charguild);
+						$updateguild->execute();
 					}
 				}
 			}
@@ -128,7 +166,9 @@ if($charname == $guild['leader'] || $charname == $guild['coleader'])
 			{
 				if($username != $guild['leader'] && $username != $guild['coleader'])
 				{
-					$updateguild = mysqli_query($conn, "UPDATE guilds SET captain='' WHERE name='".$charguild."'");
+					$updateguild = $conn->prepare("UPDATE guilds SET captain='' WHERE name=?");
+					$updateguild->bind_param("s", $charguild);
+					$updateguild->execute();
 				}
 			}
 		}

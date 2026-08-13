@@ -5,8 +5,10 @@ include('db.php');
 
 if($_POST['tradeid'] != "Nothing"){
 	$data = "";
-	$allMarket = mysqli_query($conn, "SELECT * FROM trade WHERE id='".$_POST['tradeid']."'");
-	$item = mysqli_fetch_assoc($allMarket);
+	$allMarket = $conn->prepare("SELECT * FROM trade WHERE id=?");
+	$allMarket->bind_param("i", $_POST['tradeid']);
+	$allMarket->execute();
+	$item = $allMarket->get_result()->fetch_assoc();
 	if($item['fromplayer'] == $char['username']){
         $data .= "<center><a href=\'javascript: removeFromTrade(\"".$item['id']."\");\'><b>Remove</b></a><table>";
     }else{

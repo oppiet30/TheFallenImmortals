@@ -6,9 +6,13 @@ session_start();
 
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
 
-$char = mysqli_fetch_assoc($getchar);
+$getchar->bind_param("i", $_SESSION['userid']);
+
+$getchar->execute() or die($conn->error);
+
+$char = $getchar->get_result()->fetch_assoc();
 
 $display = "";
 
@@ -24,53 +28,107 @@ if($_POST['newUsername'] != NULL || $_POST['newUsername'] != "" && $char['change
 
 	{
 
-	    $getuser = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$username."'");
+	    $getuser = $conn->prepare("SELECT * FROM characters WHERE username=?");
 
-	    if(mysqli_num_rows($getuser) != "1")    //Username does not exist
+	    $getuser->bind_param("s", $username);
+
+	    $getuser->execute();
+
+	    $getuserResult = $getuser->get_result();
+
+	    if($getuserResult->num_rows != "1")    //Username does not exist
 
 	    {
 
 	        $display .= "Username: <font color=\'#00DD00\'>OK</font><br />";
 
-	        $guildLeaderCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE leader='".$char['username']."'");
+	        $guildLeaderCheck = $conn->prepare("SELECT * FROM guilds WHERE leader=?");
 
-	        if(mysqli_num_rows($guildLeaderCheck) == "1"){
+	        $guildLeaderCheck->bind_param("s", $char['username']);
 
-	        	$updateGuildLeader = mysqli_query($conn, "UPDATE guilds SET leader='".$username."' WHERE leader='".$char['username']."'");
+	        $guildLeaderCheck->execute();
 
-	        }
+	        if($guildLeaderCheck->get_result()->num_rows == "1"){
 
-	        $guildColeaderCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE coleader='".$char['username']."'");
+	        	$updateGuildLeader = $conn->prepare("UPDATE guilds SET leader=? WHERE leader=?");
 
-	        if(mysqli_num_rows($guildColeaderCheck) == "1"){
+	        	$updateGuildLeader->bind_param("ss", $username, $char['username']);
 
-	        	$updateGuildColeader = mysqli_query($conn, "UPDATE guilds SET coleader='".$username."' WHERE coleader='".$char['username']."'");
-
-	        }
-
-	        $guildCaptianCheck = mysqli_query($conn, "SELECT * FROM guilds WHERE captian='".$char['username']."'");
-
-	        if(mysqli_num_rows($guildCaptianCheck) == "1"){
-
-	        	$updateGuildCaptian = mysqli_query($conn, "UPDATE guilds SET captian='".$username."' WHERE captian='".$char['username']."'");
+	        	$updateGuildLeader->execute();
 
 	        }
 
-	        $updateInventory = mysqli_query($conn, "UPDATE inventory SET username='".$username."' WHERE username='".$char['username']."'");
+	        $guildColeaderCheck = $conn->prepare("SELECT * FROM guilds WHERE coleader=?");
 
-	        $updateTrade = mysqli_query($conn, "UPDATE trade SET fromplayer='".$username."' WHERE fromplayer='".$char['username']."'");
+	        $guildColeaderCheck->bind_param("s", $char['username']);
 
-	        $updateUser = mysqli_query($conn, "UPDATE characters SET changeusername='0', username='".$username."' WHERE id='".$_SESSION['userid']."'");
+	        $guildColeaderCheck->execute();
 
-	        $updateScavenger = mysqli_query($conn, "UPDATE scavenger SET username='".$username."' WHERE username='".$currentusername."'");
-			
-			$updateSecondClass = mysqli_query($conn, "UPDATE secondclass SET username='".$username."' WHERE username='".$currentusername."'");
+	        if($guildColeaderCheck->get_result()->num_rows == "1"){
+
+	        	$updateGuildColeader = $conn->prepare("UPDATE guilds SET coleader=? WHERE coleader=?");
+
+	        	$updateGuildColeader->bind_param("ss", $username, $char['username']);
+
+	        	$updateGuildColeader->execute();
+
+	        }
+
+	        $guildCaptianCheck = $conn->prepare("SELECT * FROM guilds WHERE captain=?");
+
+	        $guildCaptianCheck->bind_param("s", $char['username']);
+
+	        $guildCaptianCheck->execute();
+
+	        if($guildCaptianCheck->get_result()->num_rows == "1"){
+
+	        	$updateGuildCaptian = $conn->prepare("UPDATE guilds SET captain=? WHERE captain=?");
+
+	        	$updateGuildCaptian->bind_param("ss", $username, $char['username']);
+
+	        	$updateGuildCaptian->execute();
+
+	        }
+
+	        $updateInventory = $conn->prepare("UPDATE inventory SET username=? WHERE username=?");
+
+	        $updateInventory->bind_param("ss", $username, $char['username']);
+
+	        $updateInventory->execute();
+
+	        $updateTrade = $conn->prepare("UPDATE trade SET fromplayer=? WHERE fromplayer=?");
+
+	        $updateTrade->bind_param("ss", $username, $char['username']);
+
+	        $updateTrade->execute();
+
+	        $updateUser = $conn->prepare("UPDATE characters SET changeusername='0', username=? WHERE id=?");
+
+	        $updateUser->bind_param("si", $username, $_SESSION['userid']);
+
+	        $updateUser->execute();
+
+	        $updateScavenger = $conn->prepare("UPDATE scavenger SET username=? WHERE username=?");
+
+	        $updateScavenger->bind_param("ss", $username, $currentusername);
+
+	        $updateScavenger->execute();
+
+			$updateSecondClass = $conn->prepare("UPDATE secondclass SET username=? WHERE username=?");
+
+			$updateSecondClass->bind_param("ss", $username, $currentusername);
+
+			$updateSecondClass->execute();
 
 	        $date = time();
 
 	        $cashmessage = "<b><font color=\'#00DD00\'>".$currentusername." just changed their username to ".$username."!</font></b><br />";
 
-        	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES('".$date."', '3', '".$currentusername."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        	$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+
+        	$query->bind_param("iss", $date, $currentusername, $cashmessage);
+
+        	$query->execute() or die($conn->error);
 
 	    }
 
