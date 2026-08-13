@@ -1,7 +1,9 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 
 //Character & Player classifications
 $charname = $char['username'];
@@ -37,8 +39,11 @@ $chardexmod = 0;
 $charendmod = 0;
 $charintmod = 0;
 $charconmod = 0;
-$getinv = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
-while($inv = mysqli_fetch_array($getinv))
+$getinv = $conn->prepare("SELECT * FROM inventory WHERE username=? AND equipped='Yes'");
+$getinv->bind_param("s", $charname);
+$getinv->execute();
+$getinvResult = $getinv->get_result();
+while($inv = $getinvResult->fetch_array())
 {
 	$charstrmod += $inv['strength'];
 	$chardexmod += $inv['dexterity'];
@@ -64,7 +69,9 @@ $charbank = $char['bank'];
 //Characters Guild
 if($charguild != "None")
 {
-	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$charguild."'");
-	$guild = mysqli_fetch_assoc($getguild);
+	$getguild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
+	$getguild->bind_param("s", $charguild);
+	$getguild->execute();
+	$guild = $getguild->get_result()->fetch_assoc();
 }
 ?>

@@ -8,8 +8,10 @@ $date = time();
 
 //Auto Administration
 //Banned
-$getbanned = mysqli_query($conn, "SELECT * FROM banned WHERE ip='".$charip."'");
-if(mysqli_num_rows($getbanned) == "1")
+$getbanned = $conn->prepare("SELECT * FROM banned WHERE ip=?");
+$getbanned->bind_param("s", $charip);
+$getbanned->execute();
+if($getbanned->get_result()->num_rows == "1")
 {
     print("alert('You are banned.');");
     print("window.location = 'http://fallenimmortals.old/';");
@@ -21,11 +23,15 @@ while($muted = mysqli_fetch_array($getmuted))
 {
     if($muted['mutetime'] <= time())
     {
-        $unmute = mysqli_query($conn, "DELETE FROM muted WHERE id='".$muted['id']."'");
+        $unmute = $conn->prepare("DELETE FROM muted WHERE id=?");
+        $unmute->bind_param("i", $muted['id']);
+        $unmute->execute();
 
         $unmutemessage = "<b><font color=\'#DD00DD\'>Player ".$muted['username']." has been unmuted!</font></b><br />";
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-        VALUES ('".$date."', '3', '".$muted['mutedby']."', '".$unmutemessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        VALUES (?, '3', ?, ?, 'Chatroom')");
+        $query->bind_param("iss", $date, $muted['mutedby'], $unmutemessage);
+        $query->execute() or die($conn->error);
     }
 }
 ?>
