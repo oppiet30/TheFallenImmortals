@@ -37,7 +37,7 @@ if($username != NULL && $username != "")
 	    $getuser->execute();
 	    $getuserResult = $getuser->get_result();
 
-	    if($getuserResult->num_rows != "1" || $username != "Mammons")    //Username does not exist
+	    if($getuserResult->num_rows != "1" && $username != "Mammons")    //Username does not exist
 
 	    {
 
