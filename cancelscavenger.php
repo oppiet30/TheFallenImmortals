@@ -3,16 +3,22 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 $whom = ucwords(strtolower($_POST['whom']));
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'")or die("Not logged in!");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die("Not logged in!");
+$char = $getchar->get_result()->fetch_assoc();
 $data = "";
 
 if(isset($_POST['adventureid'])){
-	$findAdventureInQuestion = mysqli_query($conn, "SELECT * FROM scavenger WHERE id='".$_POST['adventureid']."' AND username='".$char['username']."'")or die("alert(\'Problem finding adventure!\');");
-	$adventure = mysqli_fetch_assoc($findAdventureInQuestion);
+	$findAdventureInQuestion = $conn->prepare("SELECT * FROM scavenger WHERE id=? AND username=?");
+	$findAdventureInQuestion->bind_param("is", $_POST['adventureid'], $char['username']);
+	$findAdventureInQuestion->execute() or die("alert(\'Problem finding adventure!\');");
+	$adventure = $findAdventureInQuestion->get_result()->fetch_assoc();
 		if($char['username'] == $adventure['username']){
-			
-			mysqli_query($conn, "DELETE FROM scavenger WHERE id='".$adventure['id']."'");
+
+			$removeAdventure = $conn->prepare("DELETE FROM scavenger WHERE id=?");
+			$removeAdventure->bind_param("i", $adventure['id']);
+			$removeAdventure->execute();
 
 		}else{
 			$data .= "This is not your adventure.<br />";

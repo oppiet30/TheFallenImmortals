@@ -29,7 +29,9 @@ if($_POST['goDuelGround'] == "Yes"){
 	$location = "Duel Ground";
 }
 
-$query = mysqli_query($conn, "UPDATE characters SET posx='".$charx."', posy='".$chary."', location='".$location."' WHERE username='".$charname."'");
+$query = $conn->prepare("UPDATE characters SET posx=?, posy=?, location=? WHERE username=?");
+$query->bind_param("iiss", $charx, $chary, $location, $charname);
+$query->execute();
 
 if($_POST['goDuelGround'] == "Yes"){
 	include('duelground.php');

@@ -8,9 +8,13 @@ include('db.php');
 
 $whom = ucwords(strtolower($_POST['whom']));
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'")or die("Not logged in!");
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
 
-$char = mysqli_fetch_assoc($getchar);
+$getchar->bind_param("i", $_SESSION['userid']);
+
+$getchar->execute() or die("Not logged in!");
+
+$char = $getchar->get_result()->fetch_assoc();
 
 $data = "";
 
@@ -18,9 +22,13 @@ $data = "";
 
 if(isset($_POST['adventureid'])){
 
-	$findAdventureInQuestion = mysqli_query($conn, "SELECT * FROM scavenger WHERE id='".$_POST['adventureid']."' AND username='".$char['username']."'")or die("alert(\'Problem finding adventure!\');");
+	$findAdventureInQuestion = $conn->prepare("SELECT * FROM scavenger WHERE id=? AND username=?");
 
-	$adventure = mysqli_fetch_assoc($findAdventureInQuestion);
+	$findAdventureInQuestion->bind_param("is", $_POST['adventureid'], $char['username']);
+
+	$findAdventureInQuestion->execute() or die("alert(\'Problem finding adventure!\');");
+
+	$adventure = $findAdventureInQuestion->get_result()->fetch_assoc();
 
 	$complete = explode("/", $adventure['complete']);
 
@@ -38,7 +46,11 @@ if(isset($_POST['adventureid'])){
 
 				$data .= "-You gain ".number_format($gold)." Gold!<br />";
 
-				mysqli_query($conn, "UPDATE characters SET gold=gold+'".$gold."' WHERE username='".$adventure['username']."'");
+				$addGold = $conn->prepare("UPDATE characters SET gold=gold+? WHERE username=?");
+
+				$addGold->bind_param("is", $gold, $adventure['username']);
+
+				$addGold->execute();
 
 			}
 
@@ -48,7 +60,11 @@ if(isset($_POST['adventureid'])){
 
 				$data .= "-You gain ".number_format($sp)." Stat Points!<br />";
 
-				mysqli_query($conn, "UPDATE characters SET stats=stats+'".$sp."' WHERE username='".$adventure['username']."'");
+				$addStats = $conn->prepare("UPDATE characters SET stats=stats+? WHERE username=?");
+
+				$addStats->bind_param("is", $sp, $adventure['username']);
+
+				$addStats->execute();
 
 			}
 
@@ -58,7 +74,11 @@ if(isset($_POST['adventureid'])){
 
 				$data .= "-You gain ".number_format($blood)." Blood!<br />";
 
-				mysqli_query($conn, "UPDATE characters SET blood=blood+'".$blood."' WHERE username='".$adventure['username']."'");
+				$addBlood = $conn->prepare("UPDATE characters SET blood=blood+? WHERE username=?");
+
+				$addBlood->bind_param("is", $blood, $adventure['username']);
+
+				$addBlood->execute();
 
 			}
 
@@ -70,15 +90,27 @@ if(isset($_POST['adventureid'])){
 
 					$data .= "-You gain Cash!<br />";
 
-					mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE username='".$adventure['username']."'");
+					$addCash = $conn->prepare("UPDATE characters SET cash=cash+'1' WHERE username=?");
+
+					$addCash->bind_param("s", $adventure['username']);
+
+					$addCash->execute();
 
 				}
 
 			}
 
-			mysqli_query($conn, "DELETE FROM scavenger WHERE id='".$adventure['id']."'");
+			$removeAdventure = $conn->prepare("DELETE FROM scavenger WHERE id=?");
 
-			mysqli_query($conn, "UPDATE characters SET scavenges=scavenges+'1' WHERE username='".$char['username']."'");
+			$removeAdventure->bind_param("i", $adventure['id']);
+
+			$removeAdventure->execute();
+
+			$addScavenges = $conn->prepare("UPDATE characters SET scavenges=scavenges+'1' WHERE username=?");
+
+			$addScavenges->bind_param("s", $char['username']);
+
+			$addScavenges->execute();
 
 		}else{
 

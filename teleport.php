@@ -3,8 +3,10 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 $whom = ucwords(strtolower($_POST['whom']));
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute();
+$char = $getchar->get_result()->fetch_assoc();
 
 if($char['teleporter'] == "Yes"){
 	$xcord = $_POST['xcord'];
@@ -16,9 +18,13 @@ if($char['teleporter'] == "Yes"){
 	if($xcord <= "100" && $xcord >= "1" && $ycord <= "100" && $ycord >= "1"){
 		
 		$timeTeleported = time();
-		$updateLocation = mysqli_query($conn, "UPDATE characters SET posx='".$xcord."', posy='".$ycord."', teleportlast='".$timeTeleported."' WHERE username='".$char['username']."'");
-		$findMap = mysqli_query($conn, "SELECT * FROM map WHERE xpos='".$xcord."' and ypos='".$ycord."'");
-		$map = mysqli_fetch_assoc($findMap);
+		$updateLocation = $conn->prepare("UPDATE characters SET posx=?, posy=?, teleportlast=? WHERE username=?");
+		$updateLocation->bind_param("iiis", $xcord, $ycord, $timeTeleported, $char['username']);
+		$updateLocation->execute();
+		$findMap = $conn->prepare("SELECT * FROM map WHERE xpos=? and ypos=?");
+		$findMap->bind_param("ii", $xcord, $ycord);
+		$findMap->execute();
+		$map = $findMap->get_result()->fetch_assoc();
 		print("fillDiv('locationMap','<div style=\'width:480px;height:480px;background-color:#000000;background-image:url(".$map['background'].");padding:".$map['locationpadding'].";\'></div>');");
 		print("fillDiv('cLocation','Current Location: (".$char['posx'].", ".$char['posy'].")');");
 		print("alert('You awaken in ".$xcord.", ".$ycord.". Did you even fall asleep?');");
