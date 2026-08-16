@@ -5,8 +5,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 }
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 $display = "";
 $display .= "";
 
@@ -17,7 +19,9 @@ if($char['changeusername'] == "1"){
 
 if($char['life'] <= "0"){
 	$display .= "<input type=\'button\' id=\'ressurect\' value=\'Ressurect\' onClick=\'ressurectChar();\' />";
-	$updatemonster = mysqli_query($conn, "UPDATE characters SET enemylife='0' WHERE id='".$_SESSION['userid']."'");
+	$updatemonster = $conn->prepare("UPDATE characters SET enemylife='0' WHERE id=?");
+	$updatemonster->bind_param("i", $_SESSION['userid']);
+	$updatemonster->execute();
 	print("fillDiv('displayArea','".$display."');");
 	die();
 }

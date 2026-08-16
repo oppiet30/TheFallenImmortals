@@ -1,18 +1,27 @@
 <?php
 include('db.php');
 
-$getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewemail WHERE newemail='".$_GET['nemail']."' AND verificationcode='".$_GET['activationcode']."'");
-$getCodeNumRows = mysqli_num_rows($getUserForChange);
+$getUserForChange = $conn->prepare("SELECT * FROM activatenewemail WHERE newemail=? AND verificationcode=?");
+$getUserForChange->bind_param("ss", $_GET['nemail'], $_GET['activationcode']);
+$getUserForChange->execute();
+$getUserForChangeResult = $getUserForChange->get_result();
+$getCodeNumRows = $getUserForChangeResult->num_rows;
 if($getCodeNumRows > "0"){
-	
-	$verify = mysqli_fetch_assoc($getUserForChange);
-	$checkIfInUse = mysqli_query($conn, "SELECT * FROM characters WHERE email='".$verify['newemail']."'");
-	if(mysqli_num_rows($checkIfInUse) > "0"){
+
+	$verify = $getUserForChangeResult->fetch_assoc();
+	$checkIfInUse = $conn->prepare("SELECT * FROM characters WHERE email=?");
+	$checkIfInUse->bind_param("s", $verify['newemail']);
+	$checkIfInUse->execute();
+	if($checkIfInUse->get_result()->num_rows > "0"){
 		print "Someone is already using this email address!";
 	}else{
 		print "You have changed you email to ".$verify['newemail']."";
-		$updateEmail = mysqli_query($conn, "UPDATE characters SET email='".$verify['newemail']."' WHERE username='".$verify['username']."'");
-		$deleteVerifyCode = mysqli_query($conn, "DELETE FROM activatenewemail WHERE id='".$verify['id']."'");
+		$updateEmail = $conn->prepare("UPDATE characters SET email=? WHERE username=?");
+		$updateEmail->bind_param("ss", $verify['newemail'], $verify['username']);
+		$updateEmail->execute();
+		$deleteVerifyCode = $conn->prepare("DELETE FROM activatenewemail WHERE id=?");
+		$deleteVerifyCode->bind_param("i", $verify['id']);
+		$deleteVerifyCode->execute();
 	}
 	
 }else{

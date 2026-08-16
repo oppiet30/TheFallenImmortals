@@ -7,9 +7,13 @@
 
 	include('db.php');
 
-	$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+	$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
 
-	$char = mysqli_fetch_assoc($getchar)or die(mysqli_error($conn));
+	$getchar->bind_param("i", $_SESSION['userid']);
+
+	$getchar->execute() or die($conn->error);
+
+	$char = $getchar->get_result()->fetch_assoc();
 
 	$display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewVote();\">Back</a></strong><br /><br />";	
 
@@ -33,13 +37,17 @@
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 5,000 Gold as a reward!</font></strong><br />";
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $messagechat);
+                $query->execute() or die($conn->error);
 
 				$display .= "<font size=\'14px\'><center>You receive 5,000 gold for voting!</center></font>";
 
 				$newgold = $char['gold'] + "5000";
 
-				$updateGold = mysqli_query($conn, "UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+				$updateGold = $conn->prepare("UPDATE characters SET gold=? WHERE id=?");
+				$updateGold->bind_param("ii", $newgold, $_SESSION['userid']);
+				$updateGold->execute() or die($conn->error);
 
 				
 
@@ -49,13 +57,17 @@
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 10 Statpoints as a reward!</font></strong><br />";
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $messagechat);
+                $query->execute() or die($conn->error);
 
 				$display .= "<font size=\'14px\'><center>You receive 10 Statpoints for voting!</center></font>";
 
 				$newstatpoints = $char['stats'] + "10";
 
-				$updateStatpoints = mysqli_query($conn, "UPDATE characters SET stats='".$newstatpoints."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+				$updateStatpoints = $conn->prepare("UPDATE characters SET stats=? WHERE id=?");
+				$updateStatpoints->bind_param("ii", $newstatpoints, $_SESSION['userid']);
+				$updateStatpoints->execute() or die($conn->error);
 
 				
 
@@ -65,13 +77,17 @@
 
 				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has voted on the Vote Page and received 100 oz. of Blood as a reward!</font></strong><br />";
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $messagechat);
+                $query->execute() or die($conn->error);
 
 				$display .= "<font size=\'14px\'><center>You receive 100 oz. of blood for voting!</center></font>";
 
 				$newblood = $char['blood'] + "100";
 
-				$updateBlood = mysqli_query($conn, "UPDATE characters SET blood='".$newblood."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+				$updateBlood = $conn->prepare("UPDATE characters SET blood=? WHERE id=?");
+				$updateBlood->bind_param("ii", $newblood, $_SESSION['userid']);
+				$updateBlood->execute() or die($conn->error);
 
 				
 
@@ -91,21 +107,29 @@
 			if($consecutivevotemax >= time() || $char['consecutivevotes'] == 0){
 				$newconsecutive = $char['consecutivevotes'] + 1;
 				if($newconsecutive == 14){
-					$givecc = mysqli_query($conn, "UPDATE characters SET cash=cash+'1' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+					$givecc = $conn->prepare("UPDATE characters SET cash=cash+'1' WHERE id=?");
+					$givecc->bind_param("i", $_SESSION['userid']);
+					$givecc->execute() or die($conn->error);
 					$newconsecutive = 0;
 					$messagechat = "<strong><font color=\'#CCFF00\'>!!!As a reward for voting 14 consecutive days, ".$char['username']." received 1 Cash!!!</font></strong><br />";
-                	$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')")or die(mysqli_error($conn));
+                	$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+                	$query->bind_param("iss", $date, $char['username'], $messagechat);
+                	$query->execute() or die($conn->error);
 				}
 			}else{
 				$newconsecutive = 1;
 			}
-			$updateVotes = mysqli_query($conn, "UPDATE characters SET consecutivevotes='".$newconsecutive."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+			$updateVotes = $conn->prepare("UPDATE characters SET consecutivevotes=? WHERE id=?");
+			$updateVotes->bind_param("ii", $newconsecutive, $_SESSION['userid']);
+			$updateVotes->execute() or die($conn->error);
 
-			
+
 
 			$newtime = time() + 86400;
 
-			$updateTime = mysqli_query($conn, "UPDATE characters SET votecompleted='".$newtime."' WHERE id='".$_SESSION['userid']."'")or die(mysqli_error($conn));
+			$updateTime = $conn->prepare("UPDATE characters SET votecompleted=? WHERE id=?");
+			$updateTime->bind_param("ii", $newtime, $_SESSION['userid']);
+			$updateTime->execute() or die($conn->error);
 
 		}else{
 
@@ -175,7 +199,9 @@
 
 		    $newVote = "".$charVote[0].", ".$charVote[1].", ".$charVote[2].", ".$charVote[3].", ".$charVote[4].", ".$charVote[5].", ".$charVote[6].", ".$charVote[7].", ".$charVote[8].", ".$charVote[9].", ".$charVote[10].", ".$charVote[11].", ".$charVote[12].", ".$charVote[13].", ".$charVote[14]."";
 
-		    $updateVote = mysqli_query($conn, "UPDATE characters SET vote='".$newVote."' WHERE id='".$_SESSION['userid']."'");
+		    $updateVote = $conn->prepare("UPDATE characters SET vote=? WHERE id=?");
+		    $updateVote->bind_param("si", $newVote, $_SESSION['userid']);
+		    $updateVote->execute();
 
 		    
 
@@ -298,7 +324,9 @@
 
 		$newvotes = "No, No, No, No, No, No, No, No, No, No, No, No, No, No, No";
 
-		$updatevotes = mysqli_query($conn, "UPDATE characters SET vote='".$newvotes."' WHERE id='".$_SESSION['userid']."'")or die("PROBREM!");
+		$updatevotes = $conn->prepare("UPDATE characters SET vote=? WHERE id=?");
+		$updatevotes->bind_param("si", $newvotes, $_SESSION['userid']);
+		$updatevotes->execute() or die("PROBREM!");
 
 		include('vote.php');
 

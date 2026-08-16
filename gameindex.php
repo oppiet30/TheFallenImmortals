@@ -3,8 +3,10 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute();
+$char = $getchar->get_result()->fetch_assoc();
 ?> 
 <!DOCTYPE html>
 

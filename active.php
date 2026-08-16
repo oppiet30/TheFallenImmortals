@@ -1,5 +1,7 @@
 <?php
 $active = time();
-$setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$active."' WHERE id='".$_SESSION['userid']."'");
+$setactive = $conn->prepare("UPDATE characters SET lastactive=? WHERE id=?");
+$setactive->bind_param("ii", $active, $_SESSION['userid']);
+$setactive->execute();
 
 ?>

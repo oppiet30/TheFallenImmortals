@@ -13,12 +13,18 @@ if($ticketRow > 0)
     $gettemple = mysqli_query($conn, "SELECT * FROM temple");
     $temple = mysqli_fetch_assoc($gettemple);
 
-    $updateUser = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
+    $updateUser = $conn->prepare("UPDATE characters SET gold=gold+? WHERE username=?");
+    $updateUser->bind_param("is", $temple['pot'], $winner['username']);
+    $updateUser->execute();
 
     $messagechat = "<strong><font color=\'orange\'>".$winner['username']." successfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
-    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
+    $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES (?, '3', ?, 'Chatroom')");
+    $query->bind_param("is", $date, $messagechat);
+    $query->execute();
 
-    $updateTemple = mysqli_query($conn, "UPDATE temple SET pot='0', lastwinner='".$winner['username']."'");
+    $updateTemple = $conn->prepare("UPDATE temple SET pot='0', lastwinner=?");
+    $updateTemple->bind_param("s", $winner['username']);
+    $updateTemple->execute();
 
     $deleteTickets = mysqli_query($conn, "TRUNCATE TABLE  `donationpot`");
 }

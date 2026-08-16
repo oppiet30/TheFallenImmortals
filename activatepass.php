@@ -1,15 +1,24 @@
 <?php
 include('db.php');
 
-$getUserForChange = mysqli_query($conn, "SELECT * FROM activatenewpassword WHERE username='".$_GET['username']."' AND verificationcode='".$_GET['activationcode']."'");
-$getCodeNumRows = mysqli_num_rows($getUserForChange);
+$getUserForChange = $conn->prepare("SELECT * FROM activatenewpassword WHERE username=? AND verificationcode=?");
+$getUserForChange->bind_param("ss", $_GET['username'], $_GET['activationcode']);
+$getUserForChange->execute();
+$getUserForChangeResult = $getUserForChange->get_result();
+$getCodeNumRows = $getUserForChangeResult->num_rows;
 if($getCodeNumRows > "0"){
-	
-	$verify = mysqli_fetch_assoc($getUserForChange);
-	$checkIfInUse = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$verify['username']."'");
+
+	$verify = $getUserForChangeResult->fetch_assoc();
+	$checkIfInUse = $conn->prepare("SELECT * FROM characters WHERE username=?");
+	$checkIfInUse->bind_param("s", $verify['username']);
+	$checkIfInUse->execute();
 		print "You have changed your password!";
-		$updateEmail = mysqli_query($conn, "UPDATE characters SET password='".$verify['newpassword']."' WHERE username='".$verify['username']."'");
-		$deleteVerifyCode = mysqli_query($conn, "DELETE FROM activatenewpassword WHERE id='".$verify['id']."'");
+		$updateEmail = $conn->prepare("UPDATE characters SET password=? WHERE username=?");
+		$updateEmail->bind_param("ss", $verify['newpassword'], $verify['username']);
+		$updateEmail->execute();
+		$deleteVerifyCode = $conn->prepare("DELETE FROM activatenewpassword WHERE id=?");
+		$deleteVerifyCode->bind_param("i", $verify['id']);
+		$deleteVerifyCode->execute();
 	
 }else{
 	print "Follow the activation link from your Email address!";

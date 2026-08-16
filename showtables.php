@@ -5,8 +5,10 @@ include('db.php');
 
 $query = mysqli_query($conn, "DELETE FROM banned WHERE ip='67.183.247.88'") or die(mysqli_error($conn));
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute();
+$char = $getchar->get_result()->fetch_assoc();
 
 echo "<table width='75%' border='1' align='center'><tr><td width='25%' valign='top'>";
 if($char['userlevel'] == "1")

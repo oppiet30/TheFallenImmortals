@@ -3,12 +3,18 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 
-$findapplication = mysqli_query($conn, "SELECT * FROM applications WHERE username='".$char['username']."'");
-if(mysqli_num_rows($findapplication) == 1){
+$findapplication = $conn->prepare("SELECT * FROM applications WHERE username=?");
+$findapplication->bind_param("s", $char['username']);
+$findapplication->execute();
+if($findapplication->get_result()->num_rows == 1){
 
-	$removeApplication = mysqli_query($conn, "DELETE FROM applications WHERE username='".$char['username']."'")or die(mysqli_error($conn));
+	$removeApplication = $conn->prepare("DELETE FROM applications WHERE username=?");
+	$removeApplication->bind_param("s", $char['username']);
+	$removeApplication->execute() or die($conn->error);
 	$data = "You can now apply to a different guild.";
-	$giveTheGoldBack = mysqli_query($conn, "UPDATE characters SET gold=gold+'900000' WHERE username='".$char['username']."'");
+	$giveTheGoldBack = $conn->prepare("UPDATE characters SET gold=gold+'900000' WHERE username=?");
+	$giveTheGoldBack->bind_param("s", $char['username']);
+	$giveTheGoldBack->execute();
 
 }else{
 	

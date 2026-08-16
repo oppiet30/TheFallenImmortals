@@ -4,12 +4,18 @@
     include('db-conn.php');
     $date = time();
     $time = $date - "1000";
-    $getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-    $char = mysqli_fetch_assoc($getchar);
-    $findonline = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
+    $getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+    $getchar->bind_param("i", $_SESSION['userid']);
+    $getchar->execute();
+    $char = $getchar->get_result()->fetch_assoc();
+    $findonline = $conn->prepare("UPDATE characters SET lastactive=? WHERE id=?");
+    $findonline->bind_param("ii", $time, $_SESSION['userid']);
+    $findonline->execute();
     if($char){
         $messagechat = "<strong><font color=\'#999999\'>".$char['username']." has logged out.</font></strong><br />";
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$char['username']."', '".$messagechat."', 'Chatroom')");
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+        $query->bind_param("iss", $date, $char['username'], $messagechat);
+        $query->execute();
     }
     $display = "Logging you out...";
     print("fillDiv('displayArea','".$display."');");

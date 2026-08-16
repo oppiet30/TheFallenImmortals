@@ -2,12 +2,16 @@
 include('db-conn.php');
 
 $getUsers = mysqli_query($conn, "SELECT * FROM characters");
+$getequip = $conn->prepare("SELECT * FROM inventory WHERE username=? AND equipped='Yes'");
+$updateLife = $conn->prepare("UPDATE characters SET life=? WHERE id=?");
 while($char = mysqli_fetch_assoc($getUsers)){
 
 	$charendmod = $char['endurance'];
 
-	$getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$char['username']."' AND equipped='Yes'");
-	while($equip = mysqli_fetch_array($getequip))
+	$getequip->bind_param("s", $char['username']);
+	$getequip->execute();
+	$getequipResult = $getequip->get_result();
+	while($equip = $getequipResult->fetch_array())
 	{
 		$charendmod += $equip['endurance'];
 	}
@@ -18,7 +22,8 @@ while($char = mysqli_fetch_assoc($getUsers)){
 		if($newLife > $charendmod){
 			$newLife = $charendmod;
 		}
-		mysqli_query($conn, "UPDATE characters SET life='".$newLife."' WHERE id='".$char['id']."'");
+		$updateLife->bind_param("ii", $newLife, $char['id']);
+		$updateLife->execute();
 	}
 }
 ?>

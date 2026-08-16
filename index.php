@@ -39,11 +39,14 @@
 	<?php
 		include('db-conn.php');
 		$time = time() - "600";
-		$findonline = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numonline = mysqli_num_rows($findonline);
+		$findActivityQuery = $conn->prepare("SELECT * FROM characters WHERE lastactive>?");
+		$findActivityQuery->bind_param("i", $time);
+		$findActivityQuery->execute();
+    	$numonline = $findActivityQuery->get_result()->num_rows;
 		$time = time() - "604800";
-		$findweek = mysqli_query($conn, "SELECT * FROM characters WHERE lastactive>'".$time."'");
-    	$numweek = mysqli_num_rows($findweek);
+		$findActivityQuery->bind_param("i", $time);
+		$findActivityQuery->execute();
+    	$numweek = $findActivityQuery->get_result()->num_rows;
 		$findregistered = mysqli_query($conn, "SELECT * FROM characters");
     	$numregistered = mysqli_num_rows($findregistered);
 	?>

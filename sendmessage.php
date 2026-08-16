@@ -40,9 +40,13 @@ if($char['username'] != NULL || $char['username'] != "")
             $message = str_replace(" /l3","</a>",$message);
             $stamp = date("m/d/y");
             $announcementPost = "".$stamp." - ".$message."<br />";
-            $sendIndex = mysqli_query($conn, "INSERT INTO announcements (`announcement`) VALUES ('".$announcementPost."')");
+            $sendIndex = $conn->prepare("INSERT INTO announcements (`announcement`) VALUES (?)");
+            $sendIndex->bind_param("s", $announcementPost);
+            $sendIndex->execute();
             $message = "<strong><font color=\'#FFAA00\'>Announcement: ".$message."</font></strong><br />";
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$charname."', '".$message."', 'Chatroom')");
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $charname, $message);
+            $query->execute();
         }
 		elseif(substr($message, 0, 3) == "/g " && $char['userlevel'] == "1")    //Announcement
         {
@@ -54,7 +58,9 @@ if($char['username'] != NULL || $char['username'] != "")
             $stamp = date("m/d/y");
             $announcementPost = "".$stamp." - ".$message."<br />";
             $message = "<strong><font color=\'#FFAA00\'>".$message."</font></strong><br />";
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '3', '".$charname."', '".$message."', 'Chatroom')");
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $charname, $message);
+            $query->execute();
         }
         elseif(substr($message, 0, 8) == "/remove " && $char['userlevel'] == "1")    //Removing characters from the game
         {
@@ -62,16 +68,22 @@ if($char['username'] != NULL || $char['username'] != "")
 
             $message = "<b><font color=\'#F70000\'>Player ".$removeuser." has been brutally murdered and will not be returning!</font></b><br />";
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '3', '".$char['username']."', '".$message."', 'Chatroom')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $char['username'], $message);
+            $query->execute() or die($conn->error);
 
-            $query = mysqli_query($conn, "DELETE FROM characters WHERE username='".$removeuser."' ");
+            $query = $conn->prepare("DELETE FROM characters WHERE username=? ");
+            $query->bind_param("s", $removeuser);
+            $query->execute();
         }
         elseif(substr($message, 0, 3) == "/id")
         {
             $player = substr($message, 4);
-            $readidplayer = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$player."' ") or die(mysqli_error($conn));
-            $idplayer = mysqli_fetch_assoc($readidplayer);
+            $readidplayer = $conn->prepare("SELECT * FROM characters WHERE username=? ");
+            $readidplayer->bind_param("s", $player);
+            $readidplayer->execute() or die($conn->error);
+            $idplayer = $readidplayer->get_result()->fetch_assoc();
 
             $iduser = "<font color=\'#FF0000\'><strong>".$player."</strong> is a level ".number_format($idplayer['level'])." ".$idplayer['gender']." ".$idplayer['class']."";
 			if($idplayer['guild'] != "None")
@@ -87,18 +99,24 @@ if($char['username'] != NULL || $char['username'] != "")
 
             $iduser = $iduser."</font><br />";
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`)
-            VALUES ('".$date."', '4', '".$char['username']."', '".$char['username']."', '".$iduser."')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`)
+            VALUES (?, '4', ?, ?, ?)");
+            $query->bind_param("isss", $date, $char['username'], $char['username'], $iduser);
+            $query->execute() or die($conn->error);
         }
         elseif(substr($message, 0, 3) == "/ip" && $char['userlevel'] < "3")
         {
             $checkip = substr($message, 4);
             $data = "";
             $num = "1";
-            $getips = mysqli_query($conn, "SELECT * FROM characters WHERE ip='".$checkip."'");
-            while($ips = mysqli_fetch_array($getips))
+            $getips = $conn->prepare("SELECT * FROM characters WHERE ip=?");
+            $getips->bind_param("s", $checkip);
+            $getips->execute();
+            $getipsResult = $getips->get_result();
+            $totalips = $getipsResult->num_rows;
+            while($ips = $getipsResult->fetch_array())
             {
-                if($num < mysqli_num_rows($getips))
+                if($num < $totalips)
                 {
                     $data .= $ips['username'].", ";
                 }
@@ -108,9 +126,11 @@ if($char['username'] != NULL || $char['username'] != "")
                 }
                 $num ++;
             }
-            $message = "<b><font color=\'#DD0000\'>".mysqli_num_rows($getips)." Results for (".$checkip."): ".$data."</font></b><br />";
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '4', 'PM', '".$message."', '".$char['username']."')") or die(mysqli_error($conn));
+            $message = "<b><font color=\'#DD0000\'>".$totalips." Results for (".$checkip."): ".$data."</font></b><br />";
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '4', 'PM', ?, ?)");
+            $query->bind_param("iss", $date, $message, $char['username']);
+            $query->execute() or die($conn->error);
         }
         elseif(substr($message, 0, 5) == "/warn" && $char['userlevel'] < "3")
         {
@@ -118,21 +138,29 @@ if($char['username'] != NULL || $char['username'] != "")
 
             $message = "<b><font color=\'#DD0022\'>Player ".$warnuser." has been issued a warning!</font></b><br />";
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '3', '".$char['username']."', '".$message."', 'Chatroom')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $char['username'], $message);
+            $query->execute() or die($conn->error);
 
-            $query = mysqli_query($conn, "SELECT * FROM warnings WHERE username='".$warnuser."' ");
-            $userwarning = mysqli_fetch_assoc($query);
+            $query = $conn->prepare("SELECT * FROM warnings WHERE username=? ");
+            $query->bind_param("s", $warnuser);
+            $query->execute();
+            $userwarning = $query->get_result()->fetch_assoc();
 
             $newwarning = $userwarning['warning'] + "1";
-            $query = mysqli_query($conn, "UPDATE warnings SET warnings='".$newwarning."' WHERE username='".$warnuser."' ");
+            $query = $conn->prepare("UPDATE warnings SET warnings=? WHERE username=? ");
+            $query->bind_param("is", $newwarning, $warnuser);
+            $query->execute();
         }
         elseif(substr($message, 0, 4) == "/mod" && $char['userlevel'] < "3")
         {
             $message = "<a href=\'javascript:modchat(\"".$char['username']."\");\'><b><font color=\'#008888\'>".$char['username'].": ".substr($message, 5)." [Mod Chat]</font></b></a><br />";
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '4', '".$char['username']."', '".$message."', 'Mod')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '4', ?, ?, 'Mod')");
+            $query->bind_param("iss", $date, $char['username'], $message);
+            $query->execute() or die($conn->error);
         }
         elseif(substr($message, 0, 9) == "/givegold" && $char['userlevel'] == "1")
         {
@@ -143,11 +171,15 @@ if($char['username'] != NULL || $char['username'] != "")
 
                 $goldamount = $goldstr['2'];
                 $usergive = $goldstr['1'];
-                
-                $qwerygold = mysqli_query($conn, "UPDATE characters SET gold=gold+'".$goldamount."' WHERE username='".$usergive."'");
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$goldmessage."', 'Chatroom')") or die(mysqli_error($conn));
+                $qwerygold = $conn->prepare("UPDATE characters SET gold=gold+? WHERE username=?");
+                $qwerygold->bind_param("is", $goldamount, $usergive);
+                $qwerygold->execute();
+
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $goldmessage);
+                $query->execute() or die($conn->error);
             }
             else
             {
@@ -164,11 +196,15 @@ if($char['username'] != NULL || $char['username'] != "")
                 $cashamount = $cashstr['2'];
                 $newcash = $cashamount;
                 $usergive = $cashstr['1'];
-                
-                $qwerycash = mysqli_query($conn, "UPDATE characters SET cash=cash+'".$newcash."', networth=networth+'".$newcash."' WHERE username='".$usergive."'");
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+                $qwerycash = $conn->prepare("UPDATE characters SET cash=cash+?, networth=networth+? WHERE username=?");
+                $qwerycash->bind_param("iis", $newcash, $newcash, $usergive);
+                $qwerycash->execute();
+
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $cashmessage);
+                $query->execute() or die($conn->error);
             }
             else
             {
@@ -185,11 +221,15 @@ if($char['username'] != NULL || $char['username'] != "")
                 $mutetime = time() + (floor($mutestr['2'] * "60"));
                 $date = date('ymdHi');
                 print("alert('".time()." / ".$mutetime."');");
-                $query = mysqli_query($conn, "INSERT INTO muted (`username`, `mutedby`, `mutetime`)
-                VALUES ('".$mutestr['1']."', '".$char['username']."', '".$mutetime."')") or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO muted (`username`, `mutedby`, `mutetime`)
+                VALUES (?, ?, ?)");
+                $query->bind_param("ssi", $mutestr[1], $char['username'], $mutetime);
+                $query->execute() or die($conn->error);
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$mutemessage."', 'Chatroom')") or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $mutemessage);
+                $query->execute() or die($conn->error);
             }
             else
             {
@@ -201,10 +241,14 @@ if($char['username'] != NULL || $char['username'] != "")
             $unmuteuser = substr($message, 8);
             $unmutemessage = "<b><font color=\'#DD00DD\'>Player ".substr($message, 8)." has been unmuted!</font></b><br />";
 
-            $query = mysqli_query($conn, "DELETE FROM muted WHERE username='".$unmuteuser."' ") or die(mysqli_error($conn));
+            $query = $conn->prepare("DELETE FROM muted WHERE username=? ");
+            $query->bind_param("s", $unmuteuser);
+            $query->execute() or die($conn->error);
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '3', '".$char['username']."', '".$unmutemessage."', 'Chatroom')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $char['username'], $unmutemessage);
+            $query->execute() or die($conn->error);
         }
         elseif(substr($message, 0, 8) == "/suspend" && $char['userlevel'] <= "2")
         {
@@ -215,10 +259,14 @@ if($char['username'] != NULL || $char['username'] != "")
 
                 $date = date('ymdHi');
 				$suspendtill = time() + (floor(($mutestr['2'] * "60") * "60"));
-                $setstatus = mysqli_query($conn, "UPDATE characters SET status='Suspended', lastactive='0', endsuspend='".$suspendtill."', reason='".$mutestr['3']."' WHERE username='".$mutestr['1']."'");
+                $setstatus = $conn->prepare("UPDATE characters SET status='Suspended', lastactive='0', endsuspend=?, reason=? WHERE username=?");
+                $setstatus->bind_param("iss", $suspendtill, $mutestr[3], $mutestr[1]);
+                $setstatus->execute();
 
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $suspendmessage);
+                $query->execute() or die($conn->error);
             }
             else
             {
@@ -230,20 +278,28 @@ if($char['username'] != NULL || $char['username'] != "")
             $banuser = substr($message, 5);
             $banmessage = "<b><font color=\'#DDDD00\'>Player ".$banuser." has been banned!</font></b><br />";
 
-            $getbanned = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$banuser."'");
-            $banned = mysqli_fetch_assoc($getbanned);
+            $getbanned = $conn->prepare("SELECT * FROM characters WHERE username=?");
+            $getbanned->bind_param("s", $banuser);
+            $getbanned->execute();
+            $banned = $getbanned->get_result()->fetch_assoc();
             $banip = $banned['ip'];
 
-            $query = mysqli_query($conn, "INSERT INTO banned (`ip`)
-            VALUES ('".$banip."')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO banned (`ip`)
+            VALUES (?)");
+            $query->bind_param("s", $banip);
+            $query->execute() or die($conn->error);
 
-            $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-            VALUES ('".$date."', '3', '".$char['username']."', '".$banmessage."', 'Chatroom')") or die(mysqli_error($conn));
+            $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+            VALUES (?, '3', ?, ?, 'Chatroom')");
+            $query->bind_param("iss", $date, $char['username'], $banmessage);
+            $query->execute() or die($conn->error);
         }
         elseif(substr($message, 0, 2) == "/e")
         {
-            $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysqli_error($conn));
-            if(mysqli_num_rows($query)==1)
+            $query = $conn->prepare("SELECT username FROM muted WHERE username=? ");
+            $query->bind_param("s", $char['username']);
+            $query->execute() or die($conn->error);
+            if($query->get_result()->num_rows==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -259,14 +315,18 @@ if($char['username'] != NULL || $char['username'] != "")
                 $message1 = $message1."<br />";
 
                 $userpostlevel = $char['userlevel'];
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$message1."', 'Chatroom')") or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $message1);
+                $query->execute() or die($conn->error);
             }
         }
         elseif(substr($message, 0, 7) == "/guild ")
         {
-            $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysqli_error($conn));
-            if(mysqli_num_rows($query)==1)
+            $query = $conn->prepare("SELECT username FROM muted WHERE username=? ");
+            $query->bind_param("s", $char['username']);
+            $query->execute() or die($conn->error);
+            if($query->get_result()->num_rows==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -279,18 +339,25 @@ if($char['username'] != NULL || $char['username'] != "")
                 {
                     $message = "<font color=\'#DD00DD\'><strong>Guild:</strong></font> (<a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#DD00DD\' style=\'text-decoration:none\'>".$charname."</font></a>)<font color=\'#DD00DD\'>: ".$message." [".$date."]</font><br />";
 
-                    $getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$charguild."'");
-                    while($member = mysqli_fetch_array($getmembers))
+                    $getmembers = $conn->prepare("SELECT * FROM characters WHERE guild=?");
+                    $getmembers->bind_param("s", $charguild);
+                    $getmembers->execute();
+                    $getmembersResult = $getmembers->get_result();
+                    $guildMsg = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES (?, '4', 'PM', ?, ?)");
+                    while($member = $getmembersResult->fetch_array())
                     {
-                        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$timestamp."', '4', 'PM', '".$member['username']."', '".$message."')");
+                        $guildMsg->bind_param("sss", $timestamp, $member['username'], $message);
+                        $guildMsg->execute();
                     }
                 }
             }
         }
         elseif(substr($message, 0, 3) == "/m ")
         {
-            $query = mysqli_query($conn, "SELECT username FROM muted WHERE username='".$char['username']."' ") or die(mysqli_error($conn));
-            if(mysqli_num_rows($query)==1)
+            $query = $conn->prepare("SELECT username FROM muted WHERE username=? ");
+            $query->bind_param("s", $char['username']);
+            $query->execute() or die($conn->error);
+            if($query->get_result()->num_rows==1)
             {
                 print("alert('You are currently muted!');");
             }
@@ -307,26 +374,35 @@ if($char['username'] != NULL || $char['username'] != "")
                 if($message2 != "" && $message2 != " " && $message2 != NULL)
                 {
                 	$whatTimeIsIt = time();
-                	$findTo = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$touser."'");
-                	$toTime = mysqli_fetch_assoc($findTo);
+                	$findTo = $conn->prepare("SELECT * FROM characters WHERE username=?");
+                	$findTo->bind_param("s", $touser);
+                	$findTo->execute();
+                	$toTime = $findTo->get_result()->fetch_assoc();
                 	$charLastActive = $toTime['lastactive'] + 700;
+                	$chatroomInsert = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES (?, '4', 'PM', ?, ?)");
                 	if($whatTimeIsIt > $charLastActive){
                 		$message3 = "<font color=\'#FF7700\'>From </font><a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$charname."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
                 		$message3half = "<font color=\'#FF7700\'>From </font><a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$charname."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
 	                    $message4 = "<font color=\'#FF7700\'>To </font><a href=\'javascript:toptell(\"".$touser."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$touser."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
-	
-	                    $query = mysqli_query($conn, "INSERT INTO chatroommessage (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$touser."', '".$message3."')");
-	                    
-	                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$touser."', '".$message3half."')");
-	
-	                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$char['username']."', '".$message4."')");
+
+	                    $query = $conn->prepare("INSERT INTO chatroommessage (`date`, `userlevel`, `username`, `to`, `message`) VALUES (?, '4', 'PM', ?, ?)");
+	                    $query->bind_param("sss", $datestamp, $touser, $message3);
+	                    $query->execute();
+
+	                    $chatroomInsert->bind_param("sss", $datestamp, $touser, $message3half);
+	                    $chatroomInsert->execute();
+
+	                    $chatroomInsert->bind_param("sss", $datestamp, $char['username'], $message4);
+	                    $chatroomInsert->execute();
                 	}else{
 	                    $message3 = "<font color=\'#FF7700\'>From </font><a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$charname."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
 	                    $message4 = "<font color=\'#FF7700\'>To </font><a href=\'javascript:toptell(\"".$touser."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$touser."</font></a><font color=\'#FF7700\'>: ".$message2." [".$date."]</font><br />";
-	
-	                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$touser."', '".$message3."')");
-	
-	                    $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$char['username']."', '".$message4."')");
+
+	                    $chatroomInsert->bind_param("sss", $datestamp, $touser, $message3);
+	                    $chatroomInsert->execute();
+
+	                    $chatroomInsert->bind_param("sss", $datestamp, $char['username'], $message4);
+	                    $chatroomInsert->execute();
                 	}
                 }
             }
@@ -336,8 +412,11 @@ if($char['username'] != NULL || $char['username'] != "")
             $caststr = explode(":",$message);
             $spell = explode(', ', $char['spells']);
             if($caststr[1] != NULL && $caststr[2] != NULL){
-            	$findCharacter = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$caststr[1]."'");
-            	if(mysqli_num_rows($findCharacter) > 0){
+            	$findCharacter = $conn->prepare("SELECT * FROM characters WHERE username=?");
+            	$findCharacter->bind_param("s", $caststr[1]);
+            	$findCharacter->execute();
+            	$findCharacterResult = $findCharacter->get_result();
+            	if($findCharacterResult->num_rows > 0){
             		if($caststr[2] == "Might" || $caststr[2] == "Might II" || $caststr[2] == "Might III" || $caststr[2] == "Might IV" || $caststr[2] == "Might V" || $caststr[2] == "Speed" || $caststr[2] == "Speed II" || $caststr[2] == "Speed III" || $caststr[2] == "Speed IV" || $caststr[2] == "Speed V" || $caststr[2] == "Constitution" || $caststr[2] == "Constitution II" || $caststr[2] == "Constitution III" || $caststr[2] == "Constitution IV" || $caststr[2] == "Constitution V" || $caststr[2] == "Intelligence" || $caststr[2] == "Intelligence II" || $caststr[2] == "Intelligence III" || $caststr[2] == "Intelligence IV" || $caststr[2] == "Intelligence V" || $caststr[2] == "Concentration" || $caststr[2] == "Concentration II" || $caststr[2] == "Concentration III" || $caststr[2] == "Concentration IV" || $caststr[2] == "Concentration V"){
             			if(in_array($caststr[2], $spell)){
             				if($caststr[2] == "Might"){
@@ -396,7 +475,7 @@ if($char['username'] != NULL || $char['username'] != "")
             				}
             				
             				if($char['mana'] >= $manaCost){
-            					$castto = mysqli_fetch_assoc($findCharacter);
+            					$castto = $findCharacterResult->fetch_assoc();
             					$openblessing = explode(", ", $castto['blessing']);
             					if($openblessing[0] == "None"){
             						$newBlessingString = $caststr[2].", ".$openblessing[1].", ".$openblessing[2].", ".$openblessing[3].", ".$openblessing[4].", ".$openblessing[5].", ".$openblessing[6].", ".$openblessing[7].", ".$openblessing[8]."";
@@ -420,12 +499,18 @@ if($char['username'] != NULL || $char['username'] != "")
             						print("alert('Error casting Affinity. Characters Affinity slots are already full.');");
             						die();
             					}
-            					$giveUserAffinity = mysqli_query($conn, "UPDATE characters SET blessing='".$newBlessingString."' WHERE username='".$caststr[1]."'");
-            					$subtractMana = mysqli_query($conn, "UPDATE characters SET mana=mana-'".$manaCost."' WHERE id='".$char['id']."'");
+            					$giveUserAffinity = $conn->prepare("UPDATE characters SET blessing=? WHERE username=?");
+            					$giveUserAffinity->bind_param("ss", $newBlessingString, $caststr[1]);
+            					$giveUserAffinity->execute();
+            					$subtractMana = $conn->prepare("UPDATE characters SET mana=mana-? WHERE id=?");
+            					$subtractMana->bind_param("ii", $manaCost, $char['id']);
+            					$subtractMana->execute();
             					print("alert('You cast ".$caststr[2]." upon ".$caststr[1]."');");
             					$datestamp = date("H:i:s");
             					$message = "<a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#FF7700\' style=\'text-decoration:none\'>".$charname."</font></a><font color=\'#FF7700\'> has cast ".$caststr[2]." upon you!</font><br />";
-								$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES ('".$datestamp."', '4', 'PM', '".$castto['username']."', '".$message."')");
+								$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `to`, `message`) VALUES (?, '4', 'PM', ?, ?)");
+								$query->bind_param("sss", $datestamp, $castto['username'], $message);
+								$query->execute();
 								include('updatestats.php');
             				}else{
             					print("alert('Error casting Affinity. You do not have enough mana.');");
@@ -445,22 +530,26 @@ if($char['username'] != NULL || $char['username'] != "")
         }
         elseif($char['username'] != NULL)
         {
-            $query = mysqli_query($conn, "SELECT * FROM muted WHERE username='".$char['username']."'") or die(mysqli_error($conn));
-            if(mysqli_num_rows($query) > "0")
+            $query = $conn->prepare("SELECT * FROM muted WHERE username=?");
+            $query->bind_param("s", $char['username']);
+            $query->execute() or die($conn->error);
+            if($query->get_result()->num_rows > "0")
             {
                 print("alert('You are currently muted!');");
             }
             else
             {
-				
+
             	if($char['userlevel'] != "1"){
 					$message = strip_tags($message);
 					$message = str_replace("<input", "", $message);
 					$message = str_replace("<table", "", $message);
 					$message = str_replace("<div", "", $message);
 				}
-            	$preGetGuild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$char['guild']."'");
-            	$getGuild = mysqli_fetch_assoc($preGetGuild);
+            	$preGetGuild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
+            	$preGetGuild->bind_param("s", $char['guild']);
+            	$preGetGuild->execute();
+            	$getGuild = $preGetGuild->get_result()->fetch_assoc();
             	$getGuildTag = $getGuild['tag'];
             	if($char['guild'] == "" || $char['guild'] == "None")
             	{
@@ -471,13 +560,15 @@ if($char['username'] != NULL || $char['username'] != "")
                 }elseif($char['userlevel'] == "2"){
                 $userStatus = "".$getGuildTag."-<font color=\'red\'>Moderator</font>";
                     if($char['chatcolour'] == "00DDDD"){
-                     $modupdate = mysqli_query($conn, "UPDATE characters SET chatcolour='BBBBBB' WHERE username='".$char['username']."'");
+                     $modupdate = $conn->prepare("UPDATE characters SET chatcolour='BBBBBB' WHERE username=?");
+                     $modupdate->bind_param("s", $char['username']);
+                     $modupdate->execute();
                     }
                 }elseif($char['userlevel'] == "3"){
                 $userStatus = "".$getGuildTag."";
                 }
                 $addDate = "(".date("H:i").")";
-               
+
                 $message1 = "".$addDate."<a href=\'javascript:toptell(\"".$char['username']."\");\'><font color=\'#".$char['chatcolour']."\'>".$char['username']."(".$userStatus."):</font></a> <font color=\'white\'>".$message."</font>";
 
                 if($char['userlevel'] == "1")
@@ -487,10 +578,14 @@ if($char['username'] != NULL || $char['username'] != "")
                 $message1 = $message1."<br />";
 
                 $userpostlevel = $char['userlevel'];
-                $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
-                VALUES ('".$date."', '3', '".$char['username']."', '".$message1."', 'Chatroom')") or die(mysqli_error($conn));
+                $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+                VALUES (?, '3', ?, ?, 'Chatroom')");
+                $query->bind_param("iss", $date, $char['username'], $message1);
+                $query->execute() or die($conn->error);
             }
-            $query = mysqli_query($conn, "UPDATE characters SET lastactive='".$date."' WHERE username='".$char['username']."' ") or die(mysqli_error($conn));
+            $query = $conn->prepare("UPDATE characters SET lastactive=? WHERE username=? ");
+            $query->bind_param("is", $date, $char['username']);
+            $query->execute() or die($conn->error);
         }
     }
 }

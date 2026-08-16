@@ -8,13 +8,18 @@ include_once('functions.php');
 if(isset($_POST['guildname']) && $_POST['guildname'] != "Select Guild")
 {
 	$guildname = $_POST['guildname'];
-	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE id='".$guildname."'");
-	$guild = mysqli_fetch_assoc($getguild);
+	$getguild = $conn->prepare("SELECT * FROM guilds WHERE id=?");
+	$getguild->bind_param("i", $guildname);
+	$getguild->execute();
+	$guild = $getguild->get_result()->fetch_assoc();
 
-	$getmembers = mysqli_query($conn, "SELECT * FROM characters WHERE guild='".$guild['name']."'");
-	$members = mysqli_num_rows($getmembers);
+	$getmembers = $conn->prepare("SELECT * FROM characters WHERE guild=?");
+	$getmembers->bind_param("s", $guild['name']);
+	$getmembers->execute();
+	$getmembersResult = $getmembers->get_result();
+	$members = $getmembersResult->num_rows;
 
-	while($member = mysqli_fetch_array($getmembers))
+	while($member = $getmembersResult->fetch_array())
 	{
 		$totalbonus += floor($member['level'] / "100");
 	}

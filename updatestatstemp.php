@@ -1,20 +1,27 @@
 <?php
 include('db.php');
 $time = time();
-$setactive = mysqli_query($conn, "UPDATE characters SET lastactive='".$time."' WHERE id='".$_SESSION['userid']."'");
+$setactive = $conn->prepare("UPDATE characters SET lastactive=? WHERE id=?");
+$setactive->bind_param("ii", $time, $_SESSION['userid']);
+$setactive->execute();
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 
 $charname = $char['username'];
 $charulvl = $char['userlevel'];
 $charclass = $char['class'];
 
 
-$getequip = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='Yes'");
-if(mysqli_num_rows($getequip) > "0")
+$getequip = $conn->prepare("SELECT * FROM inventory WHERE username=? AND equipped='Yes'");
+$getequip->bind_param("s", $charname);
+$getequip->execute();
+$getequipResult = $getequip->get_result();
+if($getequipResult->num_rows > "0")
 {
-    while($equip = mysqli_fetch_array($getequip))
+    while($equip = $getequipResult->fetch_array())
     {
         $eqstrbon += $equip['strength'];
         $eqdexbon += $equip['dexterity'];
@@ -476,11 +483,14 @@ print("<script type=\"text/javascript\">fillDiv('statsMenu','".$stats."');</scri
 
 $scavenge = "-Location: ".$char['posx'].",".$char['posy']."<br />";
 $scavenge .= number_format($char['scavenges'])." Scavenges Completed<br />";
-$findLogs2 = mysqli_query($conn, "SELECT * FROM scavenger WHERE username='".$char['username']."'");
-$findLogs1 = mysqli_num_rows($findLogs2);
+$findLogs2 = $conn->prepare("SELECT * FROM scavenger WHERE username=?");
+$findLogs2->bind_param("s", $char['username']);
+$findLogs2->execute();
+$findLogs2Result = $findLogs2->get_result();
+$findLogs1 = $findLogs2Result->num_rows;
 if($findLogs1 > 0){
 	$scavenge .= "-<p style=\'color: yellow;\'>";
-	while($scavenger = mysqli_fetch_assoc($findLogs2)){
+	while($scavenger = $findLogs2Result->fetch_assoc()){
 		$remaining1 = explode("/", $scavenger['collect']);
 		$remaining = $remaining1[1] - $remaining1[0];
 		if($remaining == "0"){
@@ -498,16 +508,22 @@ $xtop = $char['posx'] + $char['foresight'];
 $xbottom = $char['posx'] - $char['foresight'];
 $ytop = $char['posy'] + $char['foresight'];
 $ybottom = $char['posy'] - $char['foresight'];
-$grabBag = mysqli_query($conn, "SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ".$xbottom." AND ".$xtop.") AND (`posy` BETWEEN ".$ybottom." AND ".$ytop.")");
-$bag = mysqli_fetch_assoc($grabBag);
-$there = mysqli_num_rows($grabBag);
+$grabBag = $conn->prepare("SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ? AND ?) AND (`posy` BETWEEN ? AND ?)");
+$grabBag->bind_param("iiii", $xbottom, $xtop, $ybottom, $ytop);
+$grabBag->execute();
+$grabBagResult = $grabBag->get_result();
+$bag = $grabBagResult->fetch_assoc();
+$there = $grabBagResult->num_rows;
 if($there > "0"){
 	$scavenge .= "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";
 }
-$findOre = mysqli_query($conn, "SELECT * FROM ore WHERE (`xpos` BETWEEN ".$xbottom." AND ".$xtop.") AND (`ypos` BETWEEN ".$ybottom." AND ".$ytop.")");
-$there = mysqli_num_rows($findOre);
+$findOre = $conn->prepare("SELECT * FROM ore WHERE (`xpos` BETWEEN ? AND ?) AND (`ypos` BETWEEN ? AND ?)");
+$findOre->bind_param("iiii", $xbottom, $xtop, $ybottom, $ytop);
+$findOre->execute();
+$findOreResult = $findOre->get_result();
+$there = $findOreResult->num_rows;
 if($there > "0"){
-	$ore = mysqli_fetch_assoc($findOre);
+	$ore = $findOreResult->fetch_assoc();
 	$scavenge .= "-An Ore was spotted at ".$ore['xpos'].",".$ore['ypos']."";
 }
 print("<script type=\"text/javascript\">fillDiv('scavengeMenu','".$scavenge."');</script>");
@@ -554,16 +570,35 @@ $spells .= "<div id=\'spellDesc\'></div></center>";
 print("<script type=\"text/javascript\">fillDiv('spellsMenu','".$spells."');</script>");
 
 
-$blessing = explode(', ', $char['blessing']); 
-$blessing1 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[0]."'"));
-$blessing2 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[1]."'"));
-$blessing3 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[2]."'"));
-$blessing4 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[3]."'"));
-$blessing5 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[4]."'"));
-$blessing6 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[5]."'"));
-$blessing7 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[6]."'"));
-$blessing8 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[7]."'"));
-$blessing9 = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM affinity WHERE name='".$blessing[8]."'"));
+$blessing = explode(', ', $char['blessing']);
+$getBlessing = $conn->prepare("SELECT * FROM affinity WHERE name=?");
+$getBlessing->bind_param("s", $blessing[0]);
+$getBlessing->execute();
+$blessing1 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[1]);
+$getBlessing->execute();
+$blessing2 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[2]);
+$getBlessing->execute();
+$blessing3 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[3]);
+$getBlessing->execute();
+$blessing4 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[4]);
+$getBlessing->execute();
+$blessing5 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[5]);
+$getBlessing->execute();
+$blessing6 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[6]);
+$getBlessing->execute();
+$blessing7 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[7]);
+$getBlessing->execute();
+$blessing8 = $getBlessing->get_result()->fetch_assoc();
+$getBlessing->bind_param("s", $blessing[8]);
+$getBlessing->execute();
+$blessing9 = $getBlessing->get_result()->fetch_assoc();
 $affinity = "<table border=\"1\">";
 if($char['charge'] == "None"){
 $affinity .= "<tr height=\"60px\">";
