@@ -8,9 +8,13 @@ include('db.php');
 
 
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
 
-$char = mysqli_fetch_assoc($getchar);
+$getchar->bind_param("i", $_SESSION['userid']);
+
+$getchar->execute() or die($conn->error);
+
+$char = $getchar->get_result()->fetch_assoc();
 
 
 
@@ -28,15 +32,19 @@ if($_POST['cashoption'] == "FiveMill" && $char['cash'] >= "1")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for 5 Million gold!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "1";
 
         $gold = $char['gold'] + "5000000";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', gold='".$gold."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, gold=? WHERE username=?");
+        $update->bind_param("iis", $cash, $gold, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your wealth by 5,000,000 gold.<br />";
 
@@ -56,15 +64,19 @@ elseif($_POST['cashoption'] == "ThirtyMill" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash for 30 Million gold!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
         $gold = $char['gold'] + "30000000";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', gold='".$gold."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, gold=? WHERE username=?");
+        $update->bind_param("iis", $cash, $gold, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your wealth by 30,000,000 gold.<br />";
 
@@ -84,15 +96,19 @@ elseif($_POST['cashoption'] == "FiveHundredStat" && $char['cash'] >= "1")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for 500 Stat Points!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "1";
 
         $stats = $char['stats'] + "500";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', stats='".$stats."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, stats=? WHERE username=?");
+        $update->bind_param("iis", $cash, $stats, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Stat Points by 500.<br />";
 
@@ -112,15 +128,19 @@ elseif($_POST['cashoption'] == "TwentysevenFiftyStat" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash for 2,750 Stat Points!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
         $stats = $char['stats'] + "2750";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', stats='".$stats."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, stats=? WHERE username=?");
+        $update->bind_param("iis", $cash, $stats, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Stat Points by 2,750.<br />";
 
@@ -140,15 +160,19 @@ elseif($_POST['cashoption'] == "EightKBlood" && $char['cash'] >= "1")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for 8,000 oz. of Blood!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "1";
 
         $blood = $char['blood'] + "8000";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', blood='".$blood."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, blood=? WHERE username=?");
+        $update->bind_param("iis", $cash, $blood, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Blood by 8,000 oz.<br />";
 
@@ -168,15 +192,19 @@ elseif($_POST['cashoption'] == "FiftyKBlood" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash for 50,000 oz. of Blood!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
         $blood = $char['blood'] + "50000";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', blood='".$blood."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, blood=? WHERE username=?");
+        $update->bind_param("iis", $cash, $blood, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Blood by 50,000 oz.<br />";
 
@@ -196,15 +224,19 @@ elseif($_POST['cashoption'] == "HalfStatMulti" && $char['cash'] >= "8")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 8 cash for an extra X0.5 Stat Points per level!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "8";
 
         $statmult = $char['statmult'] + "50";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, statmult=? WHERE username=?");
+        $update->bind_param("iis", $cash, $statmult, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Stat Multiplier by 0.5.<br />";
 
@@ -224,15 +256,19 @@ elseif($_POST['cashoption'] == "WholeStatMulti" && $char['cash'] >= "15")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 15 cash for an extra X1 Stat Points per level!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "15";
 
         $statmult = $char['statmult'] + "100";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, statmult=? WHERE username=?");
+        $update->bind_param("iis", $cash, $statmult, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Stat Multiplier by 1.<br />";
 
@@ -252,15 +288,19 @@ elseif($_POST['cashoption'] == "FiveStatMulti" && $char['cash'] >= "70")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 70 cash for an extra X5 Stat Points per level!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "70";
 
         $statmult = $char['statmult'] + "500";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', statmult='".$statmult."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, statmult=? WHERE username=?");
+        $update->bind_param("iis", $cash, $statmult, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Stat Multiplier by 5.<br />";
 
@@ -282,11 +322,17 @@ elseif($_POST['cashoption'] == "OneForesight" && $char['cash'] >= "10")
 		$foresight = $char['foresight'] + 1;
 		$cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 10 Cash to raise their Foresight level to ".$foresight."!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "10";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', foresight='".$foresight."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, foresight=? WHERE username=?");
+        $update->bind_param("iis", $cash, $foresight, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Foresight level to ".$foresight.".<br />";
 	}
@@ -329,17 +375,25 @@ elseif($_POST['cashoption'] == "AddAffinity" && $char['cash'] >= "20")
 
     	}
 
-    	$updateBlessings = mysqli_query($conn, "UPDATE characters SET blessing='".$newBlessing."' WHERE username='".$char['username']."'")or die("alert('Could not update your blessings! Tell an admin!');");
+    	$updateBlessings = $conn->prepare("UPDATE characters SET blessing=? WHERE username=?");
+    $updateBlessings->bind_param("ss", $newBlessing, $char['username']);
+    $updateBlessings->execute() or die("alert('Could not update your blessings! Tell an admin!');");
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 20 cash for an additional Affinity!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
+
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "20";
 
         $addAffinity = $char['affinitys'] + "1";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', affinitys='".$addAffinity."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, affinitys=? WHERE username=?");
+        $update->bind_param("iis", $cash, $addAffinity, $charname);
+        $update->execute();
 
         $grid = "You successfully bought an additional Affinity!<br />";
 
@@ -359,15 +413,19 @@ elseif($_POST['cashoption'] == "OneAuto" && $char['cash'] >= "1")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 1 cash for 1 extra Auto Attacks!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "1";
 
         $automax = $char['automax'] + "1";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, automax=? WHERE username=?");
+        $update->bind_param("iis", $cash, $automax, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Auto Attack by 1.<br />";
 
@@ -387,15 +445,19 @@ elseif($_POST['cashoption'] == "FiveAuto" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash for 5 extra Auto Attacks!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
         $automax = $char['automax'] + "5";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, automax=? WHERE username=?");
+        $update->bind_param("iis", $cash, $automax, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Auto Attack by 5.<br />";
 
@@ -415,15 +477,19 @@ elseif($_POST['cashoption'] == "TenAuto" && $char['cash'] >= "10")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 10 cash for 10 extra Auto Attacks!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "10";
 
         $automax = $char['automax'] + "10";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', automax='".$automax."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, automax=? WHERE username=?");
+        $update->bind_param("iis", $cash, $automax, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Auto Attack by 10.<br />";
 
@@ -445,15 +511,19 @@ elseif($_POST['cashoption'] == "OneTradeSkill" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash for 1% more towards Trade Skill!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
         $tradeSkill = $char['tradeskill'] + "10";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', tradeskill='".$tradeSkill."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, tradeskill=? WHERE username=?");
+        $update->bind_param("iis", $cash, $tradeSkill, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Trade Skill by 1%.<br />";
 
@@ -475,15 +545,19 @@ elseif($_POST['cashoption'] == "TwoTwentythTradeSkill" && $char['cash'] >= "10")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 10 cash for 2.2% more towards Trade Skill!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "10";
 
         $tradeSkill = $char['tradeskill'] + "22";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', tradeskill='".$tradeSkill."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, tradeskill=? WHERE username=?");
+        $update->bind_param("iis", $cash, $tradeSkill, $charname);
+        $update->execute();
 
         $grid = "You successfully increase your Trade Skill by 2.2%.<br />";
 
@@ -503,13 +577,17 @@ elseif($_POST['cashoption'] == "ChangeUsername" && $char['cash'] >= "15")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 15 Cash for a Change Username Pass!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "15";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', changeusername='1' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, changeusername='1' WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "You have purchased a Change Username pass. Click Fight to begin changing your username!<br />";
 
@@ -548,16 +626,22 @@ elseif($_POST['cashoption'] == "OneDemon" && $char['cash'] >= "2")
 				$randBossY = $char['posy'];
 				$fillImg = "<img src=\'/images/demonSpawn.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
-                $spawnDemon = mysqli_query($conn, "INSERT INTO demons (`name`, `health`, `power`, `xpos`, `ypos`) VALUES ('".$BossName."', '".$BossHealth."', '".$BossPower."', '".$randBossX."', '".$randBossY."')");
+                $spawnDemon = $conn->prepare("INSERT INTO demons (`name`, `health`, `power`, `xpos`, `ypos`) VALUES (?, ?, ?, ?, ?)");
+                $spawnDemon->bind_param("siiii", $BossName, $BossHealth, $BossPower, $randBossX, $randBossY);
+                $spawnDemon->execute();
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 2 Cash to spawn <b>".$BossName."</b> from the depths of HELL! Location: (".$randBossX.", ".$randBossY.")</b>!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "2";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=? WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "You have spawned an Overlord Demon for 2 Cash!<br />";
 
@@ -578,72 +662,106 @@ elseif($_POST['cashoption'] == "FifteenBags" && $char['cash'] >= "2")
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 2 cash for 15 Bag Drops!</font></b><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 		$randx = rand(1,100);
         $randy = rand(1,100);
-        $addBag = mysqli_query($conn, "INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', '".$randx."', '".$randy."')");
+        $addBag = $conn->prepare("INSERT INTO bagdrop(`name`, `posx`, `posy`) VALUES ('Bag', ?, ?)");
+        $addBag->bind_param("ii", $randx, $randy);
+        $addBag->execute();
         $cashmessage .= "<strong><font color=\'#D2691E\'>A bag has fallen from the sky! It looks like it landed at ".$randx.", ".$randy."! GO GET IT!</font></strong><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "2";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=? WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "You spent 2 Cash on 15 Bags.<br />";
 
@@ -676,16 +794,22 @@ elseif($_POST['cashoption'] == "FifteenMinutes" && $char['cash'] >= "1")
 				$newExpTime = $date + $addTime;
 		}
 		
-		$killBonusTime = mysqli_query($conn, "UPDATE bonus SET gold='Yes', experience='Yes', experationTime='".$newExpTime."' WHERE id='1'");
+		$killBonusTime = $conn->prepare("UPDATE bonus SET gold='Yes', experience='Yes', experationTime=? WHERE id='1'");
+		$killBonusTime->bind_param("i", $newExpTime);
+		$killBonusTime->execute();
 		
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "1";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=? WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "You spent 1 Cash on 15 Minutes of Bonus Time.<br />";
 
@@ -718,16 +842,22 @@ elseif($_POST['cashoption'] == "HourBonus" && $char['cash'] >= "2")
 				$newExpTime = $date + $addTime;
 		}
 		
-		$killBonusTime = mysqli_query($conn, "UPDATE bonus SET gold='Yes', experience='Yes', experationTime='".$newExpTime."' WHERE id='1'");
+		$killBonusTime = $conn->prepare("UPDATE bonus SET gold='Yes', experience='Yes', experationTime=? WHERE id='1'");
+		$killBonusTime->bind_param("i", $newExpTime);
+		$killBonusTime->execute();
 		
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "2";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=? WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "You spent 2 Cash on 60 Minutes of Bonus Time.<br />";
 
@@ -747,13 +877,17 @@ elseif($_POST['cashoption'] == "Teleporter" && $char['cash'] >= "25")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 25 cash for a Teleporter!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "25";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', teleporter='Yes' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, teleporter='Yes' WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "Teleporter permission granted! Refresh to see it!<br />";
 
@@ -773,13 +907,17 @@ elseif($_POST['cashoption'] == "BankFee" && $char['cash'] >= "5")
 
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 5 cash to lower Banking fees by 1%!</font></b><br />";
 
-        $query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)
+        $query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')");
 
-                VALUES ('".$date."', '3', '".$char['username']."', '".$cashmessage."', 'Chatroom')") or die(mysqli_error($conn));
+        $query->bind_param("iss", $date, $char['username'], $cashmessage);
+
+        $query->execute() or die($conn->error);
 
         $cash = $cash - "5";
 
-        $update = mysqli_query($conn, "UPDATE characters SET cash='".$cash."', bankint=bankint-'1' WHERE username='".$charname."'");
+        $update = $conn->prepare("UPDATE characters SET cash=?, bankint=bankint-'1' WHERE username=?");
+        $update->bind_param("is", $cash, $charname);
+        $update->execute();
 
         $grid = "Banking will cost you much less now.<br />";
 

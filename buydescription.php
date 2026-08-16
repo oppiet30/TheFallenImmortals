@@ -5,10 +5,14 @@ include('db.php');
 
 if($_POST['buyid'] != "Nothing"){
 	$data = "";
-	$querty = mysqli_query($conn, "SELECT * FROM shop WHERE id='".$_POST['buyid']."'");
-	$inventory = mysqli_fetch_assoc($querty);
-	$current = mysqli_query($conn, "SELECT * FROM inventory WHERE type='".$inventory['type']."' AND equipped='Yes' AND username='".$char['username']."'");
-	$equipped = mysqli_fetch_assoc($current);
+	$querty = $conn->prepare("SELECT * FROM shop WHERE id=?");
+	$querty->bind_param("i", $_POST['buyid']);
+	$querty->execute();
+	$inventory = $querty->get_result()->fetch_assoc();
+	$current = $conn->prepare("SELECT * FROM inventory WHERE type=? AND equipped='Yes' AND username=?");
+	$current->bind_param("ss", $inventory['type'], $char['username']);
+	$current->execute();
+	$equipped = $current->get_result()->fetch_assoc();
 	$information = "Name: ".$equipped['itemname']." &#013; |Type: ".$equipped['type']." &#013; |Lvl Req: ".$equipped['levelreq']." &#013; |Str: ".$equipped['strength']." &#013; |Dex: ".$equipped['dexterity']." &#013; |End: ".$equipped['endurance']." &#013; |Int: ".$equipped['intelligence']." &#013; |Con: ".$equipped['concentration']." &#013; |Price: ".$equipped['value']."";
 	
 	

@@ -5,8 +5,10 @@ include('db.php');
 
 if($_POST['sellid'] != "Nothing"){
 	$data = "";
-	$querty = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND equipped='No' AND id='".$_POST['sellid']."'");
-	$inventory = mysqli_fetch_assoc($querty);
+	$querty = $conn->prepare("SELECT * FROM inventory WHERE username=? AND equipped='No' AND id=?");
+	$querty->bind_param("si", $charname, $_POST['sellid']);
+	$querty->execute();
+	$inventory = $querty->get_result()->fetch_assoc();
 	$data .= "<center><table>";
     $data .= "<tr><td>Type:</td><td>".$inventory['type']."</td></tr>";
 	$data .= "<tr><td>Level Req:</td><td>".$inventory['levelreq']."</td></tr>";
