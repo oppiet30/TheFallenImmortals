@@ -3,13 +3,18 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 $charend = $char['endurance'];
 $date = time();
 
-$getinv = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$charname."' AND endurance>'0' AND equipped='Yes'");
-while($inv = mysqli_fetch_array($getinv))
+$getinv = $conn->prepare("SELECT * FROM inventory WHERE username=? AND endurance>'0' AND equipped='Yes'");
+$getinv->bind_param("s", $charname);
+$getinv->execute();
+$getinvResult = $getinv->get_result();
+while($inv = $getinvResult->fetch_array())
 {
     $charend += $inv['endurance'];
 }
@@ -92,11 +97,15 @@ if (in_array('Constitution V', $blessingStats))
 $charend = floor($charend + $totalend);
 if($char['level'] >= "50"){
     $addOn = " at the cost of ".number_format($charend)." gold";
-    $takeGold = mysqli_query($conn, "UPDATE characters SET gold=gold-'".$charend."' WHERE username='".$char['username']."'");
+    $takeGold = $conn->prepare("UPDATE characters SET gold=gold-? WHERE username=?");
+    $takeGold->bind_param("is", $charend, $char['username']);
+    $takeGold->execute();
 }else{
     $addOn = "";
 }
-$ressurect = mysqli_query($conn, "UPDATE characters SET life='".$charend."', lastactive='".$date."' WHERE id='".$_SESSION['userid']."'");
+$ressurect = $conn->prepare("UPDATE characters SET life=?, lastactive=? WHERE id=?");
+$ressurect->bind_param("iii", $charend, $date, $_SESSION['userid']);
+$ressurect->execute();
 
 print("fillDiv('displayArea','<center>You have been ressurected".$addOn."!<br /><a href=\'javascript: runAway();\'>Fight More</a></center>');");
 

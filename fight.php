@@ -3,8 +3,10 @@ session_name("fallenimmortals");
 session_start();
 include('db.php');
 
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysqli_error($conn));
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute() or die($conn->error);
+$char = $getchar->get_result()->fetch_assoc();
 $display .= "<center><select id=\'enemylist\'>";
 
             $getenemies = mysqli_query($conn, "SELECT * FROM enemies ORDER BY level");

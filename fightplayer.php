@@ -5,34 +5,47 @@ include('db.php');
 include('varset.php');
 include('active.php');
 include('attackbonuses.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute();
+$char = $getchar->get_result()->fetch_assoc();
 $date = time();
 
-$findDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE `tousername`='".$char['username']."' OR `fromusername`='".$char['username']."'");
-if(mysqli_num_rows($findDuel) == 0){
+$findDuel = $conn->prepare("SELECT * FROM duelground WHERE `tousername`=? OR `fromusername`=?");
+$findDuel->bind_param("ss", $char['username'], $char['username']);
+$findDuel->execute();
+$findDuelResult = $findDuel->get_result();
+if($findDuelResult->num_rows == 0){
 	print("alert('You are not in a duel!');");
 }else{
-	$duel = mysqli_fetch_assoc($findDuel);
+	$duel = $findDuelResult->fetch_assoc();
 	if($duel['status'] == "Requesting" || $duel['turn'] != $char['username']){
 		print("alert('It is not your turn to duel or the duel hasnt even started!');");
 	}else{
 		if($charlife <= "0"){
 			print("alert('You were slaughtered.');");
-			$updateDuel = mysqli_query($conn, "DELETE FROM duelground WHERE `id`='".$duel['id']."'");
+			$updateDuel = $conn->prepare("DELETE FROM duelground WHERE `id`=?");
+			$updateDuel->bind_param("i", $duel['id']);
+			$updateDuel->execute();
 		}else{
 			if($char['username'] == $duel['tousername']){
-				$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$duel['fromusername']."'");
-				$oponent = mysqli_fetch_assoc($findOponent);
+				$findOponent = $conn->prepare("SELECT * FROM characters WHERE username=?");
+				$findOponent->bind_param("s", $duel['fromusername']);
+				$findOponent->execute();
+				$oponent = $findOponent->get_result()->fetch_assoc();
 			}else{
-				$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$duel['tousername']."'");
-				$oponent = mysqli_fetch_assoc($findOponent);
+				$findOponent = $conn->prepare("SELECT * FROM characters WHERE username=?");
+				$findOponent->bind_param("s", $duel['tousername']);
+				$findOponent->execute();
+				$oponent = $findOponent->get_result()->fetch_assoc();
 			}
 			require('oponentvarset.php');
 			require('oponentattackbonuses.php');
 			if($oponentlife <= "0"){
 				print("alert('".$oponentname." was slaughtered.');");
-				$updateDuel = mysqli_query($conn, "DELETE FROM duelground WHERE `id`='".$duel['id']."'");
+				$updateDuel = $conn->prepare("DELETE FROM duelground WHERE `id`=?");
+				$updateDuel->bind_param("i", $duel['id']);
+				$updateDuel->execute();
 			}else{
 				
 				if($char['class'] == "Mage" || $char['class'] == "Mage II" || $char['class'] == "Mage III" || $char['class'] == "Mage IV" || $char['class'] == "Mage V" || $char['class'] == "Sorcerer" || $char['class'] == "Sorcerer II" || $char['class'] == "Sorcerer III" || $char['class'] == "Sorcerer IV" || $char['class'] == "Sorcerer V" || $char['class'] == "Elemental"){
@@ -44,13 +57,19 @@ if(mysqli_num_rows($findDuel) == 0){
 				
 				if($initnumber > $initvalue){ //You missed
 					$messagechat = "<strong><font color=\'#FF3300\'>You <span style=\'color: red;\'><i><strong>miss</strong></i></span> ".$oponentname.".</font></strong><br />";
-					$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$char['username']."')");
-					
+					$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+					$query->bind_param("iss", $date, $messagechat, $char['username']);
+					$query->execute();
+
 					$messagechat = "<strong><font color=\'#FF3300\'>".$char['username']." <span style=\'color: green;\'><i><strong>missed</strong></i></span> you! <a href=\'javascript: attackFight();\'>Attack</a>!</font></strong><br />";
-					$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponentname."')");
-					
-					$updateDuel = mysqli_query($conn, "UPDATE duelground SET turn='".$oponentname."', time='".$date."' WHERE id='".$duel['id']."'");
-					
+					$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+					$query->bind_param("iss", $date, $messagechat, $oponentname);
+					$query->execute();
+
+					$updateDuel = $conn->prepare("UPDATE duelground SET turn=?, time=? WHERE id=?");
+					$updateDuel->bind_param("sii", $oponentname, $date, $duel['id']);
+					$updateDuel->execute();
+
 				}else{ // You hit
 				
 					if($char['class'] == "Mage" || $char['class'] == "Mage II" || $char['class'] == "Mage III" || $char['class'] == "Mage IV" || $char['class'] == "Mage V" || $char['class'] == "Sorcerer" || $char['class'] == "Sorcerer II" || $char['class'] == "Sorcerer III" || $char['class'] == "Sorcerer IV" || $char['class'] == "Sorcerer V" || $char['class'] == "Elemental"){
@@ -64,40 +83,62 @@ if(mysqli_num_rows($findDuel) == 0){
                 	$oponentlife = $oponentlife - $damageval;
                 	
                 	$messagechat = "<strong><font color=\'#FF3300\'>You <span style=\'color: green;\'><i><strong>hit</strong></i></span> ".$oponentname." for <span style=\'color: green;\'><i><strong>".number_format($damageval)."</strong></i></span> damage!!!</font></strong><br />";
-					$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$char['username']."')");
-                	
+					$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+					$query->bind_param("iss", $date, $messagechat, $char['username']);
+					$query->execute();
+
                 	$messagechat = "<strong><font color=\'#FF3300\'>".$charname." <span style=\'color: red;\'><i><strong>hit</strong></i></span> you for <span style=\'color: red;\'><i><strong>".number_format($damageval)."</strong></i></span> damage!!!</font></strong><br />";
-					$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponentname."')");
-					
+					$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+					$query->bind_param("iss", $date, $messagechat, $oponentname);
+					$query->execute();
+
                 	if($oponentlife <= "0"){ //oponent is dead
                 		$messagechat = "<strong><font color=\'#FF3300\'>You <span style=\'color: green;\'><i><strong>slaughtered</strong></i></span> ".$oponentname."!!! Congratulations!</font></strong><br />";
-						$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$char['username']."')");
-						
+						$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+						$query->bind_param("iss", $date, $messagechat, $char['username']);
+						$query->execute();
+
 						$yourRatio = explode('/', $char['duelratio']);
 						$yourRatio[0] = $yourRatio[0] + 1;
 						$newRatio = $yourRatio[0]."/".$yourRatio[1];
-						$updateRatio = mysqli_query($conn, "UPDATE characters SET duelratio='".$newRatio."' WHERE username='".$char['username']."'");
-						
+						$updateRatio = $conn->prepare("UPDATE characters SET duelratio=? WHERE username=?");
+						$updateRatio->bind_param("ss", $newRatio, $char['username']);
+						$updateRatio->execute();
+
 						$messagechat = "<strong><font color=\'#FF3300\'>".$charname." <span style=\'color: red;\'><i><strong>slaughtered</strong></i></span> you. Sorry for your loss...</font></strong><br />";
-						$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponentname."')");
-						
+						$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+						$query->bind_param("iss", $date, $messagechat, $oponentname);
+						$query->execute();
+
 						$oponentRatio = explode('/', $oponent['duelratio']);
 						$oponentRatio[1] = $oponentRatio[1] + 1;
 						$newRatio = $oponentRatio[0]."/".$oponentRatio[1];
-						$updateRatio = mysqli_query($conn, "UPDATE characters SET duelratio='".$newRatio."' WHERE username='".$oponent['username']."'");
-						
-						$endDuel = mysqli_query($conn, "DELETE FROM duelground WHERE id='".$duel['id']."'");
+						$updateRatio = $conn->prepare("UPDATE characters SET duelratio=? WHERE username=?");
+						$updateRatio->bind_param("ss", $newRatio, $oponent['username']);
+						$updateRatio->execute();
+
+						$endDuel = $conn->prepare("DELETE FROM duelground WHERE id=?");
+						$endDuel->bind_param("i", $duel['id']);
+						$endDuel->execute();
                 	}else{ //The duel goes on...
                 		$messagechat = "<strong><font color=\'#FF3300\'>".$oponentname."is initiating the next round...</font></strong><br />";
-						$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$char['username']."')");
-						
+						$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+						$query->bind_param("iss", $date, $messagechat, $char['username']);
+						$query->execute();
+
 						$messagechat = "<strong><font color=\'#FF3300\'>You still stand... <a href=\'javascript: attackFight();\'>Attack</a>!</font></strong><br />";
-						$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponentname."')");
-						
-						$changeDuelSides = mysqli_query($conn, "UPDATE duelground SET turn='".$oponentname."', time='".$date."' WHERE id='".$duel['id']."'");
+						$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+						$query->bind_param("iss", $date, $messagechat, $oponentname);
+						$query->execute();
+
+						$changeDuelSides = $conn->prepare("UPDATE duelground SET turn=?, time=? WHERE id=?");
+						$changeDuelSides->bind_param("sii", $oponentname, $date, $duel['id']);
+						$changeDuelSides->execute();
                 	}
-                	
-                	$updateOponent = mysqli_query($conn, "UPDATE characters SET life='".$oponentlife."' WHERE username='".$oponentname."'");
+
+                	$updateOponent = $conn->prepare("UPDATE characters SET life=? WHERE username=?");
+                	$updateOponent->bind_param("is", $oponentlife, $oponentname);
+                	$updateOponent->execute();
 				}
 				
 			}

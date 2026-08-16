@@ -2,22 +2,33 @@
 session_name("fallenimmortals");
 session_start();
 include('db.php');
-$getchar = mysqli_query($conn, "SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysqli_fetch_assoc($getchar);
+$getchar = $conn->prepare("SELECT * FROM characters WHERE id=?");
+$getchar->bind_param("i", $_SESSION['userid']);
+$getchar->execute();
+$char = $getchar->get_result()->fetch_assoc();
 
 if($_POST['charrequesting'] != NULL){
-	$currentDuel = mysqli_query($conn, "SELECT * FROM duelground WHERE tousername='".$char['username']."' OR fromusername='".$char['username']."'");
-	if(mysqli_num_rows($currentDuel) >= 1){
+	$currentDuel = $conn->prepare("SELECT * FROM duelground WHERE tousername=? OR fromusername=?");
+	$currentDuel->bind_param("ss", $char['username'], $char['username']);
+	$currentDuel->execute();
+	if($currentDuel->get_result()->num_rows >= 1){
 		print("alert('You already have a pending duel request. Check the chatroom.');");
 	}else{
-		$findOponent = mysqli_query($conn, "SELECT * FROM characters WHERE username='".$_POST['charrequesting']."'")or die(mysqli_error($conn));
-		if(mysqli_num_rows($findOponent) == 1){
-			$oponent = mysqli_fetch_assoc($findOponent);
+		$findOponent = $conn->prepare("SELECT * FROM characters WHERE username=?");
+		$findOponent->bind_param("s", $_POST['charrequesting']);
+		$findOponent->execute() or die($conn->error);
+		$findOponentResult = $findOponent->get_result();
+		if($findOponentResult->num_rows == 1){
+			$oponent = $findOponentResult->fetch_assoc();
 			if($oponent['life'] > 0){
 				$date = time();
-				$addDuelPending = mysqli_query($conn, "INSERT INTO duelground(`fromusername`, `tousername`, `status`, `turn`, `time`) VALUES ('".$char['username']."', '".$oponent['username']."', 'Requesting', '".$char['username']."', '".$date."')");
+				$addDuelPending = $conn->prepare("INSERT INTO duelground(`fromusername`, `tousername`, `status`, `turn`, `time`) VALUES (?, ?, 'Requesting', ?, ?)");
+				$addDuelPending->bind_param("sssi", $char['username'], $oponent['username'], $char['username'], $date);
+				$addDuelPending->execute();
 				$messagechat = "<strong><font color=\'#FF3300\'>".$char['username']." has requested a duel against you! <a href=\'javascript: acceptFight();\'>Accept</a> | <a href=\'javascript: declineFight();\'>Decline</a></font></strong><br />";
-				$query = mysqli_query($conn, "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('".$date."', '4', 'PM', '".$messagechat."', '".$oponent['username']."')");
+				$query = $conn->prepare("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)");
+				$query->bind_param("iss", $date, $messagechat, $oponent['username']);
+				$query->execute();
 			}else{
 				print("alert('Opponent is already dead...');");
 			}

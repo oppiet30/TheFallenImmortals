@@ -29,8 +29,11 @@ $oponentcash = $oponent['cash'];
 $oponentstatmulti = $oponent['statmult'] / 100;
 
 //Modified stats from item bonuses (For display purposes only)
-$getinv = mysqli_query($conn, "SELECT * FROM inventory WHERE username='".$oponentname."' AND equipped='Yes'");
-while($inv = mysqli_fetch_array($getinv))
+$getinv = $conn->prepare("SELECT * FROM inventory WHERE username=? AND equipped='Yes'");
+$getinv->bind_param("s", $oponentname);
+$getinv->execute();
+$getinvResult = $getinv->get_result();
+while($inv = $getinvResult->fetch_array())
 {
 	$oponentstrmod += $inv['strength'];
 	$oponentdexmod += $inv['dexterity'];
@@ -57,7 +60,9 @@ $oponentbank = $oponent['bank'];
 //Characters Guild
 if($oponentguild != "None")
 {
-	$getguild = mysqli_query($conn, "SELECT * FROM guilds WHERE name='".$oponentguild."'");
-	$oponentguild = mysqli_fetch_assoc($getguild);
+	$getguild = $conn->prepare("SELECT * FROM guilds WHERE name=?");
+	$getguild->bind_param("s", $oponentguild);
+	$getguild->execute();
+	$oponentguild = $getguild->get_result()->fetch_assoc();
 }
 ?>
