@@ -11,9 +11,12 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 	$endurance = "0";
 	$concentration = "0";
 	$intelligence = "0";
-	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysqli_num_rows($findForgeItems) == "4"){
-		while($inventory = mysqli_fetch_array($findForgeItems)){
+	$findForgeItems = $conn->prepare("SELECT * FROM forge WHERE username=?");
+	$findForgeItems->bind_param("s", $char['username']);
+	$findForgeItems->execute();
+	$findForgeItemsResult = $findForgeItems->get_result();
+	if($findForgeItemsResult->num_rows == "4"){
+		while($inventory = $findForgeItemsResult->fetch_array()){
 			$strength += $inventory['strength'];
 			$dexterity += $inventory['dexterity'];
 			$endurance += $inventory['endurance'];

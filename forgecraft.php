@@ -12,9 +12,12 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 	$concentration = "0";
 	$intelligence = "0";
 	$levelreq = "0";
-	$findForgeItems = mysqli_query($conn, "SELECT * FROM forge WHERE username='".$char['username']."'");
-	if(mysqli_num_rows($findForgeItems) == "4"){
-		while($inventory = mysqli_fetch_array($findForgeItems)){
+	$findForgeItems = $conn->prepare("SELECT * FROM forge WHERE username=?");
+	$findForgeItems->bind_param("s", $char['username']);
+	$findForgeItems->execute();
+	$findForgeItemsResult = $findForgeItems->get_result();
+	if($findForgeItemsResult->num_rows == "4"){
+		while($inventory = $findForgeItemsResult->fetch_array()){
 			$strength += $inventory['strength'];
 			$dexterity += $inventory['dexterity'];
 			$endurance += $inventory['endurance'];
@@ -45,18 +48,28 @@ if($_POST['ore'] != NULL || $_POST['ore'] != "" || $_POST['ore'] != " "){
 			$itemname = "(F)".$char['username']." ".$itemtype;
 			
 			if($_POST['ore'] == "copper" && $char['copperore'] >= 50){
-				$updateResources = mysqli_query($conn, "UPDATE characters SET copperore=copperore-'50' WHERE username='".$char['username']."'");
+				$updateResources = $conn->prepare("UPDATE characters SET copperore=copperore-'50' WHERE username=?");
+				$updateResources->bind_param("s", $char['username']);
+				$updateResources->execute();
 			}elseif($_POST['ore'] == "iron" && $char['copperore'] >= 100 && $char['ironore'] >= 50){
-				$updateResources = mysqli_query($conn, "UPDATE characters SET copperore=copperore-'100', ironore=ironore-'50' WHERE username='".$char['username']."'");
+				$updateResources = $conn->prepare("UPDATE characters SET copperore=copperore-'100', ironore=ironore-'50' WHERE username=?");
+				$updateResources->bind_param("s", $char['username']);
+				$updateResources->execute();
 			}elseif($_POST['ore'] == "steel" && $char['copperore'] >= 150 && $char['ironore'] >= 100 && $char['steelore'] >= 50){
-				$updateResources = mysqli_query($conn, "UPDATE characters SET copperore=copperore-'150', ironore=ironore-'100', steelore=steelore-'50' WHERE username='".$char['username']."'");
+				$updateResources = $conn->prepare("UPDATE characters SET copperore=copperore-'150', ironore=ironore-'100', steelore=steelore-'50' WHERE username=?");
+				$updateResources->bind_param("s", $char['username']);
+				$updateResources->execute();
 			}else{
 				print"alert('Not enough resources.');";
 				die();
 			}
-				
-				$addToInventory = mysqli_query($conn, "INSERT INTO `inventory` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES ('".$char['username']."', '".$itemname."', 'No', '".$levelreq."', '".$itemtype."', '".$power."', '".$strength."', '".$dexterity."', '".$endurance."', '".$intelligence."', '".$concentration."', '".$value."')");
-	$removeFromInventory = mysqli_query($conn, "DELETE FROM forge WHERE username='".$char['username']."'");
+
+				$addToInventory = $conn->prepare("INSERT INTO `inventory` (`username`, `itemname`, `equipped`, `levelreq`, `type`, `power`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `value`) VALUES (?, ?, 'No', ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+				$addToInventory->bind_param("ssisiiiiiii", $char['username'], $itemname, $levelreq, $itemtype, $power, $strength, $dexterity, $endurance, $intelligence, $concentration, $value);
+				$addToInventory->execute();
+	$removeFromInventory = $conn->prepare("DELETE FROM forge WHERE username=?");
+	$removeFromInventory->bind_param("s", $char['username']);
+	$removeFromInventory->execute();
 				
 				$data .= "<strong>".$itemname."</strong> was created giving you the following advantages; Str: ".floor($strength)." Dex: ".floor($dexterity)." End: ".floor($endurance)." Con: ".floor($concentration)." Int: ".floor($intelligence).", valuing at ".number_format($value)." gold, requiring a level of ".number_format($levelreq)." from the user.<br />";
 			
