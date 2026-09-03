@@ -1,0 +1,134 @@
+body {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 16px;
+	color: #CFB164;
+	background-attachment: scroll;
+	background-color: #000;
+	margin: 0 auto;
+
+}
+a {
+    color: #00AAFF;
+    text-decoration: none;
+}
+#containerDiv {
+	position:relative;
+	background-image: url('../images/gameDesignBKG.png');
+	background-repeat: no-repeat;
+	height: 631px;
+	width: 1024px;
+	margin: 0 auto;
+}
+#topLink {
+	background-image: url('../images/topLink.png');
+	background-repeat: no-repeat;
+	height: 23px;
+	width: 46px;
+	background-attachment: scroll;
+	left: 730px;
+	top: 22px;
+	position: absolute;
+}
+#cashLink {
+	background-attachment: scroll;
+	background-image: url('../images/cashLink.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 25px;
+	width: 70px;
+	left: 785px;
+	top: 22px;
+}
+#voteInsideLink {
+	background-attachment: scroll;
+	background-image: url('../images/voteInsideLink.png');
+	background-repeat: no-repeat;
+	height: 23px;
+	width: 62px;
+	left: 857px;
+	top: 22px;
+	position: absolute;
+}
+#forumLink {
+	background-attachment: scroll;
+	background-image: url('../images/forumLink.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 23px;
+	width: 85px;
+	left: 928px;
+	top: 22px;
+}
+#faqLink {
+	font-style: normal;
+	background-attachment: scroll;
+	background-image: url('../images/faqLink.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 25px;
+	width: 60px;
+	left: 730px;
+	top: 56px;
+}
+#settingsLink {
+	background-attachment: scroll;
+	background-image: url('../images/settingsLink.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 23px;
+	width: 105px;
+	left: 805px;
+	top: 56px;
+}
+#logoutLink {
+	background-attachment: scroll;
+	background-image: url('../images/logoutLink.png');
+	background-repeat: no-repeat;
+	position: absolute;
+	height: 23px;
+	width: 90px;
+	left: 925px;
+	top: 56px;
+}
+#contentSection {
+	position: absolute;
+	height: 470px;
+	width: 980px;
+	left: 20px;
+	top: 115px;
+}
+#chatBox {
+	width: 845px;
+	height: 35px;
+}
+#chatRoom {
+	width: 845px;
+	height: 500px;
+}
+#rewardPopup {
+	overflow: visible;
+	visibility: visible;
+	position: absolute;
+}
+#secondPage {
+	background-color: #333;
+	position: absolute;
+	left: 220px;
+	top: 0px;
+	border: 1px solid #666;
+}
+#topCivilization {
+	background-image: url('../images/topCivilization.png');
+	position: relative;
+	height: 30px;
+	width: 980px;
+}
+#civilizationContent {
+	padding-top: 6px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+#travelMap {
+	width: 475px;
+	height: 600px;
+}
