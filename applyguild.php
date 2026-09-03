@@ -14,12 +14,12 @@ if($chargold >= "1000000")    //1m
 {
     $guildname = $_POST['guildname'];
 
-    $getguild = mysql_query("SELECT * FROM guilds WHERE id='".$guildname."'");
-    if(mysql_num_rows($getguild) == "1")
+    $getguild = db_query("SELECT * FROM guilds WHERE id=?", [$guildname]);
+    if(db_num_rows($getguild) == "1")
     {
-        $guild = mysql_fetch_assoc($getguild);
-        $getmembers = mysql_query("SELECT * FROM characters WHERE guild='".$guild['name']."'");
-        $members = mysql_num_rows($getmembers);
+        $guild = db_fetch_assoc($getguild);
+        $getmembers = db_query("SELECT * FROM characters WHERE guild=?", [$guild['name']]);
+        $members = db_num_rows($getmembers);
         if($guild['recruiting'] == "Yes" && $members < "10")
         {
             if($guild['accept'] == "Approve")
@@ -27,8 +27,8 @@ if($chargold >= "1000000")    //1m
                 $data = "<font color=\'#00FF00\'>You have sent your application to ".$guild['name'].".</font><br />";
 
                 $newgold = $chargold - "1000000";
-                $updatechar = mysql_query("UPDATE characters SET gold='".$newgold."' WHERE id='".$_SESSION['userid']."'");
-                $setapplication = mysql_query("INSERT INTO applications (`guild`, `username`) VALUES ('".$guild['name']."', '".$charname."')");
+                $updatechar = db_query("UPDATE characters SET gold=? WHERE id=?", [$newgold, $_SESSION['userid']]);
+                $setapplication = db_query("INSERT INTO applications (`guild`, `username`) VALUES (?, ?)", [$guild['name'], $charname]);
             }
             elseif($guild['accept'] == "Auto")
             {
@@ -36,7 +36,7 @@ if($chargold >= "1000000")    //1m
                 $data .= "<a href=\'javascript: viewGuild();\'>Click Here</a> to go to ".$guild['name']."\'s Guild Portal.</center>";
 
                 $newgold = $chargold - "1000000";
-                $updatechar = mysql_query("UPDATE characters SET gold='".$newgold."', guild='".$guild['name']."' WHERE id='".$_SESSION['userid']."'");
+                $updatechar = db_query("UPDATE characters SET gold=?, guild=? WHERE id=?", [$newgold, $guild['name'], $_SESSION['userid']]);
             }
         }
         else

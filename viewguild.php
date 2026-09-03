@@ -12,7 +12,7 @@ include('functions.php');
 
 
 
-$getapplication = mysql_query("SELECT * FROM applications WHERE username='".$charname."'");
+$getapplication = db_query("SELECT * FROM applications WHERE username=?", [$charname]);
 
 
 
@@ -22,19 +22,19 @@ if($char['guild'] != "None")
 
 {
 
-    $getguild = mysql_query("SELECT * FROM guilds WHERE name='".$char['guild']."'");
+    $getguild = db_query("SELECT * FROM guilds WHERE name=?", [$char['guild']]);
 
-    $guild = mysql_fetch_assoc($getguild);
-
-
-
-    $getmembers = mysql_query("SELECT * FROM characters WHERE guild='".$char['guild']."'");
-
-    $members = mysql_num_rows($getmembers);
+    $guild = db_fetch_assoc($getguild);
 
 
 
-    while($member = mysql_fetch_array($getmembers))
+    $getmembers = db_query("SELECT * FROM characters WHERE guild=?", [$char['guild']]);
+
+    $members = db_num_rows($getmembers);
+
+
+
+    while($member = db_fetch_array($getmembers))
 
     {
 
@@ -42,7 +42,7 @@ if($char['guild'] != "None")
 
             if($members >= "10"){
 
-                $setRecruiting = mysql_query("UPDATE guilds SET recruiting='No' WHERE name='".$char['guild']."'");
+                $setRecruiting = db_query("UPDATE guilds SET recruiting='No' WHERE name=?", [$char['guild']]);
 
             }
 
@@ -136,9 +136,9 @@ if($char['guild'] != "None")
 
 
 
-    $getapplicants = mysql_query("SELECT * FROM applications WHERE guild='".$guild['name']."'");
+    $getapplicants = db_query("SELECT * FROM applications WHERE guild=?", [$guild['name']]);
 
-    while($applicant = mysql_fetch_array($getapplicants))
+    while($applicant = db_fetch_array($getapplicants))
 
     {
 
@@ -279,9 +279,9 @@ if($char['guild'] != "None")
 
     $data .= "<tr><td colspan=\'2\'>";
 
-    $getLog = mysql_query("SELECT * FROM log WHERE name='".$guild['name']."' ORDER BY id DESC LIMIT 10");
+    $getLog = db_query("SELECT * FROM log WHERE name=? ORDER BY id DESC LIMIT 10", [$guild['name']]);
 
-    while($logNews=mysql_fetch_array($getLog)){
+    while($logNews=db_fetch_array($getLog)){
 
         $data .= "".$logNews['message']."<br />";
 
@@ -293,11 +293,11 @@ if($char['guild'] != "None")
 
 }
 
-elseif(mysql_num_rows($getapplication) == "1")
+elseif(db_num_rows($getapplication) == "1")
 
 {
 
-    $application = mysql_fetch_assoc($getapplication);
+    $application = db_fetch_assoc($getapplication);
 
     $data .= "You currently have an Application Process for ".$application['guild'].".<br />";
 
@@ -309,7 +309,7 @@ else
 
 {
 
-    $getguilds = mysql_query("SELECT * FROM guilds WHERE recruiting='Yes'");
+    $getguilds = db_query("SELECT * FROM guilds WHERE recruiting='Yes'");
 
 
 
@@ -331,7 +331,7 @@ else
 
     $data .= "<option value=\'Select Guild\'>Select Guild</option>";
 
-    while($guild = mysql_fetch_array($getguilds))
+    while($guild = db_fetch_array($getguilds))
 
     {
 

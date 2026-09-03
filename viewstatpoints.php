@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
+$char = db_fetch_assoc($getchar);
 
 $statpoints = $char['stats'];
 

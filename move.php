@@ -29,7 +29,7 @@ if($_POST['goDuelGround'] == "Yes"){
 	$location = "Duel Ground";
 }
 
-$query = mysql_query("UPDATE characters SET posx='".$charx."', posy='".$chary."', location='".$location."' WHERE username='".$charname."'");
+$query = db_query("UPDATE characters SET posx=?, posy=?, location=? WHERE username=?", [$charx, $chary, $location, $charname]);
 
 if($_POST['goDuelGround'] == "Yes"){
 	include('duelground.php');

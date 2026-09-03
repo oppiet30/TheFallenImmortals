@@ -5,10 +5,10 @@ include('db.php');
 
 if($_POST['buyid'] != "Nothing"){
 	$data = "";
-	$querty = mysql_query("SELECT * FROM shop WHERE id='".$_POST['buyid']."'");
-	$inventory = mysql_fetch_assoc($querty);
-	$current = mysql_query("SELECT * FROM inventory WHERE type='".$inventory['type']."' AND equipped='Yes' AND username='".$char['username']."'");
-	$equipped = mysql_fetch_assoc($current);
+	$querty = db_query("SELECT * FROM shop WHERE id=?", [$_POST['buyid']]);
+	$inventory = db_fetch_assoc($querty);
+	$current = db_query("SELECT * FROM inventory WHERE type=? AND equipped='Yes' AND username=?", [$inventory['type'], $char['username']]);
+	$equipped = db_fetch_assoc($current);
 	$information = "Name: ".$equipped['itemname']." &#013; |Type: ".$equipped['type']." &#013; |Lvl Req: ".$equipped['levelreq']." &#013; |Str: ".$equipped['strength']." &#013; |Dex: ".$equipped['dexterity']." &#013; |End: ".$equipped['endurance']." &#013; |Int: ".$equipped['intelligence']." &#013; |Con: ".$equipped['concentration']." &#013; |Price: ".$equipped['value']."";
 	
 	

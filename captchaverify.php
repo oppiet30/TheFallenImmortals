@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 include('varset.php');
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
+$char = db_fetch_assoc($getchar);
 
   require_once('recaptchalib.php');
   $privatekey = "6Ld9zssSAAAAACUwfuV6pDnpOt60SIP57hu1xD-i";
@@ -18,11 +18,11 @@ $char = mysql_fetch_assoc($getchar);
 	print("alert('You have taken too long. You are Suspended for 12 hours!');");
 	$reasonSuspend = "Failed reCaptcha";
 	$timeSuspended = 43200 + time();
-	$updateTheDumbass = mysql_query("UPDATE characters SET lastactive='0', status='Suspended', endsuspend='".$timeSuspended."', reason='".$reasonSuspend."', captcha='Inactive', captcha_time_limit='0' WHERE username='".$char['username']."'");
+	$updateTheDumbass = db_query("UPDATE characters SET lastactive='0', status='Suspended', endsuspend=?, reason=?, captcha='Inactive', captcha_time_limit='0' WHERE username=?", [$timeSuspended, $reasonSuspend, $char['username']]);
 	
 	$suspendmessage = "<b><font color=\'#DD00DD\'>Player ".$char['username']." has been suspended for 12 hours! Reason: Failed reCAPTCHA security test.</font></b><br />";
 	$date = date('ymdHi');
-	$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES ('".$date."', '3', '".$char['username']."', '".$suspendmessage."', 'Chatroom')") or die(mysql_error());
+	$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`)VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $char['username'], $suspendmessage]);
 	
 	die();
 				
@@ -35,6 +35,6 @@ $char = mysql_fetch_assoc($getchar);
 	  	 $random = rand(1,5);
 		 $gold = $random * $char['level'];
     	 print("fillDiv('displayArea', 'You get ".number_format($gold)." gold for passing the test!');");
-		 mysql_query("UPDATE characters SET gold=gold+'".$gold."', captcha='Inactive', captcha_time_limit='0' WHERE username='".$char['username']."'");
+		 db_query("UPDATE characters SET gold=gold+?, captcha='Inactive', captcha_time_limit='0' WHERE username=?", [$gold, $char['username']]);
   }
   ?>

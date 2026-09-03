@@ -2,8 +2,8 @@
 session_name("icsession");
 session_start();
 include('db.php');
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'") or die(mysql_error());
-$char = mysql_fetch_assoc($getchar);
+$getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
+$char = db_fetch_assoc($getchar);
 $display = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=\"javascript: viewAccount();\">Back</a></strong><br /><br />";
 
 if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != Null){
@@ -11,8 +11,8 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	$nemail = $_POST['nemail'];
 	$nemail2 = $_POST['nemail2'];
 	
-	$checkNewEmail = mysql_query("SELECT * FROM characters WHERE email='".$nemail."'");
-	$CheckRowOnEmail = mysql_num_rows($checkNewEmail);
+	$checkNewEmail = db_query("SELECT * FROM characters WHERE email=?", [$nemail]);
+	$CheckRowOnEmail = db_num_rows($checkNewEmail);
 	
 	if($oemail != $char['email']){
 		$display .= "<center>Your current email address is not correct!</center><br />";
@@ -32,29 +32,21 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your old email. Once you have followed the link in your OLD EMAIL address you new email will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysql_query("INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES ('".$char['username']."', '".$nemail."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
+		$addActivationDatabase = db_query("INSERT INTO activatenewemail (`username`, `newemail`, `verificationcode`) VALUES (?, ?, ?)", [$char['username'], $nemail, $randComfCode]);
 	}
 }elseif($_POST['opass'] != NULL && $_POST['npass'] != Null && $_POST['npass2'] != Null){
-	function murder($data){ 
-	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
-	$salt = md5($salt); 
-	$data = md5($salt.$data); 
-	$data = base64_encode($data); 
-	$data = sha1($data); 
-	return $data; 
-	}
+	$opass = $_POST['opass'];
+	$npass = $_POST['npass'];
+	$npass2 = $_POST['npass2'];
 	
-	$opass = murder($_POST['opass']);
-	$npass = murder($_POST['npass']);
-	$npass2 = murder($_POST['npass2']);
-	
-	if($opass != $char['password']){
+	if(!password_verify($opass, $char['password'])){
 		$display .= "<center>Your current password is incorrect.</center><br />";
-	}elseif($npass == $char['password']){
+	}elseif($npass == $opass){
 		$display .= "<center>Your new password appears to be the same as your old one. Try something different.</center><br />";
 	}elseif($npass != $npass2){
 		$display .= "<center>New passwords do not match!</center><br />";
-	}elseif($opass == $char['password'] && $npass == $npass2 && $npass != $char['password']){
+	}else{
+		$newPasswordHash = password_hash($npass, PASSWORD_BCRYPT);
 		$randComfCode = md5(rand(1,100000000000));
 		$to = $char['email'];
 		$subject = "Password Change at The Fallen Immortals";
@@ -64,9 +56,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		mail($to,$subject,$message,$headers);
 		$display .= "An activation was sent to your email. Once you have followed the link in your email address you new password will be updated to your account. Remember to check your spam/junk when looking for this email.<br /><br />";
 		
-		$addActivationDatabase = mysql_query("INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES ('".$char['username']."', '".$npass."', '".$randComfCode."')")or die("alert('Could not add verify code to database. Tell the admin!');");
-	}else{
-		$display .= "<center>Problem changing password. If problem persist, contact an admin!</center><br />";
+		$addActivationDatabase = db_query("INSERT INTO activatenewpassword (`username`, `newpassword`, `verificationcode`) VALUES (?, ?, ?)", [$char['username'], $newPasswordHash, $randComfCode]);
 	}
 	
 }elseif($_POST['newcolor'] != Null && $char['networth'] >= "5"){
@@ -100,11 +90,11 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 	}else{
 		die("alert(\'NO Chat COLOR!\');");
 	}
-	$updateRainbow = mysql_query("UPDATE characters SET chatcolour='".$color."' WHERE id='".$_SESSION['userid']."'");
+	$updateRainbow = db_query("UPDATE characters SET chatcolour=? WHERE id=?", [$color, $_SESSION['userid']]);
 	$display .= "<font color=\'".$color."\'>Chat color has been changed.</font><br /><br />";
 }
-$findReferals = mysql_query("SELECT * FROM characters WHERE refferal='".$char['username']."'");
-$numOfRef = mysql_num_rows($findReferals);
+$findReferals = db_query("SELECT * FROM characters WHERE refferal=?", [$char['username']]);
+$numOfRef = db_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
 $display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Refferals: ".$numOfRef."</center>";

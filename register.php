@@ -4,29 +4,11 @@ include('indexdb.php');
 
 
 
-function murder($data){ 
+$username = ucwords(strtolower(trim($_POST['userAlias'])));
 
-	$salt = "'/0U'LL |\|3\/3R Ph19UR3 0U7 \/\/|-|@ 7|-|3 54L7 15. pLU5 \/\/|-|3R35 7|-|3 p3PP3R?"; 
+$emailPassword = trim($_POST['userPass']);
 
-	$salt = md5($salt); 
-
-	$data = md5($salt.$data); 
-
-	$data = base64_encode($data); 
-
-	$data = sha1($data); 
-
-	return $data; 
-
-}
-
-
-
-$username = ucwords(strtolower($_POST['userAlias']));
-
-$emailPassword = $_POST['userPass'];
-
-$password = murder($_POST['userPass']);
+$password = password_hash($emailPassword, PASSWORD_BCRYPT);
 
 $email = $_POST['userEmail'];
 
@@ -50,9 +32,9 @@ if($username != NULL && $username != "")
 
 	{
 
-	    $getuser = mysql_query("SELECT * FROM characters WHERE username='".$username."'");
+	    $getuser = db_query("SELECT * FROM characters WHERE username=?", [$username]);
 
-	    if(mysql_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
+	    if(db_num_rows($getuser) != "1" || $username != "Mammons")    //Username does not exist
 
 	    {
 
@@ -96,7 +78,7 @@ if($_POST['userPass'] != NULL)
 
 {
 
-    if($_POST['userVPass'] == $_POST['userPass'])
+    if(trim($_POST['userVPass']) == trim($_POST['userPass']))
 
     {
 
@@ -132,13 +114,13 @@ if($_POST['userEmail'] != NULL)
 
 {
 
-    $getemail = mysql_query("SELECT * FROM characters WHERE email='".$_POST['userEmail']."'");
+    $getemail = db_query("SELECT * FROM characters WHERE email=?", [$_POST['userEmail']]);
 
-    if(eregi("^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$", $email))
+    if(preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i", $email))
 
     {
 
-        if(mysql_num_rows($getemail) >= "1"){
+        if(db_num_rows($getemail) >= "1"){
 
             $message .= "Email: <font color=\'#DD0000\'>In Use</font><br />";
 
@@ -180,9 +162,9 @@ if($comrade != NULL)
 
 {
 
-    $getcomrade = mysql_query("SELECT * FROM characters WHERE username='".$comrade."'");
+    $getcomrade = db_query("SELECT * FROM characters WHERE username=?", [$comrade]);
 
-    if(mysql_num_rows($getcomrade) == "1")    //Username does not exist
+    if(db_num_rows($getcomrade) == "1")    //Username does not exist
 
     {
 
@@ -288,19 +270,19 @@ if($create == "Yes")
 
     }
 
-    $makeSecondClass = mysql_query("INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES ('".$username."', '".$secondClass."', '1', '0', '15', '0')");
+    $makeSecondClass = db_query("INSERT INTO secondclass (`username`, `class`, `level`, `expacq`, `expreq`, `blood`) VALUES (?, ?, '1', '0', '15', '0')", [$username, $secondClass]);
 
-    $createuser = mysql_query("INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES ('".$username."', '".$password."', '".$email."', '".$gender."', '".$class."', '".$end."', '".$int."', '".$str."', '".$dex."', '".$end."', '".$int."', '".$con."', '".$_SERVER['REMOTE_ADDR']."', '".$comrade."')");
+    $createuser = db_query("INSERT INTO characters (`username`, `password`, `email`, `gender`, `class`, `life`, `mana`, `strength`, `dexterity`, `endurance`, `intelligence`, `concentration`, `ip`, `refferal`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$username, $password, $email, $gender, $class, $end, $int, $str, $dex, $end, $int, $con, $_SERVER['REMOTE_ADDR'], $comrade]);
 
-    $createkey = mysql_query("INSERT INTO activation (`username`, `key`) VALUES ('".$username."', '".$key."')");
+    $createkey = db_query("INSERT INTO activation (`username`, `key`) VALUES (?, ?)", [$username, $key]);
 
-    $createwarn = mysql_query("INSERT INTO warnings (`username`) VALUES ('".$username."')");
+    $createwarn = db_query("INSERT INTO warnings (`username`) VALUES (?)", [$username]);
 
     
 
     $messageChat = "<b><font color=\'#008888\'>".$username." has registered an account. (Welcome the new player once they have entered the game.)[Mod Chat]</font></b><br />";
 
-    $query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '2', '".$messageChat."', 'Mod')") or die(mysql_error());
+    $query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES (?, '2', ?, 'Mod')", [$date, $messageChat]);
 
 
 

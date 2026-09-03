@@ -1,9 +1,9 @@
 <?php
 include('indexdb.php');
 
-                $actionStart = mysql_query("SELECT * FROM announcements ORDER BY id DESC");
+                $actionStart = db_query("SELECT * FROM announcements ORDER BY id DESC");
 				$data = "";
-                while($announcement = mysql_fetch_array($actionStart)){
+                while($announcement = db_fetch_array($actionStart)){
 
                 $data .= "".$announcement['announcement']."<br /><br />";
 

@@ -14,15 +14,15 @@ session_start();
 
 <title>The Fallen Immortals Help Site!</title>
 
-<script src="ajax.js" type="text/javascript"></script>
+<script src="js/ajax.js" type="text/javascript"></script>
 
-<script src="dom.js" type="text/javascript"></script>
+<script src="js/dom.js" type="text/javascript"></script>
 
-<script src="gamefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
 
 
 
-<link href="main.css" rel="stylesheet" type="text/css" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
 
 
 

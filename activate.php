@@ -6,21 +6,21 @@ include('db.php');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1250" />
 <title>Rise Of Immortals ~ Activation</title>
-<link href="main.css" rel="stylesheet" type="text/css" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <?php
 if($_GET['key'] != "")
 {
-	$findkey = mysql_query("SELECT * FROM activation WHERE `key`='".$_GET['key']."'") or die(mysql_error());
-	if(mysql_num_rows($findkey) == "1")
+	$findkey = db_query("SELECT * FROM activation WHERE `key`=?", [$_GET['key']]);
+	if(db_num_rows($findkey) == "1")
 	{
-		$key = mysql_fetch_assoc($findkey);
+		$key = db_fetch_assoc($findkey);
 		echo("<center>The account, ".$key['username']." has now been activated. You may now start playing immediately.<br /><a href='index.php'>Login Here</a></center>");
 
-		$deletekey = mysql_query("DELETE FROM activation WHERE `key`='".$_GET['key']."'") or die(mysql_error());
-		$activatechar = mysql_query("UPDATE characters SET activated='Yes' WHERE username='".$key['username']."'");
+		$deletekey = db_query("DELETE FROM activation WHERE `key`=?", [$_GET['key']]);
+		$activatechar = db_query("UPDATE characters SET activated='Yes' WHERE username=?", [$key['username']]);
 	}
 	else
 	{

@@ -3,8 +3,8 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$getchar = mysql_query("SELECT * FROM characters WHERE id='".$_SESSION['userid']."'");
-$char = mysql_fetch_assoc($getchar);
+$getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
+$char = db_fetch_assoc($getchar);
 ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -34,13 +34,13 @@ if (browserName=="Microsoft Internet Explorer")
 
 
 </SCRIPT>
-<script src="ajax.js" type="text/javascript"></script>
-<script src="dom.js" type="text/javascript"></script>
-<script src="functions.js" type="text/javascript"></script>
-<script src="homefunctions.js" type="text/javascript"></script>
-<script src="gamefunctions.js" type="text/javascript"></script>
-<script src="chatroomfunctions.js" type="text/javascript"></script>
-<link href="gameindex.css" rel="stylesheet" type="text/css" />
+<script src="js/ajax.js" type="text/javascript"></script>
+<script src="js/dom.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/homefunctions.js" type="text/javascript"></script>
+<script src="js/gamefunctions.js" type="text/javascript"></script>
+<script src="js/chatroomfunctions.js" type="text/javascript"></script>
+<link href="css/gameindex.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Expires" content="The Fallen Immortals! A text-based MMORPG with a lot of kick. Get started by signing up and defeating the enemies that destroyed your home town. Updates come frequently! Player chat! Random Drops! And its all free to you!" />
 <title>The Fallen Immortals!</title>
 

@@ -1,0 +1,33 @@
+parameters:
+    level: 1
+    paths:
+        - .
+    excludePaths:
+        - vendor
+        - .git
+        - .vagrant
+        - cron.log
+        - images/68564.php
+        - tfiTutorial/images/68564.php
+        - images
+        - tfiTutorial/images
+        - ChromePhp.php
+    bootstrapFiles:
+        - src/helpers.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # The legacy procedural game relies on globals set via include()
+        # (db.php / varset.php populate $char, $date, $charname, etc.).
+        # PHPStan cannot trace these across includes, so suppress the
+        # inherited-global undefined-variable noise.
+        - '#Variable \$(applicantdata|BossName|BossPower|castBox|charconmod|chardexmod|charendmod|charintmod|charstrmod|con|data2|dex|display|end|foresightBag|foresightOre|grid|header|int|itempower|itemtype|key|link1|link2|link3|link4|link5|link6|link7|link8|link9|memberdata|nav|newBlessing|newExpTime|newtnl|oponentconmod|oponentdexmod|oponentendmod|oponentintmod|oponentlife|oponentstrmod|percent|power|str|taxTalk|totalbonus|char|guild|muted|bonus|date|time|charname|charulvl|charclass|charguild|charstatus|charip|charlvl|charexp|chartnl|charlevel|charstats|charstr|chardex|charend|charint|charcon|charlife|charauto|charcash|charstatmulti|charloc|charx|chary|chargold|charbank|oponent|oponentname|oponentstr|oponentdex|oponentend|oponentint|oponentcon|data|newlvl|eqstrbon|eqdexbon|eqendbon|eqintbon|eqconbon|totalstr|totaldex|totalend|totalint|totalcon|findonline|findweek|findregistered|numonline|numweek|numregistered|getchar|getguild|query|setactive|update|rewards|getbanned|getmuted|messagechat|message|sendIndex|getenemy|enemy|enemyname|enemylvl|enemystr|enemydex|getclass|class|findAdventure|advent|collect|findCash|cash|getBonusTime|bonusTime|location|itemname|value|bag|there|ore|findOre|findLogs|scavenger|remaining|quantity|accommodation|equipped|assets|stats|bar|health|mana|exp|scavenge|misc|affinity|blessing|findMap|findBagDrops|findPlayers|findDemons|grabBag|xbottom|xtop|ybottom|ytop|player|touser|findTo|toTime|preGetGuild|getGuild|getGuildTag|userStatus|addDate|mutetime|warnuser|userwarning|newwarning|goldstr|goldamount|usergive|cashstr|cashamount|newcash|mutestr|suspendtill|banuser|banned|banip|active|findMsg|findOfflineMessages|deleteTehFreakingMessage|getMonsterRows|gettingMR|enemyexp|enemygold|gold|statdrop|golddrop|randomBlood|randx|randy|muchLevel|muchgold|muchstats|muchblood|inform|randomlogin|smallbig|addDailyLogin|findTable|firstSlot|secondSlot|thirdSlot|fourthSlot|fifthSlot|numberBlessings|name|checkip|ips|removeuser|readidplayer|idplayer|iduser|announcementPost|stamp|timestamp|datestamp|message1|message2|message3|message4|message3half|caststr|spell|manaCost|castto|openblessing|giveUserAffinity|subtractMana|newBlessingString|unmutemessage) .*might not be defined#'
+    # Legacy loose numeric-string arithmetic (e.g. $a = "1" + "2") is intentional.
+        - '#operation "[+\-*/]" between string and#'
+        - '#^Binary operation "[+\-*/]" between string#'
+    # Legacy numeric strings passed to functions expecting int/float.
+        - '#function number_format expects float, string given#'
+        - '#function mt_rand expects#'
+        - '#function floor expects#'
+        - '#argument.type#'
+    # Static analysis is best-effort for this legacy codebase.

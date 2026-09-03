@@ -3,23 +3,23 @@ session_name("icsession");
 session_start();
 include('db.php');
 
-$ticketQuery = mysql_query("SELECT * FROM donationpot");
-$ticketRow = mysql_num_rows($ticketQuery);
+$ticketQuery = db_query("SELECT * FROM donationpot");
+$ticketRow = db_num_rows($ticketQuery);
 
 $choosenOne = rand(1,$ticketRow);
 
-$getWinner = mysql_query("SELECT * FROM donationpot WHERE id='".$choosenOne."'");
-$winner = mysql_fetch_array($getWinner);
+$getWinner = db_query("SELECT * FROM donationpot WHERE id=?", [$choosenOne]);
+$winner = db_fetch_array($getWinner);
 
-$gettemple = mysql_query("SELECT * FROM temple");
-$temple = mysql_fetch_assoc($gettemple);
+$gettemple = db_query("SELECT * FROM temple");
+$temple = db_fetch_assoc($gettemple);
 
-$updateUser = mysql_query("UPDATE characters SET gold=gold+'".$temple['pot']."' WHERE username='".$winner['username']."'");
+$updateUser = db_query("UPDATE characters SET gold=gold+? WHERE username=?", [$temple['pot'], $winner['username']]);
 
 $messagechat = "<strong><font color=\'orange\'>".$winner['username']." sucsessfully robbed the temple for ".number_format($temple['pot'])." gold!</font></strong><br />";
-$query = mysql_query("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES ('".$date."', '3', '".$messagechat."', 'Chatroom')");
+$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `message`, `to`) VALUES (?, '3', ?, 'Chatroom')", [$date, $messagechat]);
 
-$updateTemple = mysql_query("UPDATE temple SET pot='0', lastwinner='".$winner['username']."'");
+$updateTemple = db_query("UPDATE temple SET pot='0', lastwinner=?", [$winner['username']]);
 
-$deleteTickets = mysql_query("TRUNCATE TABLE  `donationpot`");
+$deleteTickets = db_query("TRUNCATE TABLE  `donationpot`");
 ?>
