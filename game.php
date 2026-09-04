@@ -1,5 +1,5 @@
 <?php 
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 include('db.php');
 
@@ -93,7 +93,7 @@ function changeDisplay() {
         <?php
 			}else{
         ?>
-        <a href="Javascript: ViewPlayerStats('<?=$char['username']?>');"><?=$char['username']?></a> the level <?=number_format($char['level'])?> <?=$char['class']?>
+        <div id="topCivilization"><div id="civilizationContent"><a href="Javascript: ViewPlayerStats('<?=$char['username']?>');"><?=$char['username']?></a> the level <?=number_format($char['level'])?> <?=$char['class']?></div></div>
         <?php
 			}
 		?>

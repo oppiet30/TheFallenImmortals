@@ -1,14 +1,13 @@
 <?php
-session_name("icsession");
-session_start();
-include('db.php');
+include('db-conn.php');
+$date = time();
 
 $ticketQuery = db_query("SELECT * FROM donationpot");
 $ticketRow = db_num_rows($ticketQuery);
 
-$choosenOne = rand(1,$ticketRow);
+if($ticketRow == 0) die();
 
-$getWinner = db_query("SELECT * FROM donationpot WHERE id=?", [$choosenOne]);
+$getWinner = db_query("SELECT * FROM donationpot ORDER BY RAND() LIMIT 1");
 $winner = db_fetch_array($getWinner);
 
 $gettemple = db_query("SELECT * FROM temple");

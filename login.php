@@ -1,6 +1,6 @@
 <?php
 include('indexdb.php');
-session_name("icsession");
+session_name("fallenimmortals");
 session_start();
 $date = time();
 $username = trim($_POST['userAlias']);
@@ -38,7 +38,7 @@ if (is_array($char) && password_verify($submittedPass, $char['password']))
     {
         if($char['activated'] == "Yes" || $char['level'] < "100")
         {
-            session_name("icsession");
+            session_name("fallenimmortals");
             session_start();
             $_SESSION['userid'] = $char['id'];
             include('varset.php');

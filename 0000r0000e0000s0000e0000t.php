@@ -1,6 +1,8 @@
 <?php
 
-include('db.php');
+include('db-conn.php');
+
+$date = time();
 
 
 
@@ -22,11 +24,11 @@ while($userMana = db_fetch_array($getUsers)){
 
     $getequip = db_query("SELECT * FROM inventory WHERE username=? AND equipped='Yes'", [$char['username']]);
 
+    $eqintbon = 0;
+
     if(db_num_rows($getequip) > "0")
 
     {
-
-    	$eqintbon = 0;
 
         while($equip = db_fetch_array($getequip))
 

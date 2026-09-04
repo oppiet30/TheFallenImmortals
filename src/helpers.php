@@ -114,14 +114,24 @@ function db_fetch_row(mysqli_result $result): array|false
 }
 
 /**
- * Build a base URL (scheme + host, no trailing slash) from the current request.
+ * Build a base URL (scheme + host + script directory, no trailing slash) from
+ * the current request.
  *
  * Used in email templates and redirects so the legacy hardcoded
- * thefallenimmortals.com domain is replaced by whatever host is serving the site.
+ * thefallenimmortals.com domain is replaced by whatever host is serving the
+ * site. The script directory keeps links working when the game is served under
+ * a user dir / sub-path (e.g. http://host/~oppie/TheFallenImmortals).
  */
 function db_base_url(): string
 {
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? 'localhost');
-    return $scheme . '://' . $host;
+    $path = '';
+    if (!empty($_SERVER['SCRIPT_NAME'])) {
+        $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+        if ($dir !== '/' && $dir !== '.' && $dir !== '') {
+            $path = rtrim($dir, '/');
+        }
+    }
+    return $scheme . '://' . $host . $path;
 }

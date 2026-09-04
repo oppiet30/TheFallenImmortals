@@ -5,6 +5,8 @@ $setactive = db_query("UPDATE characters SET lastactive=? WHERE id=?", [$time, $
 $getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
 $char = db_fetch_assoc($getchar);
 
+print("fillDiv('civilizationContent','<a href=\"Javascript: ViewPlayerStats(\\'".$char['username']."\\');\">".$char['username']."</a> the level ".number_format($char['level'])." ".$char['class']."');");
+
 $charname = $char['username'];
 $charulvl = $char['userlevel'];
 $charclass = $char['class'];

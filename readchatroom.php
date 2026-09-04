@@ -1,6 +1,6 @@
 <?php
 
-session_name("icsession");
+session_name("fallenimmortals");
 
 session_start();
 
@@ -59,9 +59,7 @@ else
 
 
 
-$finder = "SELECT * FROM `chatroommessage` WHERE `to`='".$char['username']."'";
-
-$findOfflineMessages = db_query("?", [$finder]);
+$findOfflineMessages = db_query("SELECT * FROM `chatroommessage` WHERE `to`=?", [$char['username']]);
 
 if(db_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
@@ -93,6 +91,8 @@ $duel = db_fetch_assoc($findYourDuel);
 
 $date = time();
 
+if($duel !== false){
+
 $timeofDuel = $duel['time'] + "30";
 
 if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != NULL){
@@ -117,6 +117,8 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
 }
 
+}
+
 
 
 	
@@ -127,7 +129,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Admin' OR `to`='Mod' OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 40", [$char['username'], $char['username'], $char['chatlog']]);
+        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Admin' OR `to`='Mod' OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 40", [$char['username'], $char['username'], $char['chatlog'] ?? 0]);
 
     }
 
@@ -135,7 +137,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Mod' OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 40", [$char['username'], $char['username'], $char['chatlog']]);
+        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Mod' OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 40", [$char['username'], $char['username'], $char['chatlog'] ?? 0]);
 
     }
 
@@ -143,7 +145,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     {
 
-        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 20", [$char['username'], $char['username'], $char['chatlog']]);
+        $getmessages = db_query("SELECT * FROM chatroom WHERE `to`=? OR `to`='Chatroom' OR `username`=? AND id>? ORDER BY id DESC LIMIT 20", [$char['username'], $char['username'], $char['chatlog'] ?? 0]);
 
     }
 
@@ -187,6 +189,8 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $numonline = db_num_rows($findonline);
 
+    $data2 = "";
+
 
 
     while($active = db_fetch_assoc($findonline))
@@ -210,14 +214,14 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
         $colour = $active['chatcolour'];
 
 
-		if($guildTag['tag'] == ""){
-			$tag = "";
-		}else{
+		if($guildTag !== false && $guildTag['tag'] != ""){
 			$tag = "(".$guildTag['tag'].")";
+		}else{
+			$tag = "";
 		}
 
 
-        if($active['access'] == "Admin" && $data != "")
+        if(($active['access'] ?? '') == "Admin" && $data != "")
 
         {
 

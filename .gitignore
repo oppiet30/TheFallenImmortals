@@ -7,3 +7,6 @@ db-conn.php
 
 # Runtime logs
 cron.log
+
+# Editor backup files
+*.un~
