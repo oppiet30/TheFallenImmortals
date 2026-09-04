@@ -9,7 +9,7 @@ $date = time();
 $getbanned = db_query("SELECT * FROM banned WHERE ip=?", [$charip]);
 if ($getbanned instanceof mysqli_result && db_num_rows($getbanned) === 1) {
     print("alert('You are banned.');");
-    print("window.location = 'http://fallenimmortals.old/';");
+    print("window.location = '".db_base_url()."/';");
 }
 
 $getmuted = db_query("SELECT * FROM muted");

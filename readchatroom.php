@@ -26,7 +26,7 @@ if($char['id'] == NULL || $activeTime > $charLastActive)
 
 {
 
-    print("window.location = 'http://fallenimmortals.old/';");
+    print("window.location = '".db_base_url()."/';");
 
 }
 
@@ -38,7 +38,7 @@ if($char['status'] == "Suspended" && $char['endsuspend'] > $activeTime)
 
     print("alert('This account is suspended.');");
 
-    print("window.location = 'http://fallenimmortals.old/';");
+    print("window.location = '".db_base_url()."/';");
 	die();
 
 }

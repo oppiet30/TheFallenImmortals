@@ -66,3 +66,4 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 - Only commit when explicitly requested by the user.
 - Keep tutorial assets self-contained under `tfiTutorial/`.
 - OOP DB layer is the chosen approach; procedural game files delegate via `db_*` helpers.
+- When registering a test user, use `oppie@localhost.localdomain` as the email address.

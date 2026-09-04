@@ -15,7 +15,7 @@ while($whom = db_fetch_assoc($findCharacters)){
 	if($whom['activated'] != "Yes"){
 		$findActivationCode = db_query("SELECT * FROM activation WHERE username=?", [$whom['username']]);
 		$open = db_fetch_assoc($findActivationCode);
-		$hmph = "<span class=\"remember\">It looks as though you have not activated your account yet. <a href=\"http://www.thefallenimmortals.com\activate.php?key=".$open['key']."\">Click here</a> (Or copy: http://www.thefallenimmortals.com\activate.php?key=".$open['key'].") to finish activation. If you have forgotten your password follow the forgotten password link on the home page after you have activated.</span>";
+		$hmph = "<span class=\"remember\">It looks as though you have not activated your account yet. <a href=\"".db_base_url()."/activate.php?key=".$open['key']."\">Click here</a> (Or copy: ".db_base_url()."/activate.php?key=".$open['key'].") to finish activation. If you have forgotten your password follow the forgotten password link on the home page after you have activated.</span>";
 	}else{
 		$hmph = "";
 	}
@@ -31,7 +31,7 @@ while($whom = db_fetch_assoc($findCharacters)){
 </head><body>
 	<table width=\"95%\" border=\"3\" align=\"center\">
 	  <tr>
-	    <th scope=\"row\">".$hmph."<div align=\"left\"><a href=\"http://www.thefallenimmortals.com\"><img src='http://fallenimmortals.old/images/Untitled-1_01.gif'></a>
+	    <th scope=\"row\">".$hmph."<div align=\"left\"><a href=\"".db_base_url()."\"><img src='".db_base_url()."/images/Untitled-1_01.gif'></a>
 	      </div>
 	      <h2 align=\"left\"><strong><u>!!!HOLIDAY BONUS!!!</u></strong></h2>
 	      <div align=\"left\">
@@ -39,7 +39,7 @@ while($whom = db_fetch_assoc($findCharacters)){
 	        <p>Until January 1st, 2013, all purchases made off of the Cash page will be matched 100%. So when you buy $20 worth of cash I will match it and send you another $20 upgrade once I login. Also come check out the new map system using 2D!!!</p>
 	        <p>And I will be hosting Bonus time(Double exp and gold) as much as possible for the next couple of days! Come check it out!<br />
 	  <br />-AJezior<br />
-	  <a href=\"www.thefallenimmortals.com\">www.TheFallenImmortals.com</a><br /><br /><br />Unsubscribe from these email updates: <a href=\"www.thefallenimmortals.com/unsubscribe.php?email=".$whom['email']."\">www.thefallenimmortals.com/unsubscribe.php?email=".$whom['email']."</a></p>
+	  <a href=\"".db_base_url()."\">" . str_replace('http://','',db_base_url()) . "</a><br /><br /><br />Unsubscribe from these email updates: <a href=\"".db_base_url()."/unsubscribe.php?email=".$whom['email']."\">" . str_replace('http://','',db_base_url()) . "/unsubscribe.php?email=".$whom['email']."</a></p>
 	      </div>	
 	      </p>
 	</th>

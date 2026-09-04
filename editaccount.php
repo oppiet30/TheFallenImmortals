@@ -26,7 +26,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		$randComfCode = md5(rand(1,100000000000));
 		$to = $char['email'];
 		$subject = "Email Change at The Fallen Immortals";
-		$message = "Hello ".$char['username'].", \n \n You have requested to change your email at www.TheFallenImmortals.com. If you have not authorized this then ignore this email and change your password under the Edit Account link. \n If you have requested this change please follow this link: http://www.thefallenimmortals.com/activateemail.php?nemail=".$nemail."&&activationcode=".$randComfCode."";
+		$message = "Hello ".$char['username'].", \n \n You have requested to change your email at ".db_base_url().". If you have not authorized this then ignore this email and change your password under the Edit Account link. \n If you have requested this change please follow this link: ".db_base_url()."/activateemail.php?nemail=".$nemail."&&activationcode=".$randComfCode."";
 		$from = "DONOTREPLY@TheFallenImmortals.com";
 		$headers = "From:" . $from;
 		mail($to,$subject,$message,$headers);
@@ -50,7 +50,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 		$randComfCode = md5(rand(1,100000000000));
 		$to = $char['email'];
 		$subject = "Password Change at The Fallen Immortals";
-		$message = "Hello ".$char['username'].", \n \n You have requested to change your password at www.TheFallenImmortals.com. If you have not authorized this then ignore this email and change your password under the Edit Account link. \n If you have requested this change please follow this link: http://www.thefallenimmortals.com/activatepass.php?username=".$char['username']."&&activationcode=".$randComfCode."";
+		$message = "Hello ".$char['username'].", \n \n You have requested to change your password at ".db_base_url().". If you have not authorized this then ignore this email and change your password under the Edit Account link. \n If you have requested this change please follow this link: ".db_base_url()."/activatepass.php?username=".$char['username']."&&activationcode=".$randComfCode."";
 		$from = "DONOTREPLY@TheFallenImmortals.com";
 		$headers = "From:" . $from;
 		mail($to,$subject,$message,$headers);
@@ -96,7 +96,7 @@ if($_POST['oemail'] != NULL && $_POST['nemail'] != Null && $_POST['nemail2'] != 
 $findReferals = db_query("SELECT * FROM characters WHERE refferal=?", [$char['username']]);
 $numOfRef = db_num_rows($findReferals);
 $display .= "<center><bold>Edit Account Information</bold></center></br >";
-$display .= "<center>Refer friends: http://fallenimmortals.old/index.php?comrade=".$char['username']."</center>";
+$display .= "<center>Refer friends: ".db_base_url()."/index.php?comrade=".$char['username']."</center>";
 $display .= "<center>Number of your Refferals: ".$numOfRef."</center>";
 $display .= "<table border=\'0px\'><tr><td>";
 

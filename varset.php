@@ -32,6 +32,11 @@ $charcash = $char['cash'];
 $charstatmulti = $char['statmult'] / 100;
 
 //Modified stats from item bonuses (For display purposes only)
+$charstrmod = 0;
+$chardexmod = 0;
+$charendmod = 0;
+$charintmod = 0;
+$charconmod = 0;
 $getinv = db_query("SELECT * FROM inventory WHERE username=? AND equipped='Yes'", [$charname]);
 while ($inv = db_fetch_assoc($getinv)) {
     $charstrmod += $inv['strength'];

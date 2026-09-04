@@ -32,7 +32,7 @@ if (is_array($char) && password_verify($submittedPass, $char['password']))
     if(db_num_rows($getbanned) == "1")
     {
         print("alert('You are banned.');");
-        print("window.location = 'http://www.thefallenimmortals.com/';");
+        print("window.location = '".db_base_url()."/';");
     }
     else
     {
@@ -95,7 +95,7 @@ if (is_array($char) && password_verify($submittedPass, $char['password']))
             	
             }
 
-            print("window.location = 'http://fallen.jez-your.com/game.php';");
+            print("window.location = '".db_base_url()."/game.php';");
         }
         else
         {

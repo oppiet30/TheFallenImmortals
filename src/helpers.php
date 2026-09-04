@@ -112,3 +112,16 @@ function db_fetch_row(mysqli_result $result): array|false
     $row = mysqli_fetch_row($result);
     return $row === null ? false : $row;
 }
+
+/**
+ * Build a base URL (scheme + host, no trailing slash) from the current request.
+ *
+ * Used in email templates and redirects so the legacy hardcoded
+ * thefallenimmortals.com domain is replaced by whatever host is serving the site.
+ */
+function db_base_url(): string
+{
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? 'localhost');
+    return $scheme . '://' . $host;
+}

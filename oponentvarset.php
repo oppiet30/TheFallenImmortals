@@ -29,6 +29,11 @@ $oponentcash = $oponent['cash'];
 $oponentstatmulti = $oponent['statmult'] / 100;
 
 //Modified stats from item bonuses (For display purposes only)
+$oponentstrmod = 0;
+$oponentdexmod = 0;
+$oponentendmod = 0;
+$oponentintmod = 0;
+$oponentconmod = 0;
 $getinv = db_query("SELECT * FROM inventory WHERE username=? AND equipped='Yes'", [$oponentname]);
 while($inv = db_fetch_array($getinv))
 {

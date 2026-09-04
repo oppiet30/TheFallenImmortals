@@ -192,7 +192,9 @@ if($create == "Yes")
 
 {
 
-    $charset = "abcdefghijklmnopqrstuvwxyz1234567890";
+    $charset = "abcdefghijkmnpqrstuvwxyz23456789";
+
+    $key = "";
 
     $i = "1";
 
@@ -212,7 +214,7 @@ if($create == "Yes")
 
     $subject = "The Fallen Immortals Activation Key";
 
-    $address = "Hello ".$username."!\n Thank you for registering at http://www.thefallenimmortals.com Visit the following address to activate your account: http://www.thefallenimmortals.com/activate.php?key=".$key." Hope to see you there soon, The Fallen Of Immortals Support Team.\n\nYour password is: ".$emailPassword."";
+    $address = "Hello ".$username."!\n Thank you for registering at ".db_base_url()." Visit the following address to activate your account: ".db_base_url()."/activate.php?key=".$key." Hope to see you there soon, The Fallen Of Immortals Support Team.\n\nYour password is: ".$emailPassword."";
 
     $headers = "From: ajezior@TheFallenImmortals.com";
 
