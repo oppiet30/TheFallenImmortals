@@ -4,12 +4,9 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 
 ## Work in Progress / Pending (next session)
 
-- **Copy tutorial-only images into root `images/`** (deferred — user decided "later"):
-  `Hand.png`, `lognavArea.png`, `spacerX.png`, `spacerY.png`, `charinfoBKG.png`
-  all exist in `tfiTutorial/images/` but are missing from root `images/`.
-  Referenced by `css/main.css`, `css/gameindex.css`, `css/fbstyle.css` (which now
-  correctly point at `../images/`). Until copied, those background images 404.
-  Ask the user before copying (they explicitly deferred it).
+- None currently open. (Image copy task completed: the 5 tutorial-only images —
+  `Hand.png`, `lognavArea.png`, `spacerX.png`, `spacerY.png`, `charinfoBKG.png` — were
+  copied to root `images/`; all CSS image references verified resolve.)
 
 ## Completed / Architecture
 
@@ -35,8 +32,9 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
   `<link href="css/X.css" ...>`. Tutorial: `tfiTutorial/main.css` → `tfiTutorial/css/main.css`.
   All image paths rewritten `images/...` → `../images/...`. References in
   `gameindex.php`, `fbindex.php`, `activate.php`, `chatfunctions.html`, `tfiTutorial/index.php`
-  updated. All links verified resolve; all CSS image refs (except the 5 tutorial-only images above)
-  verified resolve. PHPStan clean, `php -l` clean.
+  updated. All links verified resolve; all CSS image references verified resolve
+  (5 images copied from `tfiTutorial/images/` to `images/` complete the set).
+  PHPStan clean, `php -l` clean.
 - `tfiTutorial/gamefunctions.js` is unique (103 bytes, minimal `viewFighting()`); keep tutorial
   JS/CSS self-contained in `tfiTutorial/`.
 - `massMail.php`, `sendemail.php`, `tfiTutorial/test.php` still have inline `<style>` (email/test
