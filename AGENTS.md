@@ -54,7 +54,8 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
   `activatenewpassword.newpassword` varchar 100).
 
 ## Reference / Commands
-- PHPStan: `vendor/bin/phpstan analyse --no-progress` — configured **level 1**, clean
+- PHPStan: `vendor/bin/phpstan analyse --no-progress --memory-limit=1G` — configured **level 1**, clean
+  (use `--memory-limit=1G`; default CLI 128M can crash PHPStan).
   (`phpstan.neon`: broad `ignoreErrors` regex for inherited-global `variable.undefined` noise,
   loose numeric-string/binary-op patterns, `excludePaths` for `ChromePhp.php`, `vendor`, images).
   `bootstrapFiles: src/helpers.php`.
