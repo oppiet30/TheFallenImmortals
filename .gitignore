@@ -5,6 +5,9 @@ vendor/*
 # Local DB credentials (see db-conn.example.php for template)
 db-conn.php
 
+# PayPal credentials (see paypal-config.example.php for template)
+paypal-config.php
+
 # Runtime logs
 cron.log
 

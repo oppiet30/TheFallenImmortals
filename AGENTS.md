@@ -4,9 +4,14 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 
 ## Work in Progress / Pending (next session)
 
-- None currently open. (Image copy task completed: the 5 tutorial-only images —
-  `Hand.png`, `lognavArea.png`, `spacerX.png`, `spacerY.png`, `charinfoBKG.png` — were
-  copied to root `images/`; all CSS image references verified resolve.)
+- PayPal integration code complete; awaiting real credentials to finish setup:
+  - Put client keys + webhook id into `paypal-config.php` (copy of
+    `paypal-config.example.php`, mode `live` or `sandbox`).
+  - Register `completeIPN.php` in the PayPal Developer Dashboard as an HTTPS webhook
+    for the PAYMENT.CAPTURE.COMPLETED event.
+- Image copy task completed: the 5 tutorial-only images (`Hand.png`, `lognavArea.png`,
+  `spacerX.png`, `spacerY.png`, `charinfoBKG.png`) were copied to root `images/`; all CSS
+  image references verified resolve.
 
 ## Completed / Architecture
 
@@ -18,8 +23,40 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 - `db-conn.php` (gitignored) → `require_once __DIR__.'/src/helpers.php'` then
   `db_connect('localhost','fallen','19KiNg73','fallendb')`. Templates in `db-conn.example.php`.
 - `characters` table is empty/fresh; 33 tables; `enemies`=194, `classes`=22, `map`=10000.
+- Test characters (ids 1384/1385): `Fighter01` (Fighter; str/dex/end/int/con 60/35/50/20/20,
+  2nd class Mage) and `Mage01` (Mage; 20/20/50/60/35, 2nd class Fighter). Password
+  `testpass123` (bcrypt), `activated='Yes'`, `refferal='Oppie'`, email
+  `oppie@localhost.localdomain`. Both have `secondclass` + `warnings` rows.
+- `installation/fallendb.sql` matches live DB except `characters` data (0 rows in dump).
+  Data tables verified: affinity=27, bonus=1, cashpot=1, classes=22, enemies=194, map=10000,
+  shop=535, temple=1. Seed tables keep `max(id)+1` AUTO_INCREMENT on ENGINE lines
+  (affinity=28, bonus=2, cashpot=2, classes=26, enemies=197, map=10001, shop=608); empty
+  tables reset to `AUTO_INCREMENT=1`. Column-level `id ... AUTO_INCREMENT,` lines untouched.
+  Live DB image-path DEFAULTS aligned with dump (all relative, no `/images/` refs).
 - Two malicious webshells `images/68564.php` and `tfiTutorial/images/68564.php`: user chose to
   KEEP (do not delete/modify); their `.htaccess` `ErrorDocument 404` refs already removed (inert).
+
+### PayPal checkout (Orders v2 + webhooks, no SDK)
+- `src/PayPal.php`: final cURL REST client — `createOrder()` (CAPTURE intent, tier in
+  `custom_id`), `captureOrder()` (null if already captured), `verifyWebhook()` (server-side
+  signature check via `/v1/notifications/verify-webhook-signature`), cached OAuth2 token.
+- `paypal-config.php` (gitignored) / `paypal-config.example.php`: `mode` = `live`|`sandbox`
+  + per-mode `client_id`, `client_secret`, `webhook_id`.
+- `createPaypalOrder.php`: POST `tier` → JSON `{orderId, approveUrl}` (login required).
+- `capturePaypalOrder.php`: redirect target (token/PayerID/tier); captures + credits if the
+  webhook hasn't already (idempotent via `log` message LIKE txn id).
+- `completeIPN.php`: webhook listener — verifies signature, accepts only
+  PAYMENT.CAPTURE.COMPLETED, validates tier + USD amount, credits cash + networth, posts
+  chatroom announcement, records in `log` (`name`, `message` = `PayPal txn <id>`).
+- Tier rates (consistent across all three): FIVE_CASH 5/`5.25`, TEN_CASH 11/`10.50`,
+  TWENTY_CASH 23/`21.00`, FIFTY_CASH 58/`52.50`, ONEHUNDRED_CASH 120/`105.00`.
+- `purchase.php` triggers checkout via `js/functions.js` `paypalCheckout(tier)` (opens the
+  approval URL in a new tab); no classic `_xclick` forms remain.
+
+### opencode tooling
+- `opencode.json` (project root): LSP config for PHP Intelephense
+  (`command: ["/home/oppie/.npm-global/bin/intelephense","--stdio"]`, `extensions: [".php"]`).
+  Schema requires a `command` array for object-keyed LSP entries.
 
 ### Asset organization
 - JS: 8 root files → `js/` (`ajax.js`, `chatroomfunctions.js`, `dom.js`, `functions.js`,
@@ -60,6 +97,10 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 - `src/phpstan-bootstrap.php`: declares inherited game globals.
 - No root-level `.css` files remain (all in `css/`); no root-level `.js` files remain (all in `js/`).
 - Test artifacts cleaned: table counts back to 0 rows.
+- LSP: `opencode debug config` validates `opencode.json`; Intelephense requires a
+  `command` array (`["/home/oppie/.npm-global/bin/intelephense","--stdio"]`).
+- `capturePaypalOrder.php`, `completeIPN.php` use `log` columns `name`+`message` (NOT
+  `username/action/note/time`) — `log.name varchar(50)`, `log.message longtext`.
 
 ## Conventions
 - Do NOT add code comments unless asked.

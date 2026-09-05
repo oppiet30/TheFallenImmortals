@@ -1,99 +1,138 @@
 <?php
-session_name("fallenimmortals");
-session_start();
-include('db.php');
+// PayPal webhook listener - credits game cash when a payment is captured.
+//
+// Register this URL in the PayPal Developer Dashboard under your App's
+// Webhooks section (must be HTTPS). Select the PAYMENT.CAPTURE.COMPLETED
+// event. The Webhook ID from that section belongs in paypal-config.php.
 
-$getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
+require_once __DIR__ . '/db-conn.php';
+require_once __DIR__ . '/src/PayPal.php';
+
+$body = file_get_contents('php://input');
+
+if ($body === false || $body === '') {
+    http_response_code(400);
+    exit('empty body');
+}
+
+$headers = array_change_key_case(getallheaders(), CASE_UPPER);
+
+$transmissionId = $headers['PAYPAL-TRANSMISSION-ID'] ?? '';
+$transmissionTime = $headers['PAYPAL-TRANSMISSION-TIME'] ?? '';
+$signature = $headers['PAYPAL-TRANSMISSION-SIG'] ?? '';
+$certUrl = $headers['PAYPAL-CERT-URL'] ?? '';
+$authAlgo = $headers['PAYPAL-AUTH-ALGO'] ?? '';
+
+if ($transmissionId === '' || $signature === '' || $certUrl === '' || $authAlgo === '') {
+    http_response_code(400);
+    exit('missing webhook headers');
+}
+
+try {
+    $paypal = new PayPal();
+} catch (RuntimeException $e) {
+    http_response_code(500);
+    exit('PayPal not configured');
+}
+
+// Signature verification before trusting anything.
+if (!$paypal->verifyWebhook($body, $transmissionId, $transmissionTime, $signature, $certUrl, $authAlgo)) {
+    http_response_code(400);
+    exit('invalid signature');
+}
+
+$event = json_decode($body, true);
+if (!is_array($event)) {
+    http_response_code(400);
+    exit('invalid json');
+}
+
+// Only credit cash on completed captures. PayPal may retry redeliveries of the
+// same event (idempotency handled in creditCashByTxn).
+if (($event['event_type'] ?? '') !== 'PAYMENT.CAPTURE.COMPLETED') {
+    http_response_code(200);
+    exit('ignored');
+}
+
+$resource = $event['resource'] ?? [];
+$txnId = (string)($resource['id'] ?? '');
+$amount = $resource['amount']['value'] ?? null;
+$currency = $resource['amount']['currency_code'] ?? 'USD';
+$customId = (string)($resource['custom_id'] ?? '');
+
+if ($txnId === '' || $amount === null || $currency !== 'USD') {
+    http_response_code(400);
+    exit('missing txn fields');
+}
+
+// Map the custom_id price tier to the game cash amount (same rates as the
+// purchase page). Sources of truth: the tier constants below must stay in sync
+// with createPaypalOrder.php and purchase.php.
+$tiers = [
+    'FIVE_CASH'       => ['price' => '5.25',  'cash' => 5,   'title' => '5 Cash'],
+    'TEN_CASH'        => ['price' => '10.50', 'cash' => 11,  'title' => '11 Cash'],
+    'TWENTY_CASH'     => ['price' => '21.00', 'cash' => 23,  'title' => '23 Cash'],
+    'FIFTY_CASH'      => ['price' => '52.50', 'cash' => 58,  'title' => '58 Cash'],
+    'ONEHUNDRED_CASH' => ['price' => '105.00', 'cash' => 120, 'title' => '120 Cash'],
+];
+
+$tier = $tiers[$customId] ?? null;
+if ($tier === null) {
+    http_response_code(400);
+    exit('unknown tier');
+}
+if (rtrim((string)$amount, '0.') !== rtrim($tier['price'], '0.')) {
+    http_response_code(400);
+    exit('amount mismatch');
+}
+
+$date = time();
+
+function creditCashByTxn(string $txnId, int $cash, int $networth, string $payerEmail, string $username, int $date): void
+{
+    $check = db_query('SELECT id FROM log WHERE message LIKE ?', ['%' . $txnId . '%']);
+    if (db_num_rows($check) > 0) {
+        return; // already processed this transaction (idempotent)
+    }
+
+    db_query(
+        'UPDATE characters SET networth = networth + ?, cash = cash + ? WHERE username = ?',
+        [$networth, $cash, $username]
+    );
+
+    $message = "<b><font color=\\'#9933FF\\'>" . $username . ' just made a purchase for ' . $cash
+        . ' game cash!<br />Congratulations on all your success!</font></b><br />';
+    db_query(
+        "INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')",
+        [$date, $username, $message]
+    );
+
+    $logNote = 'PayPal txn ' . $txnId . ' (' . $payerEmail . ')';
+    db_query(
+        'INSERT INTO `log` (`name`, `message`) VALUES (?, ?)',
+        [$username, $logNote]
+    );
+}
+
+$payerEmail = (string)($event['resource']['payer']['email_address'] ?? '');
+
+$getchar = db_query('SELECT username FROM characters WHERE email = ?', [$payerEmail]);
 $char = db_fetch_assoc($getchar);
 
-// PHP 4.1
-// read the post from PayPal system and add 'cmd'
-$req = 'cmd=_notify-validate';
-
-foreach($_POST as $key => $value)
-{
-	$value = urlencode(stripslashes($value));
-	$req .= "&$key=$value";
+if ($char === false || ($char['username'] ?? '') === '') {
+    // No account with that email. Still acknowledge privately, no credit.
+    http_response_code(200);
+    exit('no matching account');
 }
 
-// post back to PayPal system to validate
-$header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
-$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
-$fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
+creditCashByTxn(
+    $txnId,
+    (int)$tier['cash'],
+    (int)$tier['cash'],
+    $payerEmail,
+    $char['username'],
+    $date
+);
 
-// assign posted variables to local variables
-$item_name = $_POST['item_name'];
-$item_number = $_POST['item_number'];
-$payment_status = $_POST['payment_status'];
-$payment_amount = $_POST['mc_gross'];
-$payment_currency = $_POST['mc_currency'];
-$txn_id = $_POST['txn_id'];
-$receiver_email = $_POST['receiver_email'];
-$payer_email = $_POST['payer_email'];
-
-if(!$fp){
-	// HTTP ERROR
-}
-else
-{
-	fputs($fp, $header . $req);
-		while(!feof($fp))
-		{
-			$res = fgets ($fp, 1024);
-			if(strcmp ($res, "VERIFIED") == 0)
-			{
-				if($payment_status == "Completed" && $receiver_email == "Alex.Jezior@gmail.com"){
-				$getchar = db_query("SELECT * FROM characters WHERE email=?", [$payer_email]);
-				$payer = db_fetch_assoc($getchar);
-				if($payment_amount == "5.25" && $payment_currency == "USD")
-				{
-					$netAmount = '5';
-					$cashAmount = floor('5' * "1.2");
-					$updatePlayer = db_query("UPDATE characters SET networth=networth+?, cash=cash+? WHERE email=?", [$netAmount, $cashAmount, $payer_email]);
-					$messagechat = "<strong><font color=\'#9933FF\'><b>".$payer['username']."</b> just made a purchase from the Purchase page, for the amount of ".$cashAmount." game cash!<br />Congratulations on all your success!</font></strong><br />";
-					$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $payer['username'], $messagechat]);
-				}
-				elseif($payment_amount == "10.50" && $payment_currency == "USD")
-				{
-					$netAmount = '10';
-					$cashAmount = floor('11' * "1.2");
-					$updatePlayer = db_query("UPDATE characters SET networth=networth+?, cash=cash+? WHERE email=?", [$netAmount, $cashAmount, $payer_email]);
-					$messagechat = "<strong><font color=\'#9933FF\'><b>".$payer['username']."</b> just made a purchase from the Purchase page, for the amount of ".$cashAmount." game cash!<br />Congratulations on all your success!</font></strong><br />";
-					$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $payer['username'], $messagechat]);
-				}
-				elseif($payment_amount == "21.00" && $payment_currency == "USD")
-				{
-					$netAmount = '20';
-					$cashAmount = floor('23' * "1.2");
-					$updatePlayer = db_query("UPDATE characters SET networth=networth+?, cash=cash+? WHERE email=?", [$netAmount, $cashAmount, $payer_email]);
-					$messagechat = "<strong><font color=\'#9933FF\'><b>".$payer['username']."</b> just made a purchase from the Purchase page, for the amount of ".$cashAmount." game cash!<br />Congratulations on all your success!</font></strong><br />";
-					$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $payer['username'], $messagechat]);
-				}
-				elseif($payment_amount == "52.50" && $payment_currency == "USD")
-				{
-					$netAmount = '50';
-					$cashAmount = floor('58' * "1.2");
-					$updatePlayer = db_query("UPDATE characters SET networth=networth+?, cash=cash+? WHERE email=?", [$netAmount, $cashAmount, $payer_email]);
-					$messagechat = "<strong><font color=\'#9933FF\'><b>".$payer['username']."</b> just made a purchase from the Purchase page, for the amount of ".$cashAmount." game cash!<br />Congratulations on all your success!</font></strong><br />";
-					$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $payer['username'], $messagechat]);
-				}
-				elseif($payment_amount == "105.00" && $payment_currency == "USD")
-				{
-					$netAmount = '100';
-					$cashAmount = floor('120' * "1.2");
-					$updatePlayer = db_query("UPDATE characters SET networth=networth+?, cash=cash+? WHERE email=?", [$netAmount, $cashAmount, $payer_email]);
-					$messagechat = "<strong><font color=\'#9933FF\'><b>".$payer['username']."</b> just made a purchase from the Purchase page, for the amount of ".$cashAmount." game cash!<br />Congratulations on all your success!</font></strong><br />";
-					$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $payer['username'], $messagechat]);
-				}
-			}
-		// check that txn_id has not been previously processed
-		}
-		elseif(strcmp($res, "INVALID") == 0)
-		{
-			// log for manual investigation
-		}
-	}
-	fclose ($fp);
-}
-?>
+http_response_code(200);
+exit('ok');

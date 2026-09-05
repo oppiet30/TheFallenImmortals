@@ -386,6 +386,33 @@ function runCashOperation(cashOption){
     evalpostAJAXHtml("spendcash.php",data);
 }
 
+function paypalCheckout(tier){
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST","createPaypalOrder.php",true);
+    ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    ajax.onreadystatechange = function(){
+        try{
+            if(ajax.readyState == 4){
+                if(ajax.status == 200){
+                    var response = JSON.parse(ajax.responseText);
+                    if(response.approveUrl){
+                        window.open(response.approveUrl, "_blank");
+                    } else {
+                        alert(response.error || "PayPal checkout could not be started.");
+                    }
+                } else {
+                    var response = JSON.parse(ajax.responseText);
+                    alert(response.error || "PayPal checkout could not be started.");
+                }
+            }
+        }
+        catch(e){
+            alert("PayPal checkout could not be started.");
+        }
+    }
+    ajax.send("tier=" + encodeURIComponent(tier));
+}
+
 function ressurectChar(){
     data = "action=Ressurect";
     evalpostAJAXHtml("ressurect.php",data);

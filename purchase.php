@@ -17,7 +17,7 @@ $data = "<strong><a href=\"javascript: closeSecondPage();\">Close</a> | <a href=
 $data .= "<table>";
 $data .= "<tr><td>Cash:</td><td> $".$char['cash']."</td></tr>";
 $data .= "<tr><td>Blessing Slots:</td><td> ".$char['affinitys']."</td></tr>";
-$data .= "<tr><td>Stat Multiplier:</td><td> X".$charstatmulti."</td></tr>";
+$data .= "<tr><td>Stat Multiplier:</td><td> X".$char['statmult']."</td></tr>";
 $data .= "<tr><td>Deposit Fee:</td><td> ".$char['bankint']."%</td></tr>";
 $data .= "<tr><td>Auto Attacks:</td><td> ".$char['automax']."</td></tr>";
 $data .= "</table><br /><br />";
@@ -54,49 +54,34 @@ $data .= "<tr><td>Item - Price</td><td>Buy?</td><td>Description</td></tr>";
 // FIVE CASH
 
 $data .= "<tr><td>5 Cash - $5.25</td><td>";
-$data .= "<form target=\"_BLANK\" action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"><input type=\"hidden\" name=\"cmd\" value=\"_xclick\">";
-$data .= "<input type=\"hidden\" name=\"business\" value=\"Alex.Jezior@gmail.com\"><input type=\"hidden\" name=\"item_name\" value=\"Five Cash\">";
-$data .= "<input type=\"hidden\" name=\"currency_code\" value=\"USD\"><input type=\"hidden\" name=\"amount\" value=\"5.25\">";
-$data .= "<input type=\"image\" src=\"http://www.paypal.com/en_US/i/btn/x-click-but01.gif\" name=\"submit\" alt=\"Make payments with PayPal - its fast, free and secure!\"></form>";
+$data .= "<a href=\"javascript: paypalCheckout(\'FIVE_CASH\');\"><button type=\"button\">Buy with PayPal</button></a>";
 $data .= "</td><td>You get five extra Networth and five extra Cash.</td></tr>";
 
 
 // TEN CASH
 
 $data .= "<tr><td>11 Cash - $10.50</td><td>";
-$data .= "<form target=\"_BLANK\" action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"><input type=\"hidden\" name=\"cmd\" value=\"_xclick\">";
-$data .= "<input type=\"hidden\" name=\"business\" value=\"Alex.Jezior@gmail.com\"><input type=\"hidden\" name=\"item_name\" value=\"Ten Cash\">";
-$data .= "<input type=\"hidden\" name=\"currency_code\" value=\"USD\"><input type=\"hidden\" name=\"amount\" value=\"10.50\">";
-$data .= "<input type=\"image\" src=\"http://www.paypal.com/en_US/i/btn/x-click-but01.gif\" name=\"submit\" alt=\"Make payments with PayPal - its fast, free and secure!\"></form>";
+$data .= "<a href=\"javascript: paypalCheckout(\'TEN_CASH\');\"><button type=\"button\">Buy with PayPal</button></a>";
 $data .= "</td><td>You get ten extra Networth and ten extra Cash.</td></tr>";
 
 
 //TWENTY CASH
 
 $data .= "<tr><td>23 Cash - $21.00</td><td>";
-$data .= "<form target=\"_BLANK\" action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"><input type=\"hidden\" name=\"cmd\" value=\"_xclick\">";
-$data .= "<input type=\"hidden\" name=\"business\" value=\"Alex.Jezior@gmail.com\"><input type=\"hidden\" name=\"item_name\" value=\"Twenty Cash\">";
-$data .= "<input type=\"hidden\" name=\"currency_code\" value=\"USD\"><input type=\"hidden\" name=\"amount\" value=\"21.00\">";
-$data .= "<input type=\"image\" src=\"http://www.paypal.com/en_US/i/btn/x-click-but01.gif\" name=\"submit\" alt=\"Make payments with PayPal - its fast, free and secure!\"></form>";
+$data .= "<a href=\"javascript: paypalCheckout(\'TWENTY_CASH\');\"><button type=\"button\">Buy with PayPal</button></a>";
 $data .= "</td><td>You get twenty extra Networth and twenty extra Cash.</td></tr>";
 
 
 //FIFTY CASH
 
 $data .= "<tr><td>58 Cash - $52.50</td><td>";
-$data .= "<form target=\"_BLANK\" action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"><input type=\"hidden\" name=\"cmd\" value=\"_xclick\">";
-$data .= "<input type=\"hidden\" name=\"business\" value=\"Alex.Jezior@gmail.com\"><input type=\"hidden\" name=\"item_name\" value=\"Fifty Cash\">";
-$data .= "<input type=\"hidden\" name=\"currency_code\" value=\"USD\"><input type=\"hidden\" name=\"amount\" value=\"52.50\">";
-$data .= "<input type=\"image\" src=\"http://www.paypal.com/en_US/i/btn/x-click-but01.gif\" name=\"submit\" alt=\"Make payments with PayPal - its fast, free and secure!\"></form>";
+$data .= "<a href=\"javascript: paypalCheckout(\'FIFTY_CASH\');\"><button type=\"button\">Buy with PayPal</button></a>";
 $data .= "</td><td>You get fifty extra Networth and fifty extra Cash.</td></tr>";
 
 
 //ONEHUNDRED CASH
 $data .= "<tr><td>120 Cash - $105.00</td><td>";
-$data .= "<form target=\"_BLANK\" action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"><input type=\"hidden\" name=\"cmd\" value=\"_xclick\">";
-$data .= "<input type=\"hidden\" name=\"business\" value=\"Alex.Jezior@gmail.com\"><input type=\"hidden\" name=\"item_name\" value=\"One Hundred Cash\">";
-$data .= "<input type=\"hidden\" name=\"currency_code\" value=\"USD\"><input type=\"hidden\" name=\"amount\" value=\"105.00\">";
-$data .= "<input type=\"image\" src=\"http://www.paypal.com/en_US/i/btn/x-click-but01.gif\" name=\"submit\" alt=\"Make payments with PayPal - its fast, free and secure!\"></form>";
+$data .= "<a href=\"javascript: paypalCheckout(\'ONEHUNDRED_CASH\');\"><button type=\"button\">Buy with PayPal</button></a>";
 $data .= "</td><td>You get one-hundred extra Networth and one-hundred extra Cash.</td></tr>";
 
 $data .= "</table>";
