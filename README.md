@@ -38,14 +38,49 @@ folder and import the SQL file, via phpMyAdmin panel, to the database you create
 ######
 
 With the database tables populated to your table, we will want to setup the association to your database in the code. 
-Open db.php, index.php, indexdb.php, and add your database credentials. Once you have done that, you should be ready to 
-register your first character! 
+Copy `db-conn.example.php` to `db-conn.php` and fill in your database host, user, password, and database name 
+(`db-conn.php` is git-ignored, so your credentials stay out of the repo). The game's PHP files use `src/Database.php` 
+via the `db_*()` helpers in `src/helpers.php`, all through prepared statements.
 
 ######
 
 **REMEMBER TO DELETE THE INSTALLATION FOLDER AFTER INSTALLING THIS PROJECT ON YOUR SERVER. IT'S ONLY REQUIRED FOR 
 INSTALLING THE SITE, NOTHING MORE. DO I NEED TO STRESS THE IMPORTANCE OF REMOVING THE SITE'S .ZIP FOLDER THAT YOU 
 BROUGHT IT IN WITH?**
+
+## Optional Configuration
+
+######
+
+- **PayPal checkout** (`purchase.php`): copy `paypal-config.example.php` to `paypal-config.php` and set `mode` to
+  `live` or `sandbox`, then fill in the matching `client_id`, `client_secret`, and `webhook_id`. Register the
+  `completeIPN.php` URL as an HTTPS webhook for the `PAYMENT.CAPTURE.COMPLETED` event in the
+  [PayPal Developer Dashboard](https://developer.paypal.com). Without real credentials, checkout falls back to the
+  placeholder values in the example file.
+- **reCAPTCHA v2** (`fightenemy.php` captcha prompts): copy `captcha-config.example.php` to `captcha-config.php` and
+  fill in your Google reCAPTCHA `site_key` and `secret_key` (the placeholder keys cause the captcha to auto-pass, so
+  replace them before going live).
+- **Web forums**: the phpBB-style forum links expect a `forum/` directory that is not part of this repository; deploy
+  your own forum there if you want those links to resolve.
+
+## Development Tooling
+
+######
+
+The project uses PHPStan for static analysis and Psalm (with a baseline) for type checking. Both must be installed via
+`composer install` (they are `require-dev` dependencies):
+
+- **PHPStan** (with the `phpstan-dba` extension, which validates SQL against the live database schema):
+  `vendor/bin/phpstan analyse --no-progress --memory-limit=1G`
+- **phpstan-dba** needs a live DB connection to reflect the schema; it reuses your `db-conn.php` credentials through
+  `phpstan-dba-bootstrap.php` (git-ignored). If that file is missing, PHPStan falls back to static analysis without
+  SQL checks.
+- **Psalm**: `vendor/bin/psalm --no-cache --no-progress`
+- **Psalm re-baselining** (after intentionally fixing large sets of legacy issues):
+  `vendor/bin/psalm --no-cache --no-progress --set-baseline=psalm-baseline.xml`
+
+Requires **PHP 8.5+** (bcrypt passwords, null-safe operators, and PHP 8.x strictness throughout), mysqli, and the
+`mbstring` extension. This project has been modernized past the PHP 5.6/7.x era noted in the original text below.
 
 ## About the Developer
 My name is Alexander Jezior, and I enjoy developing in PHP! Over the years, I have evolved my code base into something 

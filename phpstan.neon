@@ -26,7 +26,7 @@ parameters:
         - ChromePhp.php
     bootstrapFiles:
         - src/helpers.php
-        - phpstan-dba-bootstrap.php
+        - phpstan-bootstrap.php
     treatPhpDocTypesAsCertain: false
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
