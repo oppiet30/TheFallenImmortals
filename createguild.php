@@ -50,19 +50,19 @@ if($chargold >= "10000000" && isset($_POST['guildname']) && isset($_POST['guildt
 
 				$news = "You have successfully created your Guild [b]".$guildname."[/b]. This is your Guild Portal where every aspect of your Guild can be modified to suit your needs.";
 
+				$setguild = db_query("INSERT INTO guilds (`name`, `tag`, `leader`, `coleader`, `captain`, `bank`, `exp`, `gold`, `itemdrop`, `itemboost`, `news`) VALUES (?, ?, ?, 'None', 'None', '0', '0', '0', '0', '0', ?)", [$guildname, $guildtag, $char['username'], $news]);
 
+				if ($setguild !== false) {
+					$setchar = db_query("UPDATE characters SET guild=?, gold=? WHERE id=?", [$guildname, $newgold, $_SESSION['userid']]);
 
-				$setchar = db_query("UPDATE characters SET guild=?, gold=? WHERE id=?", [$guildname, $newgold, $_SESSION['userid']]);
+					$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has registered a new Guild by the name ".$guildname.".</font></strong><br />";
 
-				$setguild = db_query("INSERT INTO guilds (`name`, `tag`, `leader`, `news`) VALUES (?, ?, ?, ?)", [$guildname, $guildtag, $char['username'], $news]);
+		        	$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', ?, ?, 'Chatroom')", [$char['username'], $messagechat]);
 
-				$messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has registered a new Guild by the name ".$guildname.".</font></strong><br />";
-
-	        	$query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES ('', '3', ?, ?, 'Chatroom')", [$char['username'], $messagechat]);
-
-
-
-				print("viewGuild();");
+					print("viewGuild();");
+				} else {
+					$data = "<font color=\'#FF0000\'>There was an error creating your Guild. Please try again.</font>";
+				}
 
 			}
 

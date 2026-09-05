@@ -51,7 +51,7 @@ if($_POST['name'] != Null){
 
     if($char['life'] > "0")
     {
-        $health = floor("100" * ($charlife / $charend));
+        $health = min(100, floor("100" * ($charlife / $charend)));
     }
     else
     {
@@ -59,7 +59,7 @@ if($_POST['name'] != Null){
     }
     if($char['mana'] > "0")
     {
-        $mana = floor("100" * ($charmana / $charint));
+        $mana = min(100, floor("100" * ($charmana / $charint)));
     }
     else
     {
@@ -67,7 +67,7 @@ if($_POST['name'] != Null){
     }
     if($char['expacq'] > "0")
     {
-        $exp = floor("100" * ($char['expacq'] / $char['expreq']));
+        $exp = min(100, floor("100" * ($char['expacq'] / $char['expreq'])));
     }
     else
     {
@@ -79,7 +79,7 @@ if($_POST['name'] != Null){
     $data .= "<center><table border=\'1px\' width=\'75%\'>";
     $data .= "<tr>";
     $data .= "<td>";
-    $data .= "Health: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\'><img src=\'images/greenblock.jpg\' width=\'".$health."%\' height=\'10px\' title=\'".$charlife." / ".$charend." (".$health."%)\' /></td></tr></table>Mana: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\'><img src=\'images/blueblock.jpg\' width=\'".$mana."%\' height=\'10px\' title=\'".$charmana." / ".$charint." (".$mana."%)\' /></td></tr></table>EXP: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\'><img src=\'images/yellowblock.jpg\' width=\'".$exp."%\' height=\'10px\' title=\'".$char['expacq']." / ".$char['expreq']." (".$exp."%)\' /></td></tr></table>Blood: ".number_format($char['blood'])."";
+    $data .= "Health: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$charlife." / ".$charend." (".$health."%)\'><img src=\'images/greenblock.jpg\' width=\'".$health."%\' height=\'10px\' /></td></tr></table>Mana: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$charmana." / ".$charint." (".$mana."%)\'><img src=\'images/blueblock.jpg\' width=\'".$mana."%\' height=\'10px\' /></td></tr></table>EXP: <table border=\'1\' cellpadding=\'0\' width=\'100px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$char['expacq']." / ".$char['expreq']." (".$exp."%)\'><img src=\'images/yellowblock.jpg\' width=\'".$exp."%\' height=\'10px\' /></td></tr></table>Blood: ".number_format($char['blood'])."";
     $data .= "</td>";
     $data .= "<td>";
     $tradeskill = $char['tradeskill']/10;
@@ -171,7 +171,7 @@ if($_POST['showAll'] == "Yes"){
 }else{
 	$extention = " ORDER BY Level DESC LIMIT 20";
 }
-$getchar = db_query("SELECT * FROM characters WHERE status='Normal' AND level>'10?", [$extention]);
+$getchar = db_query("SELECT * FROM characters WHERE status='Normal' AND level>'10' " . $extention);
 while($char = db_fetch_array($getchar))
 {
 	$getcharRank = db_query("SELECT * FROM characters WHERE level>?", [$char['level']]);

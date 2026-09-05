@@ -222,10 +222,10 @@ if($char['guild'] != "None")
 	    $data.= " <input type=\'button\' onclick=\'javascript: upgradeGuild(\"Item Boost\");\' value=\'Upgrade\'".$disable." />";
 	}
 
-    $data .= "<br />Donate: <input type=\'text\' id=\'donateamount\' /> <input type=\'button\' onclick=\'donateGold();\' value=\'Send\' />";
+    $data .= "<br />Donate: <input type=\'text\' size=\'8\' id=\'donateamount\' /> <input type=\'button\' onclick=\'donateGold();\' value=\'Send\' />";
 	////GUILDTAX
 	
-    if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain']) $data .= "<br />Tax(".$guild['tax']."%): <input type=\'text\' id=\'taxamount\' /> <input type=\'button\' onclick=\'updateTax();\' value=\'Update\' />";
+    if($charname == $guild['leader'] || $charname == $guild['coleader'] || $charname == $guild['captain']) $data .= "<br />Tax(".$guild['tax']."%): <input type=\'text\' size=\'8\' id=\'taxamount\' /> <input type=\'button\' onclick=\'updateTax();\' value=\'Update\' />";
 
     $data .= "</td><td valign=\'top\'>";
 

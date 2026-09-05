@@ -449,7 +449,7 @@ $charend = floor($charend + $totalend);
 
 if($char['life'] > "0")
 {
-    $health = floor("100" * ($charlife / $charend));
+    $health = min(100, floor("100" * ($charlife / $charend)));
 }
 else
 {
@@ -457,7 +457,7 @@ else
 }
 if($char['mana'] > "0")
 {
-    $mana = floor("100" * ($charmana / $charint));
+    $mana = min(100, floor("100" * ($charmana / $charint)));
 }
 else
 {
@@ -465,7 +465,7 @@ else
 }
 if($char['expacq'] > "0")
 {
-    $exp = floor("100" * ($char['expacq'] / $char['expreq']));
+    $exp = min(100, floor("100" * ($char['expacq'] / $char['expreq'])));
 }
 else
 {
@@ -473,9 +473,9 @@ else
 }
 
 $bar = "<table>";
-$bar .= "<tr><td width=\'50\'>&nbsp;</td><td width=\'155\'><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\'><img src=\"images/greenblock.jpg\" width=\'".$health."%\' height=\'10px\' title=\'".$charlife." / ".$charend." (".$health."%)\' /></td></tr></table></td></tr>";
-$bar .= "<tr><td>&nbsp;</td><td><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\'><img src=\"images/blueblock.jpg\" width=\'".$mana."%\' height=\'10px\' title=\'".$charmana." / ".$charint." (".$mana."%)\' /></td></tr></table></td></tr>";
-$bar .= "<tr><td>&nbsp;</td><td><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\'><img src=\"images/yellowblock.jpg\" width=\'".$exp."%\' height=\'10px\' title=\'".$char['expacq']." / ".$char['expreq']." (".$exp."%)\' /></td></tr></table></td></tr>";
+$bar .= "<tr><td width=\'50\'>&nbsp;</td><td width=\'155\'><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$charlife." / ".$charend." (".$health."%)\'><img src=\"images/greenblock.jpg\" width=\'".$health."%\' height=\'10px\' /></td></tr></table></td></tr>";
+$bar .= "<tr><td>&nbsp;</td><td><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$charmana." / ".$charint." (".$mana."%)\'><img src=\"images/blueblock.jpg\" width=\'".$mana."%\' height=\'10px\' /></td></tr></table></td></tr>";
+$bar .= "<tr><td>&nbsp;</td><td><table border=\'1\' cellpadding=\'0\' width=\'155px\'><tr><td style=\'background-color: #DD0000;\' title=\'".$char['expacq']." / ".$char['expreq']." (".$exp."%)\'><img src=\"images/yellowblock.jpg\" width=\'".$exp."%\' height=\'10px\' /></td></tr></table></td></tr>";
 $bar .= "</table>";
 print("fillDiv('barMenu','".$bar."');");
 
