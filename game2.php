@@ -5,6 +5,8 @@ include('db.php');
 
 $getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
 $char = db_fetch_assoc($getchar)or die("You need to login!");
+$recaptchaConfig = include 'captcha-config.php';
+$recaptchaSiteKey = $recaptchaConfig['site_key'] ?? '';
 //$ResetGame = db_query("UPDATE characters SET level='1', class='Fighter', classlevel='1', gold='0', bank='0', equipped='None, None, None, None, None', scavenges='0', vodoomax='10', blessing='None, None, None, None, None, None, None, None, None', spells='First Aid, None, None, None, None, None, None, None, None, None, None, None', presets='Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set, Not Set', charge='None', nobility='Officer Cadet(1)', guild='None', totaldonations='0', expacq='0', expreq='6', strength='50', dexterity='50', endurance='50', intelligence='50', concentration='50', duelratio='0/0', mininglevel='1', lastmine='0', copperore='10', ironore='10', steelore='10', tradeskill='900', life='50',mana='50', blood='50', stats='0', location='Castle', posx='1', posy='1', relativeLoc='250, 250', teleporter='No', teleportlast='0', foresight='0', cash=networth, bankint='5', goldsteal='15', lastfight='0', enemyid='1', killstreak='0', security='0', captcha='Inactive', captcha_time_limit='0', lastactive='0', automax='10'")or Die("alert('Ack!');");
 ?> 
 
@@ -12,7 +14,7 @@ $char = db_fetch_assoc($getchar)or die("You need to login!");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <script src="js/jquery.js"></script>
-<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
 <script src="js/ajax.js" type="text/javascript"></script>
 <script src="js/dom.js" type="text/javascript"></script>
 <script src="js/functions.js" type="text/javascript"></script>
@@ -20,10 +22,19 @@ $char = db_fetch_assoc($getchar)or die("You need to login!");
 <script src="js/gamefunctions.js" type="text/javascript"></script>
 <script src="js/chatroomfunctions.js" type="text/javascript"></script>
       <script type="text/javascript">
+         var recaptchaWidgetId = null;
+         var recaptchaSiteKey = "<?php echo htmlspecialchars($recaptchaSiteKey, ENT_QUOTES); ?>";
          function showRecaptcha(element) {
-           Recaptcha.create("6Ld9zssSAAAAAJwo6kchU03wK4K9aoteWZ0nnlFR", element, {
-             theme: "blackglass",
-             callback: Recaptcha.focus_response_field});
+           if (typeof grecaptcha !== 'undefined' && recaptchaSiteKey) {
+             var el = document.getElementById(element);
+             if (el) {
+               el.innerHTML = "";
+               recaptchaWidgetId = grecaptcha.render(el, {
+                 sitekey: recaptchaSiteKey,
+                 theme: "dark"
+               });
+             }
+           }
          }
 		 
 function changeDisplay() {

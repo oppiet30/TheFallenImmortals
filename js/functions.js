@@ -132,9 +132,16 @@ function openItem(){
 }
 
 function verifyCaptcha(){
-    recaptcha_Challenge_field = $("recaptcha_challenge_field").value;
-	recaptcha_Response_field = $("recaptcha_response_field").value;
-    data = "recaptcha_challenge_field=" + recaptcha_Challenge_field + "&recaptcha_response_field=" + recaptcha_Response_field;
+    if(recaptchaWidgetId === null){
+        alert("Captcha could not be loaded. Please refresh the page.");
+        return;
+    }
+    var recaptchaValue = grecaptcha.getResponse(recaptchaWidgetId);
+    if(recaptchaValue === ""){
+        alert("Please complete the captcha first.");
+        return;
+    }
+    data = "g-recaptcha-response=" + encodeURIComponent(recaptchaValue);
     evalpostAJAXHtml("captchaverify.php",data);
 }
 

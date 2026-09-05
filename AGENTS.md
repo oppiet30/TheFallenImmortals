@@ -88,6 +88,23 @@ Legacy procedural PHP text-based MMORPG being modernized to run on PHP 8.5.
 - bcrypt = 60 chars (fits `characters.password` varchar 255, `temppass` varchar 60,
   `activatenewpassword.newpassword` varchar 100).
 
+### reCAPTCHA (v2, all players)
+- `captcha-config.php` (gitignored) / `captcha-config.example.php`: `site_key` +
+  `secret_key` for Google reCAPTCHA v2. Placeholder keys = captcha auto-passes (no
+  suspension risk until real keys are plugged in).
+- `fightenemy.php`: random chance triggers `captcha='Active'` (1/45 auto, 1/1500 manual)
+  for ALL players (Ajezior-only restriction removed).
+- `updatestats.php` / `updatestatstemp.php`: when `captcha=='Active'`, blocks UI with
+  90s countdown + reCAPTCHA widget.
+- `captchaverify.php`: unconfigured keys → auto-pass (awards gold, clears captcha);
+  configured keys → POST to `google.com/recaptcha/api/siteverify`, timeout = 12hr
+  suspension, wrong = alert + re-render widget.
+- `attackenemy.php:8`: resets all players' captcha to `Inactive` on every attack.
+- `recaptchalib.php` deleted (dead v1 library). `recaptcha_ajax.js` replaced with
+  `recaptcha/api.js?render=explicit` in game.php, game2.php, gameindex.php.
+- `js/functions.js`: `verifyCaptcha()` sends `g-recaptcha-response` token;
+  `showRecaptcha()` uses `grecaptcha.render()` with dark theme.
+
 ## Reference / Commands
 - PHPStan: `vendor/bin/phpstan analyse --no-progress --memory-limit=1G` — configured **level 1**, clean
   (use `--memory-limit=1G`; default CLI 128M can crash PHPStan).

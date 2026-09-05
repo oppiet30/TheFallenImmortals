@@ -8,6 +8,9 @@ db-conn.php
 # PayPal credentials (see paypal-config.example.php for template)
 paypal-config.php
 
+# reCAPTCHA credentials (see captcha-config.example.php for template)
+captcha-config.php
+
 # Runtime logs
 cron.log
 

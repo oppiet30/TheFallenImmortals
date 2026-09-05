@@ -5,17 +5,28 @@ include('db.php');
 
 $getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]);
 $char = db_fetch_assoc($getchar);
+$recaptchaConfig = include 'captcha-config.php';
+$recaptchaSiteKey = $recaptchaConfig['site_key'] ?? '';
 ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
       <script type="text/javascript">
+         var recaptchaWidgetId = null;
+         var recaptchaSiteKey = "<?php echo htmlspecialchars($recaptchaSiteKey, ENT_QUOTES); ?>";
          function showRecaptcha(element) {
-           Recaptcha.create("6Ld9zssSAAAAAJwo6kchU03wK4K9aoteWZ0nnlFR", element, {
-             theme: "blackglass",
-             callback: Recaptcha.focus_response_field});
+           if (typeof grecaptcha !== 'undefined' && recaptchaSiteKey) {
+             var el = document.getElementById(element);
+             if (el) {
+               el.innerHTML = "";
+               recaptchaWidgetId = grecaptcha.render(el, {
+                 sitekey: recaptchaSiteKey,
+                 theme: "dark"
+               });
+             }
+           }
          }
       </script>
 

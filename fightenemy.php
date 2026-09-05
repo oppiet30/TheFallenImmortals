@@ -10,7 +10,7 @@ $char = db_fetch_assoc($getchar);
 if($_POST['auto'] == "Yes")
 {
 	$randomCAPTCHA = rand(1,45);
-	if($randomCAPTCHA == 1 && $char['auto'] == 0 && $char['username']=="Ajezior"){
+	if($randomCAPTCHA == 1 && $char['auto'] == 0){
 		$amount_of_time = 600+ time();
 		$setupCaptcha = db_query("UPDATE characters SET auto='0', captcha='Active', captcha_time_limit=? WHERE username=?", [$amount_of_time, $char['username']]);
 		$data = "<strong>You have <u>10 minutes</u> to complete CAPTCHA security, from the time it was given, before your account gets suspended.</strong><br /><div id=\"recaptcha_div\"></div><br />";
@@ -29,7 +29,7 @@ if($_POST['auto'] == "Yes")
 	}
 }elseif($char['auto'] == "0"){
 	$randomCAPTCHA = rand(1,1500);
-	if($randomCAPTCHA == 1 && $char['username']=="Ajezior"){
+	if($randomCAPTCHA == 1){
 		$amount_of_time = 600 + time();
 		$setupCaptcha = db_query("UPDATE characters SET auto='0', captcha='Active', captcha_time_limit=? WHERE username=?", [$amount_of_time, $char['username']]);
 		$data = "<strong>You have <u>10 minutes</u> to complete CAPTCHA security, from the time it was given, before your account gets suspended.</strong><br /><div id=\"recaptcha_div\"></div><br />";
