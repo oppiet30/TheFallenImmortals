@@ -5,6 +5,9 @@ vendor/*
 # Local DB credentials (see db-conn.example.php for template)
 db-conn.php
 
+# phpstan-dba local analysis bootstrap (uses db-conn.php credentials)
+phpstan-dba-bootstrap.php
+
 # PayPal credentials (see paypal-config.example.php for template)
 paypal-config.php
 

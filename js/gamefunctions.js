@@ -1,9 +1,10 @@
 function travel(){
-	
-    data = "view=Travel";
-
-    evalpostAJAXHtml("travel.php",data);
-
+	if(document.getElementById('2dCanvas')){
+		var data = "view=Travel";
+		evalpostAJAXHtml("travel.php",data);
+	}else{
+		window.open('game2.php', '_blank');
+	}
 }
 
 function viewForge(){

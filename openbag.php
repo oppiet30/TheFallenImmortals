@@ -9,6 +9,9 @@ if($_POST['bagid'] != NULL){
 	$findbagid = db_query("SELECT * FROM bagdrop WHERE id=?", [$_POST['bagid']]);
 	$bag = db_fetch_assoc($findbagid);
 	
+	if(db_num_rows($findbagid) < 1){
+		die();
+	}
 	
 	$bagRel = explode(', ', $bag['relativeLoc']);
 	$charRel = explode(', ', $char['relativeLoc']);

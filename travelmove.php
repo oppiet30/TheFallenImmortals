@@ -12,14 +12,14 @@ $findMap = db_query("SELECT * FROM map WHERE xpos=? and ypos=?", [$char['posx'],
 $map = db_fetch_assoc($findMap);
 $findOre = db_query("SELECT * FROM ore WHERE xpos=? and ypos=?", [$char['posx'], $char['posy']]);
 $ore = db_fetch_assoc($findOre);
-$oreRel = explode(', ', $ore['relativeLoc']);
+$oreRel = db_num_rows($findOre) >= 1 ? explode(', ', $ore['relativeLoc']) : [0, 0];
 $oreXtop = $oreRel[0]+16;
 $oreXbottom = $oreRel[0]-16;
 $oreYtop = $oreRel[1]+16;
 $oreYbottom = $oreRel[1]-16;
 $findDemons = db_query("SELECT * FROM demons WHERE xpos=? and ypos=? and health>'0'", [$char['posx'], $char['posy']]);
 $demon = db_fetch_assoc($findDemons);
-$demonRel = explode(', ', $demon['relativeLoc']);
+$demonRel = db_num_rows($findDemons) >= 1 ? explode(', ', $demon['relativeLoc']) : [0, 0];
 $demonXtop = $demonRel[0]+16;
 $demonXbottom = $demonRel[0]-16;
 $demonYtop = $demonRel[1]+16;
@@ -63,7 +63,7 @@ if(!isset($_POST['direction'])){
 			db_query("UPDATE characters SET posy=posy+'1' WHERE username=?", [$char['username']]);
 			$updateMap = "True";
 		}
-		db_query("UPDATE characters SET relativeLoc=?, ?, animationSequence=? WHERE username=?", [$relLoc[0], $relLoc[1], $animationSequence, $char['username']]);
+		db_query("UPDATE characters SET relativeLoc=?, animationSequence=? WHERE username=?", [$relLoc[0].", ".$relLoc[1], $animationSequence, $char['username']]);
 		
 	}elseif($_POST['direction'] == "left"){
 		/* top, right, bottom, left*/
@@ -94,7 +94,7 @@ if(!isset($_POST['direction'])){
 			db_query("UPDATE characters SET posx=posx-'1' WHERE username=?", [$char['username']]);
 			$updateMap = "True";
 		}
-		db_query("UPDATE characters SET relativeLoc=?, ?, animationSequence=? WHERE username=?", [$relLoc[0], $relLoc[1], $animationSequence, $char['username']]);
+		db_query("UPDATE characters SET relativeLoc=?, animationSequence=? WHERE username=?", [$relLoc[0].", ".$relLoc[1], $animationSequence, $char['username']]);
 		
 	}elseif($_POST['direction'] == "right"){
 		/* top, right, bottom, left*/
@@ -125,7 +125,7 @@ if(!isset($_POST['direction'])){
 			db_query("UPDATE characters SET posx=posx+'1' WHERE username=?", [$char['username']]);
 			$updateMap = "True";
 		}
-		db_query("UPDATE characters SET relativeLoc=?, ?, animationSequence=? WHERE username=?", [$relLoc[0], $relLoc[1], $animationSequence, $char['username']]);
+		db_query("UPDATE characters SET relativeLoc=?, animationSequence=? WHERE username=?", [$relLoc[0].", ".$relLoc[1], $animationSequence, $char['username']]);
 		
 	}elseif($_POST['direction'] == "down"){
 	
@@ -157,7 +157,7 @@ if(!isset($_POST['direction'])){
 			db_query("UPDATE characters SET posy=posy-'1' WHERE username=?", [$char['username']]);
 			$updateMap = "True";
 		}
-		db_query("UPDATE characters SET relativeLoc=?, ?, animationSequence=? WHERE username=?", [$relLoc[0], $relLoc[1], $animationSequence, $char['username']]);
+		db_query("UPDATE characters SET relativeLoc=?, animationSequence=? WHERE username=?", [$relLoc[0].", ".$relLoc[1], $animationSequence, $char['username']]);
 		
 	}else{
 		die('alert("Invalid movement.");');

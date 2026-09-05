@@ -85,7 +85,7 @@ if(db_num_rows($findOfflineMessages) > 1 && $activeTime < $charLastActive){
 
 
 
-$findYourDuel = db_query("SELECT * FROM duelground WHERE `fromusername`=?", [$char['username']]);
+$findYourDuel = db_query("SELECT * FROM duelground WHERE `fromusername`=? AND `status`='Requesting'", [$char['username']]);
 
 $duel = db_fetch_assoc($findYourDuel);
 
@@ -99,15 +99,11 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
 	$messagechat = "<strong><font color=\'#FF3300\'>".$duel['tousername']." has taken too much time to accept the duel. Try again later.</font></strong><br />";
 
-	$messagechat = addslashes($messagechat);
-
     $query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)", [$date, $messagechat, $duel['fromusername']]);
 
     
 
     $messagechat = "<strong><font color=\'#FF3300\'>You took to much time to accept the duel from ".$duel['fromusername'].".</font></strong><br />";
-
-    $messagechat = addslashes($messagechat);
 
     $query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '4', 'PM', ?, ?)", [$date, $messagechat, $duel['tousername']]);
 
@@ -163,21 +159,19 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
         $date = $messages['date'];
 
-        $message = str_replace("+", "\+", $messages['message']);
+        $message = $messages['message'];
 
-        $message = str_replace("&", "\&", $messages['message']);
+        $message = str_replace("\\'", "'", $message);
 
-        $message = str_replace("'", "\'", $message);
+        $message = str_replace("\\+", "+", $message);
 
-        $message = str_replace("\\\\", "\\", $message);
-
-    
+        $message = str_replace("\\&", "&", $message);
 
         $data = $data.$message;
 
     }
 
-    print("fillDiv('chatRoom','".$data."');");
+    print("fillDiv('chatRoom',".json_encode($data, JSON_HEX_APOS).");");
 
 
 
@@ -241,7 +235,7 @@ if($timeofDuel < $date && $char['username'] != NULL && $duel['fromusername'] != 
 
     $data2 = "<center><b>Online List (".$numonline.")</b><table border=\'0\' width=\'75%\'><tr><td align=\'center\'><strong>Username</strong></td><td align=\'center\'><strong>Level</strong></td></tr>".$data2."</table></center>";
 
-    print("fillDiv('onlineList','".$data2."');");
+    print("fillDiv('onlineList',".json_encode($data2, JSON_HEX_APOS).");");
 
 }
 

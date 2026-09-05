@@ -52,6 +52,8 @@ $map = db_fetch_assoc($findMap);
 		$ybottom = $char['posy'] - $char['foresight'];
 		$grabBag = db_query("SELECT * FROM `bagdrop` WHERE (`posx` BETWEEN ? AND ?) AND (`posy` BETWEEN ? AND ?)", [$xbottom, $xtop, $ybottom, $ytop]);
 		$bag = db_fetch_assoc($grabBag);
+		$foresightBag = "";
+		$foresightOre = "";
 		$there = db_num_rows($grabBag);
 		if($there > "0"){
 			$foresightBag = "-There is a bag at ".$bag['posx'].", ".$bag['posy']."<br />";

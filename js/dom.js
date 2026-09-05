@@ -3,5 +3,8 @@ function $(id){
 }
 
 function fillDiv(id,data){
-	$(id).innerHTML = data;
+	var el = $(id);
+	if(el){
+		el.innerHTML = data;
+	}
 }

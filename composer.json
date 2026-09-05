@@ -1,5 +1,7 @@
 {
     "require-dev": {
-        "laravel/homestead": "^7.18"
+        "staabm/phpstan-dba": "^0.4.10",
+        "vimeo/psalm": "^6.16",
+        "phpstan/phpstan": "^2.2"
     }
 }
