@@ -7,11 +7,12 @@ $getchar = db_query("SELECT * FROM characters WHERE id=?", [$_SESSION['userid']]
 $char = db_fetch_assoc($getchar);
 
 $itemid = $_POST['itemid'];
-if(!ctype_digit($itemid)){
-	print("alert('Hack attempt has been logged.');");
-	$toast = db_query("INSERT INTO hackreportlog (`information`) VALUES (? has attempted to alter equipment ID while equipping. The ID in inventory that was targeted was: ?)", [$char['username'], $itemid]);
-	die();
-}
+	if(!ctype_digit($itemid)){
+		print("alert('Hack attempt has been logged.');");
+		$logmessage = $char['username']." has attempted to alter equipment ID while equipping. The ID in inventory that was targeted was: ".$itemid;
+		db_query("INSERT INTO hackreportlog (`information`) VALUES (?)", [$logmessage]);
+		die();
+	}
 $getitem = db_query("SELECT * FROM inventory WHERE id=? AND username=?", [$itemid, $char['username']]);
 if(db_num_rows($getitem) == "1")    //Item exists
 {
@@ -53,7 +54,8 @@ if(db_num_rows($getitem) == "1")    //Item exists
     }
 }else{
 	print("alert('Hack attempt has been logged.');");
-	$toast = db_query("INSERT INTO hackreportlog (`information`) VALUES (? has attempted to alter equipment ID while equipping. The ID in inventory that was targeted was: ?)", [$char['username'], $itemid]);
+	$logmessage = $char['username']." has attempted to alter equipment ID while equipping. The ID in inventory that was targeted was: ".$itemid;
+	db_query("INSERT INTO hackreportlog (`information`) VALUES (?)", [$logmessage]);
 	die();
 }
 ?>

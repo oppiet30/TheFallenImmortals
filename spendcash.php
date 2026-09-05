@@ -546,7 +546,7 @@ elseif($_POST['cashoption'] == "OneDemon" && $char['cash'] >= "2")
             	$BossHealth = $BossPower * '50000000';
 				$randBossX = $char['posx'];
 				$randBossY = $char['posy'];
-				$fillImg = "<img src=\'/images/demonSpawn.png\'>";
+				$fillImg = "<img src=\'images/demonSpawn.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $spawnDemon = db_query("INSERT INTO demons (`name`, `health`, `power`, `xpos`, `ypos`) VALUES (?, ?, ?, ?, ?)", [$BossName, $BossHealth, $BossPower, $randBossX, $randBossY]);
         $cashmessage = "<b><font color=\'#FFFF00\'>".$charname." spent 2 Cash to spawn <b>".$BossName."</b> from the depths of HELL! Location: (".$randBossX.", ".$randBossY.")</b>!</font></b><br />";

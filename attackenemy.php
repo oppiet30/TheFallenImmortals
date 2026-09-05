@@ -360,7 +360,7 @@ if($enemylife > "0"){
             if($drop <= $base && $cash['cash'] > 0 && $char['networth'] > 0)    //Cash Drop
             {
                 $data .= "<font color=\'#CCFF00\'><<<<< CASH FOUND >>>>>><b>!!!NETWORTH BONUS!!!</b></font><br />";
-				$data .= "<img src=\'/images/cashDrop.png\'>";
+				$data .= "<img src=\'images/cashDrop.png\'>";
                 $cash = $cash['cash'] - 1;
                 $addcash = db_query("UPDATE characters SET cash=cash+'1' WHERE id=?", [$_SESSION['userid']]);
                 $removecash = db_query("UPDATE cashpot SET cash=cash-'1'");
@@ -377,7 +377,7 @@ if($enemylife > "0"){
                 $statdrop = mt_rand("1","30");
                 $charstats += $statdrop;
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($statdrop)." Stat Points! <b>BONUS</b>!</font><br />";
-				$fillImg = "<img src=\'/images/statpointDrop.png\'>";
+				$fillImg = "<img src=\'images/statpointDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $addpoints = db_query("UPDATE characters SET stats=? WHERE id=?", [$charstats, $_SESSION['userid']]);
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." obtained ".number_format($statdrop)." Stat Points as a bonus!</font></strong><br />";
@@ -392,7 +392,7 @@ if($enemylife > "0"){
                 $golddrop = mt_rand(1,$maxgolddrop);
                 $chargold += $golddrop;
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($golddrop)." Gold! <b>BONUS</b>!</font><br />";
-				$fillImg = "<img src=\'/images/goldDrop.png\'>";
+				$fillImg = "<img src=\'images/goldDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $addgold = db_query("UPDATE characters SET gold=? WHERE id=?", [$chargold, $_SESSION['userid']]);
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." obtained ".number_format($golddrop)." Gold as a bonus!</font></strong><br />";
@@ -404,7 +404,7 @@ if($enemylife > "0"){
                 $randomBlood = rand(1,100);
                 $charblood = $char['blood'] + $randomBlood;
                 $data .= "<font color=\'#CCFF00\'>You obtain ".number_format($randomBlood)." oz. of Blood! <b>BONUS</b>!</font><br />";
-				$fillImg = "<img src=\'/images/bloodDrop.png\'>";
+				$fillImg = "<img src=\'images/bloodDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $addgold = db_query("UPDATE characters SET blood=? WHERE id=?", [$charblood, $_SESSION['userid']]);
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has hit the main artery of ".$enemyname." and gains ".number_format($randomBlood)." oz. of Blood as a bonus!</font></strong><br />";
@@ -423,7 +423,7 @@ if($enemylife > "0"){
             if($drop <= "20" && $char['mana'] < $char['intelligence'])    //mana Drop
             {
                 $data .= "<font color=\'#CCFF00\'><b>You feel rejuvenated!</b></font><br />";
-				$fillImg = "<img src=\'/images/manaDrop.png\'>";
+				$fillImg = "<img src=\'images/manaDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $addBag = db_query("UPDATE characters SET mana=? WHERE id=?", [$char['intelligence'], $_SESSION['userid']]);
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has had their Mana recharged!</font></strong><br />";
@@ -433,7 +433,7 @@ if($enemylife > "0"){
             if($drop <= "10" && $char['temple'] == "1")    //Temple Regenerate
             {
                 $data .= "<font color=\'#CCFF00\'><b>You may visit the Temple again!</b></font><br />";
-				$fillImg = "<img src=\'/images/templeReset.png\'>";
+				$fillImg = "<img src=\'images/templeReset.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $addBag = db_query("UPDATE characters SET temple='0' WHERE id=?", [$_SESSION['userid']]);
                 $messagechat = "<strong><font color=\'#CCFF00\'>".$char['username']." has had their Temple reset and may donate again!</font></strong><br />";
@@ -443,7 +443,7 @@ if($enemylife > "0"){
             if($drop <= "3" && $char['tradeskill'] < "1000")    //Trade Skill Increase
             {
                 $data .= "<font color=\'#CCFF00\'><b>You have learned to better manage your money with the Shop!</b></font><br />";
-				$fillImg = "<img src=\'/images/tradeskillDrop.png\'>";
+				$fillImg = "<img src=\'images/tradeskillDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $increaseTradeSkill = db_query("UPDATE characters SET tradeskill=tradeskill+'1' WHERE id=?", [$_SESSION['userid']]);
             }
@@ -456,7 +456,7 @@ if($enemylife > "0"){
 				$nobilityLevel = $nobilityLevel + 1;
 				$newNp = $nobilityRank."(".$nobilityLevel.")";
                 $data .= "<font color=\'#CCFF00\'><b>You robbed the Gula of her <strong>Cash</strong>!(+1NP)</b></font><br />";
-				$fillImg = "<img src=\'/images/cashDrop.png\'>";
+				$fillImg = "<img src=\'images/cashDrop.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $increaseTradeSkill = db_query("UPDATE characters SET cash=cash+'1', nobility=? WHERE id=?", [$newNp, $_SESSION['userid']]);
 				$messagechat = "<font color=\'#CCFF00\'>".$char['username']." has robbed the Gula of her <strong>Cash</strong>!(+1NP)</font><br />";
@@ -507,7 +507,7 @@ if($enemylife > "0"){
 				$randBossX = rand(1,100);
 				$randBossY = rand(1,100);
                 $data .= "<font color=\'#00FF20\'><strong>You have spawned <b>".$BossName."</b> from the depths of HELL! Location: (".$randBossX.", ".$randBossY.")</b></strong></font><br />";
-				$fillImg = "<img src=\'/images/demonSpawn.png\'>";
+				$fillImg = "<img src=\'images/demonSpawn.png\'>";
 				print("fillDiv('rewardPopup','".$fillImg."');");
                 $messagechat = "<strong><font color=\'#00FF20\'>".$char['username']." has spawned ".$BossName." from the depths of HELL! Location: (".$randBossX.", ".$randBossY.")</font></strong><br />";
                 $query = db_query("INSERT INTO chatroom (`date`, `userlevel`, `username`, `message`, `to`) VALUES (?, '3', ?, ?, 'Chatroom')", [$date, $char['username'], $messagechat]);

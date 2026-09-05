@@ -130,7 +130,7 @@ function changeDisplay() {
 		
 		
 if($char['logins'] == 1){
-	$fillImg = "<img src=\'/images/firstLogin.png\'>";
+	$fillImg = "<img src=\'images/firstLogin.png\'>";
 	print("fillDiv('rewardPopup','".$fillImg."');");
 
 }
